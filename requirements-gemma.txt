@@ -1,0 +1,5 @@
+# Install only after selecting a GPU-enabled Colab runtime.
+transformers>=5.10.1
+accelerate>=1.0
+bitsandbytes>=0.45
+huggingface_hub>=0.25

@@ -1,0 +1,134 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix mg: <https://example.org/merlino-gemma#> .
+@prefix mr: <https://example.org/merlin-railroad#> .
+@prefix ops: <https://example.org/aooe#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+mg:declares sh:declare
+    [ sh:prefix "mg" ; sh:namespace "https://example.org/merlino-gemma#"^^xsd:anyURI ],
+    [ sh:prefix "mr" ; sh:namespace "https://example.org/merlin-railroad#"^^xsd:anyURI ],
+    [ sh:prefix "ops" ; sh:namespace "https://example.org/aooe#"^^xsd:anyURI ],
+    [ sh:prefix "rdf" ; sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ] .
+
+# Structural checks also ensure a model cannot invent arbitrary actions or actors.
+mg:CandidateStructure a sh:NodeShape ; sh:targetClass mg:Candidate ;
+    sh:property [ sh:path mg:action ; sh:minCount 1 ; sh:maxCount 1 ; sh:class ops:Action ; sh:message "G1: exactly one registered action required" ] ;
+    sh:property [ sh:path mg:fromState ; sh:minCount 1 ; sh:maxCount 1 ; sh:class ops:State ; sh:message "G1: exactly one known state required" ] ;
+    sh:property [ sh:path mg:actor ; sh:minCount 1 ; sh:maxCount 1 ; sh:class ops:AgentRole ; sh:message "G1: exactly one known role required" ] .
+
+mg:RailroadAllowed a sh:NodeShape ; sh:targetClass mg:Candidate ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
+    sh:message "G2: action is not permitted in this state" ; sh:select """
+    SELECT $this WHERE {
+      $this mg:action ?a ; mg:fromState ?s .
+      FILTER NOT EXISTS { ?transition ops:viaAction ?a ; ops:fromState ?s }
+    }""" ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
+    sh:message "G3: actor role cannot perform this action" ; sh:select """
+    SELECT $this WHERE {
+      $this mg:action ?a ; mg:actor ?role .
+      FILTER NOT EXISTS { ?a ops:allowedRole ?role }
+    }""" ] .
+
+mg:FreshEvidence a sh:NodeShape ; sh:targetClass mg:Candidate ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
+    sh:message "B1: missing or stale run history; read fresh evidence first" ; sh:select """
+    SELECT $this WHERE {
+      $this mg:action ?act .
+      FILTER (?act IN (mr:ProposePlan, mr:StartWeek))
+      FILTER NOT EXISTS {
+        $this mg:historyAgeDays ?age ; mg:historyPresent true .
+        mg:coachingPolicy mg:maxHistoryAgeDays ?maxAge .
+        FILTER (?age <= ?maxAge && ?age >= 0)
+      }
+    }""" ] .
+
+mg:Progression a sh:NodeShape ; sh:targetClass mg:Candidate ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
+    sh:message "B2: proposed distance exceeds the graph-owned weekly progression policy" ; sh:select """
+    SELECT $this WHERE {
+      $this mg:action ?act ; mg:plannedKm ?p ; mg:baselineKm ?b .
+      FILTER (?act IN (mr:ProposePlan, mr:StartWeek))
+      mg:coachingPolicy mg:maxWeeklyIncrease ?ratio .
+      FILTER (?b <= 0 || ?p > (?b * ?ratio))
+    }""" ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
+    sh:message "B2: proposed plan requires baseline and planned distance" ; sh:select """
+    SELECT $this WHERE {
+      $this mg:action ?act . FILTER (?act IN (mr:ProposePlan, mr:StartWeek))
+      FILTER NOT EXISTS { $this mg:plannedKm ?p ; mg:baselineKm ?b }
+    }""" ] .
+
+mg:PlanStructure a sh:NodeShape ; sh:targetClass mg:Candidate ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
+    sh:message "B6: proposed plan must contain exactly seven sessions" ; sh:select """
+    SELECT $this WHERE {
+      $this mg:action ?act . FILTER (?act IN (mr:ProposePlan, mr:StartWeek))
+      OPTIONAL { $this mg:session ?s }
+    } GROUP BY $this
+      HAVING (COUNT(DISTINCT ?s) != 7)""" ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
+    sh:message "B6: missing training sessions" ; sh:select """
+    SELECT $this WHERE {
+      $this mg:action ?act . FILTER (?act IN (mr:ProposePlan, mr:StartWeek))
+      FILTER NOT EXISTS { $this mg:session ?s }
+    }""" ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
+    sh:message "B6: plan distance does not equal sum of session distances" ; sh:select """
+    SELECT $this WHERE {
+      $this mg:plannedKm ?p ; mg:action ?act .
+      FILTER (?act IN (mr:ProposePlan, mr:StartWeek))
+      $this mg:session ?s . ?s mg:distanceKm ?d .
+    } GROUP BY $this ?p
+      HAVING (ABS(SUM(?d) - ?p) > 0.001)""" ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
+    sh:message "B6: session missing valid day, distance or defined workout type" ; sh:select """
+    SELECT $this WHERE {
+      $this mg:action ?act ; mg:session ?s .
+      FILTER (?act IN (mr:ProposePlan, mr:StartWeek))
+      FILTER NOT EXISTS {
+        ?s mg:dayNumber ?day ; mg:distanceKm ?distance ; mg:workoutType ?type .
+        ?type a <http://www.w3.org/2004/02/skos/core#Concept> ; mr:isHard ?hard .
+        FILTER (?day >= 1 && ?day <= 7 && ?distance >= 0)
+      }
+    }""" ] ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
+    sh:message "B6: duplicate workout day" ; sh:select """
+    SELECT $this WHERE {
+      $this mg:session ?s1, ?s2 .
+      FILTER (?s1 != ?s2) . ?s1 mg:dayNumber ?d . ?s2 mg:dayNumber ?d .
+    }""" ] .
+
+mg:ConsecutiveHardDays a sh:NodeShape ; sh:targetClass mg:Candidate ;
+    sh:severity sh:Warning ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
+    sh:message "B5: consecutive hard days under the current domain classification" ; sh:select """
+    SELECT $this WHERE {
+      $this mg:action ?act ; mg:session ?s1, ?s2 .
+      FILTER (?act IN (mr:ProposePlan, mr:StartWeek))
+      ?s1 mg:dayNumber ?d1 ; mg:workoutType ?t1 .
+      ?s2 mg:dayNumber ?d2 ; mg:workoutType ?t2 .
+      ?t1 mr:isHard true . ?t2 mr:isHard true .
+      FILTER (?d2 = (?d1 + 1))
+    }""" ] .
+
+mg:PainEscalation a sh:NodeShape ; sh:targetClass mg:Candidate ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
+    sh:message "B3: athlete reported pain; hand off to human before planning/starting" ; sh:select """
+    SELECT $this WHERE {
+      $this mg:action ?act ; mg:hasPain true .
+      FILTER (?act != mr:HandToHuman)
+    }""" ] .
+
+mg:HumanApproval a sh:NodeShape ; sh:targetClass mg:Candidate ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
+    sh:message "B4: missing or stale human approval (plan/policy/meaning revision mismatch)" ; sh:select """
+    SELECT $this WHERE {
+      $this mg:action mr:StartWeek .
+      FILTER NOT EXISTS {
+        $this mg:humanApproved true ; mg:planDigest ?d ; mg:approvedDigest ?d ;
+              mg:policyVersion ?pv ; mg:approvedPolicyVersion ?pv ;
+              mg:meaningRevision ?mv ; mg:approvedMeaningRevision ?mv .
+      }
+    }""" ] .

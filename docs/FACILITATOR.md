@@ -38,3 +38,22 @@
 - The 10% limit is a fictional educational policy, not clinical or coaching guidance.
 - This is a workshop subset, not full AOOE compliance or production WoCell.
 - A subprocess is demonstrably separate from the model, but not by itself a secure enterprise boundary.
+
+## CDL 2026 teaching parity (updated)
+
+**Keep Bea's narrative intact:** Map → Railroad → five competency queries →
+G1–G4 / B1–B7 → seven paired scenarios → S5 PROV-O trace → regression tests →
+optional real Gemma → semantic sovereignty and enterprise boundaries.
+
+Start with the deterministic paired replay (`merlino.scenarios.run_all()`) and
+compare each case against `docs/BEA_CASE_COVERAGE.md`; do not lead with the
+LLM. The no-rules mode is isolated and deliberately unsafe, suitable only for
+synthetic workshop data. B3 demonstrates why the **latest** runner check-in is
+an authoritative context fact rather than optional evidence attached by the agent.
+
+Run `python -m pytest -q` before the event in clean Python 3.11 and 3.12,
+then rehearse the optional Gemma 4 GPU cells separately in Colab. The new
+suite is not the same as Bea's original 23-test suite; compare coverage, not
+raw counts. Colab runs on Google's VM, so **never ask participants to upload
+real training or health data**. The 10% and 7-day example limits are fiction,
+not professional safety thresholds.

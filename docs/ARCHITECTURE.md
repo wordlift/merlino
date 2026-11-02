@@ -30,3 +30,25 @@ The model integration is **not yet GPU-tested**. Try E2B first (T4 + 4-bit), rec
 
 ## Licenses and publication
 Bea's workshop code is user-supplied for synthesis; obtain contributor consent/license before publicly distributing a derivative. AOOE public vocabulary is CC BY 4.0 but the private methodology is not. WoGraph OSS's pom declares AGPL-3.0 and its repo was private when inspected. No third-party model weights are bundled; users must comply with Gemma model license.
+
+## CDL 2026 full life cycle and reproducibility
+
+The engine now implements all ten actions in Bea's nine-state Railroad. Merlin
+(agent) can read, propose, start (after approval), ask a check-in, review and
+escalate. Runner-only actions log runs, answer check-ins, approve exact plans
+and close weeks. The `merlino.scenarios` module replays seven paired cases.
+The `NoRulesMerlino` class is **only** an isolated synthetic shadow and must
+never be exposed as an LLM tool, deployment option or network service.
+
+The `merlino.history` module derives training baseline and data age from the
+Map's RDF observations. `merlino.engine` binds the latest runner check-in and
+active pain hold into the authoritative candidate context; the LLM has no
+path to supply a replacement. The independent SHACL gate evaluates four
+generic rules G1–G4 and seven coaching/integrity rules B1–B7. B2 computes
+actual volume from sessions, not a declared total. Versioned approvals bind
+to the plan digest, policy and ontology meaning revision.
+
+PROV-O-aligned Observation/Decision/Validation/Execution nodes record the
+outcome for each attempted step, and the dedicated notebook runs SPARQL
+queries to explain the S5 failure. This is an editable local teaching trace,
+not a production tamper-evident log.

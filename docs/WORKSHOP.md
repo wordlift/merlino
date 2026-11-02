@@ -26,3 +26,16 @@
 ## Enterprise mapping
 
 This notebook runs on a hosted Colab VM, not a private computer. SHACL runs in a subprocess with the same local OS permissions, not an enterprise IAM boundary. Approval is simulated. In production, separate and authorize the policy service, sign ontology releases, use an immutable audit ledger, and deploy inference/data within the organization's chosen infrastructure.
+
+## Updated 120-minute masterclass flow
+
+Use Bea's original title **From Map to Railroad**. The updated exercises are
+sequenced as Map (20 min), Railroad and competency checks (15 min), independent
+SHACL rules (20 min), paired S1–S7 scenarios (25 min), S5 and S4 forensic
+replays (15 min), optional Gemma agent (15 min), and Semantic Sovereignty
+(10 min). See [`BEA_CASE_COVERAGE.md`](BEA_CASE_COVERAGE.md) for measured
+scenario expectations and limitations.
+
+Keep the scripted replay as the CPU-friendly default and the Gemma 4 GPU
+runtime as an opt-in interactive demonstration. Never call scripted results
+LLM benchmark results. Do not request real athlete data on hosted Colab.

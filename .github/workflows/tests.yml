@@ -1,0 +1,27 @@
+name: Merlino CPU validation
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ontology-gate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install
+        run: python -m pip install -r requirements.txt
+      - name: Tests including real PySHACL integration
+        run: python -m pytest -q -ra
+      - name: Notebook contains no saved outputs
+        run: |
+          python -c "import json,pathlib; n=json.loads(pathlib.Path('notebooks/Merlino_Gemma4_AOOE_Workshop.ipynb').read_text()); assert n['nbformat']==4; assert not [c for c in n['cells'] if c['cell_type']=='code' and c.get('outputs')]; print('Notebook verified')"

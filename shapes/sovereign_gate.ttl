@@ -65,9 +65,9 @@ mg:PlanStructure a sh:NodeShape ; sh:targetClass mg:Candidate ;
     sh:message "B6: proposed plan must contain exactly seven sessions" ; sh:select """
     SELECT $this WHERE {
       $this mg:action ?act . FILTER (?act IN (mr:ProposePlan, mr:StartWeek))
-      { SELECT ?c (COUNT(?s) AS ?n) WHERE { ?c mg:session ?s } GROUP BY ?c }
-      FILTER (?c = $this && ?n != 7)
-    }""" ] ;
+      OPTIONAL { $this mg:session ?s }
+    } GROUP BY $this
+      HAVING (COUNT(DISTINCT ?s) != 7)""" ] ;
     sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
     sh:message "B6: missing training sessions" ; sh:select """
     SELECT $this WHERE {
@@ -79,9 +79,9 @@ mg:PlanStructure a sh:NodeShape ; sh:targetClass mg:Candidate ;
     SELECT $this WHERE {
       $this mg:plannedKm ?p ; mg:action ?act .
       FILTER (?act IN (mr:ProposePlan, mr:StartWeek))
-      { SELECT ?c (SUM(?d) AS ?total) WHERE { ?c mg:session ?s . ?s mg:distanceKm ?d } GROUP BY ?c }
-      FILTER (?c = $this && (ABS(?total - ?p) > 0.001))
-    }""" ] ;
+      $this mg:session ?s . ?s mg:distanceKm ?d .
+    } GROUP BY $this ?p
+      HAVING (ABS(SUM(?d) - ?p) > 0.001)""" ] ;
     sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
     sh:message "B6: session missing valid day, distance or defined workout type" ; sh:select """
     SELECT $this WHERE {

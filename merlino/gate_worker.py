@@ -18,6 +18,9 @@ def validate_candidate(candidate_ttl: str) -> dict:
     shapes = Graph().parse(ROOT / 'shapes' / 'sovereign_gate.ttl', format='turtle')
     conforms, report, _ = validate(graph, shacl_graph=shapes, inference='none',
                                    advanced=True, allow_warnings=True, abort_on_first=False)
+    if not isinstance(report, Graph):
+        return {'conforms': False, 'violations': ['SHACL_VALIDATION_FAILURE: ' + str(report)],
+                'warnings': [], 'gate': 'pyshacl validation failure', 'candidate_triples': len(graph)}
     violations, warnings = [], []
     for r in report.subjects(RDF.type, SH.ValidationResult):
         msg = str(report.value(r, SH.resultMessage) or 'Undescribed validation failure')

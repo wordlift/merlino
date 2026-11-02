@@ -116,7 +116,7 @@ def test_all_reference_shapes_syntactically_parse():
 
 def test_pyshacl_rejects_overload_and_warns_on_consecutive_hard():
     pytest.importorskip('pyshacl')
-    m = Merlino(); assert m.read_history().accepted
+    m = Merlino(); initial = m.read_history(); assert initial.accepted, initial.as_dict()
     assert not m.propose(42.5).accepted
     d = m.propose(34.5, style='consecutive_hard')
     assert d.accepted and any('B5' in s for s in d.warnings), d.as_dict()

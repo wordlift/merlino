@@ -1,0 +1,167 @@
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix aooe:   <https://example.org/aooe#> .
+@prefix mr:     <https://example.org/merlin-railroad#> .
+@prefix schema: <https://schema.org/> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix gate:   <https://example.org/gate#> .
+
+# ---------------------------------------------------------------------------
+# MERLIN GATE: SHACL shapes run on every ProposedStep BEFORE any tool executes.
+# Uses SHACL 1.0 Core + SHACL-SPARQL (W3C Recommendation, 2017).
+#
+# Generic shapes (G1 to G4) read the railroad ontology dynamically.
+# Business shapes (B1 to B5) encode coaching safety and recovery guardrails.
+# ---------------------------------------------------------------------------
+
+gate:prefixes
+    sh:declare [ sh:prefix "aooe" ;   sh:namespace "https://example.org/aooe#"^^xsd:anyURI ] ,
+               [ sh:prefix "mr" ;     sh:namespace "https://example.org/merlin-railroad#"^^xsd:anyURI ] ,
+               [ sh:prefix "schema" ; sh:namespace "https://schema.org/"^^xsd:anyURI ] ,
+               [ sh:prefix "rdfs" ;   sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ] ,
+               [ sh:prefix "rdf" ;    sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ] .
+
+# ---------- G1: Step Structure (SHACL Core) ----------
+gate:StepStructure a sh:NodeShape ;
+    sh:targetClass aooe:ProposedStep ;
+    sh:property [ sh:path aooe:action ;    sh:minCount 1 ; sh:maxCount 1 ; sh:class aooe:Action ;
+                  sh:message "G1: a step must name exactly one known action." ] ;
+    sh:property [ sh:path aooe:fromState ; sh:minCount 1 ; sh:maxCount 1 ; sh:class aooe:State ;
+                  sh:message "G1: a step must start from exactly one known state." ] ;
+    sh:property [ sh:path aooe:actor ;     sh:minCount 1 ; sh:maxCount 1 ; sh:class aooe:AgentRole ;
+                  sh:message "G1: a step must name exactly one actor role." ] .
+
+# ---------- G2: On the Rails (SHACL-SPARQL) ----------
+gate:OnTheRails a sh:NodeShape ;
+    sh:targetClass aooe:ProposedStep ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:prefixes gate:prefixes ;
+        sh:message "G2: off the rails. {?actLabel} is not a permitted action from state {?stateLabel}." ;
+        sh:select """
+            SELECT $this ?actLabel ?stateLabel WHERE {
+                $this aooe:action ?act ; aooe:fromState ?st .
+                ?act rdfs:label ?actLabel . ?st rdfs:label ?stateLabel .
+                FILTER NOT EXISTS { ?t aooe:fromState ?st ; aooe:viaAction ?act . }
+            }""" ] .
+
+# ---------- G3: Role Allowed (SHACL-SPARQL) ----------
+gate:RoleAllowed a sh:NodeShape ;
+    sh:targetClass aooe:ProposedStep ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:prefixes gate:prefixes ;
+        sh:message "G3: role violation. {?roleLabel} may not perform {?actLabel}." ;
+        sh:select """
+            SELECT $this ?roleLabel ?actLabel WHERE {
+                $this aooe:action ?act ; aooe:actor ?role .
+                ?act rdfs:label ?actLabel . ?role rdfs:label ?roleLabel .
+                FILTER NOT EXISTS { ?act aooe:allowedRole ?role . }
+            }""" ] .
+
+# ---------- G4: Evidence Required (SHACL-SPARQL) ----------
+gate:EvidenceRequired a sh:NodeShape ;
+    sh:targetClass aooe:ProposedStep ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:prefixes gate:prefixes ;
+        sh:message "G4: missing evidence. {?actLabel} requires evidence of type: {?reqLabel}." ;
+        sh:select """
+            SELECT $this ?actLabel ?reqLabel WHERE {
+                $this aooe:action ?act .
+                ?act aooe:requiresEvidence ?req ; rdfs:label ?actLabel .
+                ?req rdfs:label ?reqLabel .
+                FILTER NOT EXISTS { $this aooe:hasEvidence ?e . ?e rdf:type ?req . }
+            }""" ] .
+
+# ---------- B1: Freshness (SHACL Core on RunHistory) ----------
+gate:FreshRunHistory a sh:NodeShape ;
+    sh:targetClass mr:RunHistory ;
+    sh:property [
+        sh:path mr:dataAgeDays ;
+        sh:minCount 1 ;
+        sh:maxInclusive 7 ;
+        sh:message "B1: stale run data. Run history is older than 7 days; please sync device." ;
+    ] .
+
+gate:StepFreshnessCheck a sh:NodeShape ;
+    sh:targetClass aooe:ProposedStep ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:prefixes gate:prefixes ;
+        sh:message "B1: stale run data. Cannot propose training plan from run history older than 7 days ({?age} days old)." ;
+        sh:select """
+            SELECT $this ?age WHERE {
+                $this aooe:action mr:ProposePlan ; aooe:hasEvidence ?h .
+                ?h a mr:RunHistory ; mr:dataAgeDays ?age .
+                FILTER (?age > 7)
+            }""" ] .
+
+# ---------- B2: Load Progression (SHACL-SPARQL, max 10% increase) ----------
+gate:LoadProgression a sh:NodeShape ;
+    sh:targetClass aooe:ProposedStep ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:prefixes gate:prefixes ;
+        sh:message "B2: excessive load jump. Planned {?planned} km is more than 10% above last week's {?last} km (maximum allowed: {?maxAllowed} km)." ;
+        sh:select """
+            SELECT $this ?planned ?last ?maxAllowed WHERE {
+                $this aooe:action mr:ProposePlan ;
+                      aooe:hasEvidence ?h ;
+                      aooe:targetEntity ?plan .
+                ?h a mr:RunHistory ; mr:lastWeekKm ?last .
+                ?plan mr:plannedKm ?planned .
+                BIND (?last * 1.10 AS ?maxAllowed)
+                FILTER (?planned > ?maxAllowed)
+            }""" ] .
+
+# ---------- B3: Pain Safety Protocol (SHACL-SPARQL) ----------
+gate:PainSafetyProtocol a sh:NodeShape ;
+    sh:targetClass aooe:ProposedStep ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:prefixes gate:prefixes ;
+        sh:message "B3: pain reported at check-in. Safety protocol requires immediate handover to a human coach or clinician." ;
+        sh:select """
+            SELECT $this ?act WHERE {
+                $this aooe:action ?act ; aooe:hasEvidence ?c .
+                ?c a mr:CheckIn ; mr:hasPain true .
+                FILTER (?act != mr:HandToHuman)
+            }""" ] .
+
+# ---------- B4: Approval Matches Plan (SHACL-SPARQL) ----------
+gate:ApprovalMatchesPlan a sh:NodeShape ;
+    sh:targetClass aooe:ProposedStep ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:prefixes gate:prefixes ;
+        sh:message "B4: approval mismatch. The runner approved a different plan than the one being started." ;
+        sh:select """
+            SELECT $this WHERE {
+                $this aooe:action mr:StartWeek ;
+                      aooe:targetEntity ?plan ;
+                      aooe:hasEvidence ?app .
+                ?app a mr:PlanApproval ; mr:approvesPlan ?approvedPlan .
+                FILTER (?approvedPlan != ?plan)
+            }""" ] .
+
+# ---------- B5: Recovery: No Consecutive Hard Days (SHACL-SPARQL, Warning) ----------
+gate:RecoveryConsecutiveHardDays a sh:NodeShape ;
+    sh:targetClass aooe:ProposedStep ;
+    sh:severity sh:Warning ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:prefixes gate:prefixes ;
+        sh:message "B5: recovery warning. Plan contains hard workouts on consecutive days ({?d1} and {?d2}). Ensure adequate rest." ;
+        sh:select """
+            SELECT $this ?d1 ?d2 WHERE {
+                $this aooe:action mr:ProposePlan ;
+                      aooe:targetEntity ?plan .
+                ?plan mr:session ?s1 , ?s2 .
+                ?s1 mr:workoutType ?wt1 ; mr:dayNumber ?d1 .
+                ?s2 mr:workoutType ?wt2 ; mr:dayNumber ?d2 .
+                ?wt1 mr:isHard true .
+                ?wt2 mr:isHard true .
+                FILTER (?d2 = ?d1 + 1)
+            }""" ] .

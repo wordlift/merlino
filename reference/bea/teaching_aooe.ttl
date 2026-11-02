@@ -1,0 +1,116 @@
+@prefix aooe: <https://example.org/aooe#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# ---------------------------------------------------------------------------
+# AOOE operational vocabulary (workshop teaching version)
+#
+# Namespace https://example.org/aooe# is a placeholder created for the
+# "From Map to Railroad" masterclass (Connected Data London, 11 Nov 2026).
+# It extends any domain "map" (e.g. running training, hotels) with the
+# operational concepts named in the session abstract: states, actions,
+# agent roles, goals, evidence requirements.
+# ---------------------------------------------------------------------------
+
+<https://example.org/aooe> a owl:Ontology ;
+    rdfs:label "AOOE operational vocabulary (masterclass edition)" ;
+    rdfs:comment "Turns a static domain map into a constraint-bounded state space an agent can execute." ;
+    owl:imports <http://www.w3.org/ns/prov#> .
+
+# ---------- Railroad layer ----------
+
+aooe:State a owl:Class ;
+    rdfs:label "State" ;
+    skos:definition "A named situation of a task. The agent is always in exactly one state." ;
+    rdfs:comment "Agents should read the current state before choosing an action. Only actions with a transition from the current state are on the rails." .
+
+aooe:Action a owl:Class ;
+    rdfs:label "Action" ;
+    skos:definition "Something an actor can do that may change the state of the task, usually by calling a tool." .
+
+aooe:Transition a owl:Class ;
+    rdfs:label "Transition" ;
+    skos:definition "A permitted move: from one state, via one action, to one state. Anything not declared as a transition is off the rails." .
+
+aooe:AgentRole a owl:Class ;
+    rdfs:label "Agent role" ;
+    skos:definition "A kind of actor (software agent or human) that is allowed to perform some actions." .
+
+aooe:HumanRole a owl:Class ; rdfs:subClassOf aooe:AgentRole ;
+    rdfs:label "Human role" ;
+    skos:definition "A role held by a person. Evidence produced only by human roles counts as human approval in design-time checks." .
+
+aooe:Goal a owl:Class ;
+    rdfs:label "Goal" ;
+    skos:definition "What the user delegated, with its business constraints (target race, dates, weekly mileage)." .
+
+aooe:Evidence a owl:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Evidence" ;
+    skos:definition "A piece of information produced by a tool or a human that an action can rely on." .
+
+aooe:ProposedStep a owl:Class ;
+    rdfs:label "Proposed step" ;
+    skos:definition "What the model wants to do next, written as data so it can be validated before any tool runs." .
+
+aooe:fromState a owl:ObjectProperty ; rdfs:range aooe:State ;
+    rdfs:label "from state" .
+aooe:toState a owl:ObjectProperty ; rdfs:range aooe:State ;
+    rdfs:label "to state" .
+aooe:viaAction a owl:ObjectProperty ; rdfs:domain aooe:Transition ; rdfs:range aooe:Action ;
+    rdfs:label "via action" .
+aooe:allowedRole a owl:ObjectProperty ; rdfs:domain aooe:Action ; rdfs:range aooe:AgentRole ;
+    rdfs:label "allowed role" ;
+    skos:definition "Roles permitted to perform this action." .
+aooe:requiresEvidence a owl:ObjectProperty ; rdfs:domain aooe:Action ;
+    rdfs:label "requires evidence" ;
+    skos:definition "Evidence class that must be attached to a step before this action may run. The value is a class (OWL 2 punning)." .
+aooe:producesEvidence a owl:ObjectProperty ; rdfs:domain aooe:Action ;
+    rdfs:label "produces evidence" ;
+    skos:definition "Evidence class this action's tool returns. Lets design-time checks prove every required evidence can be obtained before it is needed." .
+aooe:isInitial a owl:DatatypeProperty ; rdfs:domain aooe:State ; rdfs:range xsd:boolean ;
+    rdfs:label "is initial" .
+aooe:isTerminal a owl:DatatypeProperty ; rdfs:domain aooe:State ; rdfs:range xsd:boolean ;
+    rdfs:label "is terminal" .
+aooe:isIrreversible a owl:DatatypeProperty ; rdfs:domain aooe:Action ; rdfs:range xsd:boolean ;
+    rdfs:label "is irreversible" .
+aooe:tool a owl:DatatypeProperty ; rdfs:domain aooe:Action ; rdfs:range xsd:string ;
+    rdfs:label "tool" ; skos:definition "Name of the callable tool this action compiles to." .
+
+aooe:action a owl:ObjectProperty ; rdfs:domain aooe:ProposedStep ; rdfs:range aooe:Action .
+aooe:actor a owl:ObjectProperty ; rdfs:domain aooe:ProposedStep ; rdfs:range aooe:AgentRole .
+aooe:forGoal a owl:ObjectProperty ; rdfs:range aooe:Goal .
+aooe:hasEvidence a owl:ObjectProperty ; rdfs:range aooe:Evidence .
+aooe:targetEntity a owl:ObjectProperty ; rdfs:domain aooe:ProposedStep .
+
+# ---------- Epistemic trace layer (Observation -> State -> Decision -> Validation) ----------
+
+aooe:Episode a owl:Class ; rdfs:subClassOf prov:Activity ;
+    skos:definition "One run of the agent on one goal." .
+aooe:Observation a owl:Class ; rdfs:subClassOf prov:Entity ;
+    skos:definition "What the agent could see when it decided: state, goal, last tool output." .
+aooe:Decision a owl:Class ; rdfs:subClassOf prov:Activity ;
+    skos:definition "A proposal produced by a policy (model) from an observation." .
+aooe:Validation a owl:Class ; rdfs:subClassOf prov:Activity ;
+    skos:definition "The deterministic SHACL check of a decision, run before any tool executes." .
+aooe:Execution a owl:Class ; rdfs:subClassOf prov:Activity ;
+    skos:definition "A tool call that actually ran because its decision passed validation (or because the gate was off)." .
+
+aooe:inEpisode a owl:ObjectProperty .
+aooe:observedState a owl:ObjectProperty ; rdfs:range aooe:State .
+aooe:proposedStep a owl:ObjectProperty ; rdfs:range aooe:ProposedStep .
+aooe:conforms a owl:DatatypeProperty ; rdfs:range xsd:boolean .
+aooe:violationMessage a owl:DatatypeProperty ; rdfs:range xsd:string .
+aooe:warningMessage a owl:DatatypeProperty ; rdfs:range xsd:string ;
+    skos:definition "A non-blocking validation result (sh:Warning or sh:Info) recorded on a step that was allowed to run." .
+aooe:violatedShape a owl:ObjectProperty .
+aooe:attempt a owl:DatatypeProperty ; rdfs:range xsd:integer .
+aooe:stepIndex a owl:DatatypeProperty ; rdfs:range xsd:integer .
+aooe:policy a owl:DatatypeProperty ; rdfs:range xsd:string .
+aooe:condition a owl:DatatypeProperty ; rdfs:range xsd:string .
+aooe:outcome a owl:DatatypeProperty ; rdfs:range xsd:string .
+aooe:reward a owl:DatatypeProperty ; rdfs:range xsd:decimal .

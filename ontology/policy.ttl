@@ -1,0 +1,9 @@
+@prefix mg: <https://example.org/merlino-gemma#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Teaching-only thresholds: NOT medical advice or an evidence-based training recommendation.
+mg:coachingPolicy a mg:CoachingPolicy ;
+  mg:version "workshop-v1" ;
+  mg:maxWeeklyIncrease 1.10 ;
+  mg:maxHistoryAgeDays 7 ;
+  mg:requiresHumanApproval true .

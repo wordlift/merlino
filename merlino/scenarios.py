@@ -123,7 +123,7 @@ class ScriptedMerlin:
         if 'B2' in found:
             # Teaching-only deterministic strategy, computed from the CURRENT
             # graph policy. Not a sports safety recommendation.
-            amount = (m.baseline_km * m.max_ratio).quantize(Decimal('0.1'), rounding=ROUND_DOWN)
+            amount = (m.baseline_km * m.max_ratio).quantize(Decimal('1'), rounding=ROUND_DOWN)
             return take('Agent response: propose policy-bound %.1f km' % amount,
                         lambda: m.propose(float(amount)))
         if found:

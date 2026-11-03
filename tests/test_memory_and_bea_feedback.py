@@ -19,7 +19,7 @@ def test_gate_reports_b2_but_scripted_agent_calculates_repair_from_current_polic
     assert m.plan is None  # SHACL never chose or committed a replacement
     repaired = agent.respond(invalid, attempted_km=42.5)
     assert repaired and repaired.accepted
-    assert m.plan.planned_km == Decimal('34.6')  # 33.0 * 1.05 rounded down
+    assert m.plan.planned_km == Decimal('34.0')  # floor(33.0 * 1.05), conservative whole kilometers
     assert 'Agent response' in episode.steps[-1]['action']
 
 

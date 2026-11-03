@@ -46,7 +46,7 @@ certify the Gemma adapter or this port.
 
 ## Scripted policy and persisted semantic memory
 
-The **same ScriptedMerlin policy** runs in the gated and shadow arms. It receives each action result; only a gate rejection triggers a response. B2 calculates the next proposal from the current graph policy (baseline × progression ratio, rounded down). B1/B3 request handover; B4/B7 resubmit the edited plan for validation; any unknown code requests handover. It cannot approve its own plan. The gate does not repair. S7 requires a separate runner approval.
+The **same ScriptedMerlin policy** runs in the gated and shadow arms. It receives each action result; only a gate rejection triggers a response. B2 calculates the next proposal from the current graph policy (baseline × progression ratio, rounded down to a whole kilometre). B1/B3 request handover; B4/B7 resubmit the edited plan for validation; any unknown code requests handover. It cannot approve its own plan. The gate does not repair. S7 requires a separate runner approval.
 
 A separate workshop-only **TriG memory exercise** persists the synthetic ontology/map, versioned policy and PROV-O trace; a fresh agent process imports and recalls the previous rejected decision. The new session starts at Start with no restored approval or authority. This is not yet the RLM-on-KG recursive navigator or Hippocampus learned-memory system.
 

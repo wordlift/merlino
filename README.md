@@ -60,6 +60,14 @@ flowchart TD
 
 **Gemma proposes · RDF defines · SHACL validates · humans authorize.**
 
+**Experiment 8 (Hippocampus-inspired, not model training):** compare two new
+Merlino sessions with the same graph and current policy, but only one can
+read an earlier B2 rejection. The scripted agent uses that episode as evidence
+to choose a fresh proposal; SHACL validates both independently. For optional
+real Gemma inference, a bounded `recall_governed_experience` tool is available
+only in the explicit memory-enabled condition. [Full method](docs/SEMANTIC_MEMORY.md).
+
+
 ## Quickstart
 
 ### 1. Guided notebook (CPU-first, Gemma optional)

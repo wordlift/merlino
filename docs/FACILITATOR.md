@@ -61,3 +61,14 @@ suite is not the same as Bea's original 23-test suite; compare coverage, not
 raw counts. Colab runs on Google's VM, so **never ask participants to upload
 real training or health data**. The 10% and 7-day example limits are fiction,
 not professional safety thresholds.
+
+## Experiment 8 — episodic memory ablation (10–15 min extension)
+
+Run the notebook after the seven paired safety scenarios and the memory snapshot.
+Compare a control with prior evidence withheld against a new agent with the same
+world, policy and the saved B2 rejection. Tighten the fictional ratio to 1.05;
+the scripted policy should independently propose 34.6 km from the current graph
+rather than replaying an old suggested number. The gate *validates both*, and
+neither branch restores human approval. Then, if GPU time permits, offer Gemma
+the read-only recall tool in one arm and observe real behavior without claiming
+any learning improvement. Do not turn this into the main S1–S7 safety result.

@@ -50,3 +50,44 @@ signed, authenticated or tamper-evident. External inference is not required.
 **Semantic sovereignty** is control over meanings, evidence, memory, policies and
 which actions are authorized. Colab is still cloud-hosted; do not upload private
 training or medical data to this teaching environment.
+
+## Experiment 8 — Experience → Recall → Reinterpret → Validate
+
+This is a **memory-access ablation**, not a claim that the LLM learned new
+weights. It is deliberately separate from Bea's seven safety scenarios.
+
+1. Generate a B2 rejection for a 42.5 km plan under the synthetic v1 policy,
+   save the RDF world and decision provenance, and start two fresh sessions.
+2. Give both sessions the **same** graph, runner baseline (33.0 km), new 1.05
+   progression policy, allowed actions and SHACL gate.
+3. The **memory-withheld** scripted policy attempts the original 42.5 km.
+   The **memory-available** scripted policy reads the recorded B2 failure,
+   then computes a new candidate from the **current** policy: 34.6 km, rather
+   than copying a stale 36 km correction.
+4. SHACL independently validates each *agent-produced* candidate. The
+   experiment records first-pass acceptance; it does not grant human approval.
+
+```python
+from merlino.episodic_experiment import compare_recall
+report = compare_recall('synthetic_merlino_memory.trig', ratio=1.05)
+for arm in report['arms']:
+    print(arm['condition'], arm['first_proposal_km'],
+          arm['first_pass_accepted'], arm['memory_used'])
+```
+
+**Fair comparison:** both arms have the same KG world, current policy and
+model/task; only access to prior episode records differs. It is a scripted
+agent policy, so the expected outcome illustrates a *mechanism*, not empirical
+model generalization or learning. There is no retrieval from a remote provider.
+
+**Optional live Gemma follow-up:** the `MerlinoAgent(..., memory_access=True)`
+advertises `recall_governed_experience`, a bounded read-only RDF tool. The
+control `memory_access=False` does not advertise it and explicitly denies a
+forged call. `get_training_context` does not leak earlier episodes in either
+condition. Execute each arm with the same Gemma weights and prompt and report
+actual tool calls, validation results and proposal quality. A model may ignore
+memory or infer policy from current context; the outcome is not guaranteed.
+
+AOOE owns and validates the environment. RLM-on-KG-style navigation and
+Hippocampus-style learning *from verified traces* remain **separate research
+projects** until integrated and evaluated here. No gates generate repairs.

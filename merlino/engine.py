@@ -11,12 +11,14 @@ import json
 import subprocess
 import sys
 from dataclasses import dataclass, field
+from datetime import date, timedelta, datetime
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Callable
+from .history import history_summary, SCHEMA
 
 from rdflib import Graph, Literal, Namespace, URIRef
-from rdflib.namespace import RDF, PROV, XSD
+from rdflib.namespace import RDF, PROV, XSD, RDFS, SKOS
 
 ROOT = Path(__file__).resolve().parent.parent
 MR = Namespace('https://example.org/merlin-railroad#')
@@ -118,22 +120,40 @@ def subprocess_gate(payload: str, timeout: int = 35) -> dict:
 
 
 class Merlino:
-    def __init__(self, gate: Callable[[str], dict] | None = None):
+    def __init__(self, gate: Callable[[str], dict] | None = None, *,
+                 runner_map: Graph | None = None, today: date | None = None):
         self.map = Graph().parse(ROOT / 'ontology' / 'merlin_map.ttl', format='turtle')
+        if runner_map is not None:
+            # Only replace the fictional observations; keep the shared domain
+            # ontology so the same semantics apply to uploaded synthetic CSVs.
+            for run in list(self.map.subjects(RDF.type, SCHEMA.ExerciseAction)):
+                self.map.remove((run, None, None))
+            self.map += runner_map
         self.railroad = Graph().parse(ROOT / 'reference' / 'bea' / 'teaching_aooe.ttl', format='turtle')
         self.railroad.parse(ROOT / 'ontology' / 'merlin_railroad.ttl', format='turtle')
         self.policy = Graph().parse(ROOT / 'ontology' / 'policy.ttl', format='turtle')
         self._gate = gate or subprocess_gate
         self.state = MR.Start
-        self.baseline_km = Decimal('33.0')
-        self.history_age_days = 2
+        source = history_summary(self.map, today)
+        self.baseline_km = source['baseline_km']
+        self.history_age_days = source['age_days']
+        self.today = source['as_of_date']
+        self.source_history = source
         self.history_present = False
         self.pain_reported = False
+        self.latest_checkin: dict | None = None
+        self.checkins: list[dict] = []
+        self.logged_runs: list[dict] = []
+        self.evidence: set[URIRef] = set()
+        self.checked_proposals: set[tuple[str, str, str]] = set()
+        self.started_plans: list[Plan] = []
+        self.handed_over_reason: str | None = None
         self.plan: Plan | None = None
         self.approval: Approval | None = None
         self.started = False
         self.trace: list[Decision] = []
         self.provenance = Graph()
+        self.memory_trace = Graph()  # prior RDF episodes imported by the facilitator only
         self.provenance.bind('prov', PROV)
         self.provenance.bind('mg', MG)
 
@@ -143,7 +163,12 @@ class Merlino:
 
     @property
     def meaning_revision(self) -> str:
-        return graph_hash(self.map)
+        # Only the ontology's meaning-bearing classes/properties. Runs are data, not a schema revision.
+        terms = Graph()
+        for subject in self.map.subjects(RDF.type, SKOS.Concept):
+            for predicate, value in self.map.predicate_objects(subject):
+                terms.add((subject, predicate, value))
+        return graph_hash(terms)
 
     @property
     def max_ratio(self) -> Decimal:
@@ -162,11 +187,15 @@ class Merlino:
         return {'runner': 'Alex (fictional)', 'baseline_week_km': float(self.baseline_km),
                 'history_age_days': self.history_age_days if self.history_present else None,
                 'history_read': self.history_present, 'state': self.state_name,
+                'last_run_date': self.source_history['last_run_date'].isoformat(),
+                'reference_date': self.today.isoformat(),
+                'logged_runs': len(self.logged_runs), 'latest_check_in': self.latest_checkin,
                 'policy_version': self.policy_version, 'max_weekly_ratio': float(self.max_ratio),
                 'pain_reported': self.pain_reported,
                 'tempo_hard': bool(self.map.value(MR.TempoRun, MR.isHard)),
                 'current_plan_km': float(self.plan.planned_km) if self.plan else None,
-                'approved': self.approval is not None}
+                'approved': self.approval is not None,
+                'remembered_decisions': self.recall_memory(limit=3)}
 
     def _transition(self, action: URIRef, actor: URIRef) -> URIRef | None:
         if (action, OPS.allowedRole, actor) not in self.railroad:
@@ -180,6 +209,15 @@ class Merlino:
         g = Graph()
         g.bind('mg', MG); g.bind('mr', MR); g.bind('ops', OPS)
         g += self.map; g += self.railroad; g += self.policy
+        # Runner-context facts are authoritative host state, not model-selected
+        # evidence. An older pain-free record cannot replace the latest check-in.
+        context = MG.runnerContext
+        g.add((context, MG.activePainHold, Literal(self.pain_reported, datatype=XSD.boolean)))
+        if self.latest_checkin is not None:
+            latest = MG['latestCheckIn-' + str(len(self.checkins))]
+            g.add((context, MG.latestCheckIn, latest))
+            g.add((latest, RDF.type, MR.CheckIn))
+            g.add((latest, MG.hasPain, Literal(self.latest_checkin['pain'], datatype=XSD.boolean)))
         c = MG.currentCandidate
         g.add((c, RDF.type, MG.Candidate))
         for p, val in ((MG.action, action), (MG.actor, actor), (MG.fromState, self.state),
@@ -199,6 +237,12 @@ class Merlino:
                 g.add((node, MG.dayNumber, Literal(session.day, datatype=XSD.integer)))
                 g.add((node, MG.distanceKm, Literal(session.km, datatype=XSD.decimal)))
                 g.add((node, MG.workoutType, session.kind))
+        if plan is not None and (plan.digest(), self.policy_version, self.meaning_revision) in self.checked_proposals:
+            g.add((c, MG.wasProposed, Literal(True, datatype=XSD.boolean)))
+        for kind in self.evidence:
+            node = MG['evidence-' + str(kind).split('#')[-1]]
+            g.add((c, MG.hasEvidence, node))
+            g.add((node, RDF.type, kind))
         if self.approval is not None:
             g.add((c, MG.humanApproved, Literal(True, datatype=XSD.boolean)))
             g.add((c, MG.approvedDigest, Literal(self.approval.digest)))
@@ -208,10 +252,17 @@ class Merlino:
 
     def _precheck(self, action: URIRef, actor: URIRef, plan: Plan | None) -> list[str]:
         errors = []
-        if self._transition(action, actor) is None:
-            errors.append('RAILROAD: action/actor not permitted in current state')
-        if self.pain_reported and action != MR.HandToHuman:
-            errors.append('B3: pain already reported; human handover required')
+        if not any((transition, OPS.viaAction, action) in self.railroad
+                   for transition in self.railroad.subjects(OPS.fromState, self.state)):
+            errors.append('G2: action is off the railroad in this state')
+        if (action, OPS.allowedRole, actor) not in self.railroad:
+            errors.append('G3: actor role is not permitted')
+        for required in self.railroad.objects(action, OPS.requiresEvidence):
+            if required not in self.evidence:
+                errors.append('G4: missing required evidence ' + str(required).split('#')[-1])
+        if self.pain_reported and action != MR.HandToHuman and (
+                actor == MR.Merlin or action in (MR.ApprovePlan, MR.StartWeek)):
+            errors.append('B3: pain reported; agent actions and training authorization are blocked')
         if action in (MR.ProposePlan, MR.StartWeek):
             if not self.history_present or self.history_age_days > self.max_age_days:
                 errors.append('B1: history must be present and fresh')
@@ -224,8 +275,10 @@ class Merlino:
                     errors.append('B6: invalid distance/day/workout type')
                 if sum((s.km for s in plan.sessions), Decimal(0)) != plan.planned_km:
                     errors.append('B6: session sum must match declared total')
-                if plan.planned_km > self.baseline_km * self.max_ratio:
-                    errors.append('B2: plan exceeds versioned progression policy')
+                if sum((session.km for session in plan.sessions), Decimal(0)) > self.baseline_km * self.max_ratio:
+                    errors.append('B2: session-summed distance exceeds versioned progression policy')
+        if action in (MR.ApprovePlan, MR.StartWeek) and (plan is None or (plan.digest(), self.policy_version, self.meaning_revision) not in self.checked_proposals):
+            errors.append('B7: only a checked proposal can be approved or started')
         if action == MR.StartWeek:
             if not self.approval or not plan or (self.approval.digest != plan.digest()
                     or self.approval.policy_version != self.policy_version
@@ -254,15 +307,25 @@ class Merlino:
 
     def _record_trace(self, decision: Decision):
         node = TRACE[f'decision-{len(self.trace)}']
+        observation = TRACE[f'observation-{len(self.trace)}']
+        validation = TRACE[f'validation-{len(self.trace)}']
+        self.provenance.add((observation, RDF.type, PROV.Entity))
+        self.provenance.add((observation, MG.observedState, Literal(decision.from_state)))
         self.provenance.add((node, RDF.type, PROV.Activity))
+        self.provenance.add((node, PROV.used, observation))
+        self.provenance.add((validation, RDF.type, PROV.Activity))
+        self.provenance.add((validation, PROV.wasInformedBy, node))
+        self.provenance.add((validation, MG.conforms, Literal(decision.accepted, datatype=XSD.boolean)))
         self.provenance.add((node, MG.actionName, Literal(decision.action)))
         self.provenance.add((node, MG.accepted, Literal(decision.accepted)))
         self.provenance.add((node, MG.policyVersion, Literal(self.policy_version)))
         self.provenance.add((node, MG.meaningRevision, Literal(self.meaning_revision)))
         self.provenance.add((node, MG.candidateHash, Literal(decision.candidate_hash)))
         for error in decision.violations:
+            self.provenance.add((validation, MG.violation, Literal(error)))
             self.provenance.add((node, MG.violation, Literal(error)))
         for warning in decision.warnings:
+            self.provenance.add((validation, MG.warning, Literal(warning)))
             self.provenance.add((node, MG.warning, Literal(warning)))
 
     def _commit(self, dec: Decision, new_state: URIRef, *, plan: Plan | None = None):
@@ -272,15 +335,21 @@ class Merlino:
         if plan is not None:
             self.plan = plan
             self.approval = None
+            self.evidence.discard(MR.PlanApproval)
         dec.committed = True
         node = TRACE[f'decision-{len(self.trace)}']
         self.provenance.add((node, MG.committed, Literal(True, datatype=XSD.boolean)))
         self.provenance.add((node, MG.toState, new_state))
+        execution = TRACE[f'execution-{len(self.trace)}']
+        self.provenance.add((execution, RDF.type, PROV.Activity))
+        self.provenance.add((execution, PROV.wasInformedBy, TRACE[f'validation-{len(self.trace)}']))
+        self.provenance.add((execution, MG.actionName, Literal(dec.action)))
 
     def read_history(self) -> Decision:
         dec = self._dispatch(MR.ReadRunHistory, MR.Merlin)
         if dec.accepted:
             self.history_present = True
+            self.evidence.add(MR.RunHistory)
             self._commit(dec, MR.BaselineKnown)
         return dec
 
@@ -291,6 +360,7 @@ class Merlino:
             return self._rejected('ProposePlan', 'INPUT: ' + str(exc))
         dec = self._dispatch(MR.ProposePlan, MR.Merlin, plan)
         if dec.accepted:
+            self.checked_proposals.add((plan.digest(), self.policy_version, self.meaning_revision))
             self._commit(dec, MR.PlanProposed, plan=plan)
         return dec
 
@@ -303,6 +373,7 @@ class Merlino:
         dec = self._dispatch(MR.ApprovePlan, MR.Runner, self.plan)
         if dec.accepted:
             self.approval = Approval(self.plan.digest(), self.policy_version, self.meaning_revision)
+            self.evidence.add(MR.PlanApproval)
             self._commit(dec, MR.PlanApproved)
         return dec
 
@@ -313,12 +384,16 @@ class Merlino:
         if dec.accepted:
             self._commit(dec, MR.WeekInProgress)
             self.started = True
+            self.started_plans.append(self.plan)
         return dec
 
     def report_pain_as_runner(self, *, human_confirmed: bool = False) -> str:
         if not human_confirmed:
             raise PermissionError('Only a separately confirmed runner check-in may update pain evidence')
         self.pain_reported = True
+        self.latest_checkin = {'pain': True, 'runner_confirmed': True}
+        self.checkins.append(self.latest_checkin)
+        self.evidence.add(MR.CheckIn)
         return 'Pain evidence registered in synthetic runner context; agent must hand over.'
 
     def handover(self) -> Decision:
@@ -334,6 +409,7 @@ class Merlino:
         self.map.remove((MR.TempoRun, MR.isHard, None))
         self.map.add((MR.TempoRun, MR.isHard, Literal(tempo_is_hard, datatype=XSD.boolean)))
         self.approval = None
+        self.evidence.discard(MR.PlanApproval)
         return {'tempo_is_hard': tempo_is_hard, 'meaning_revision': self.meaning_revision,
                 'approval_invalidated': True}
 
@@ -347,13 +423,101 @@ class Merlino:
         self.policy.set((MG.coachingPolicy, MG.maxWeeklyIncrease, Literal(Decimal(str(ratio)), datatype=XSD.decimal)))
         self.policy.set((MG.coachingPolicy, MG.version, Literal(version)))
         self.approval = None
+        self.evidence.discard(MR.PlanApproval)
         return {'policy_version': version, 'ratio': ratio, 'approval_invalidated': True}
+
+    def log_run_as_runner(self, km: float, workout: str = 'easy', *, human_confirmed: bool = False) -> Decision:
+        """Runner-authorized observation; append to map only AFTER independent gate validation."""
+        if not human_confirmed:
+            return self._rejected('LogRun', 'AUTH: runner confirmation required')
+        kinds = {'easy': MR.EasyRun, 'long': MR.LongRun, 'intervals': MR.Intervals,
+                 'tempo': MR.TempoRun}
+        try:
+            distance = Decimal(str(km))
+            if not distance.is_finite() or not Decimal(0) < distance <= Decimal(42):
+                raise ValueError('invalid synthetic logged distance')
+            kind = kinds[workout]
+        except (ValueError, KeyError, InvalidOperation, TypeError):
+            return self._rejected('LogRun', 'INPUT: workout type or distance invalid')
+        dec = self._dispatch(MR.LogRun, MR.Runner)
+        if dec.accepted:
+            self._commit(dec, self._transition(MR.LogRun, MR.Runner))
+            self.today += timedelta(days=1)
+            record = EX[f'logged-run-{len(self.logged_runs)+1}']
+            self.map.add((record, RDF.type, SCHEMA.ExerciseAction))
+            self.map.add((record, SCHEMA.startTime,
+                          Literal(self.today.isoformat()+'T07:00:00Z', datatype=XSD.dateTime)))
+            self.map.add((record, MR.distanceKm, Literal(distance, datatype=XSD.decimal)))
+            self.map.add((record, MR.workoutType, kind))
+            self.logged_runs.append({'km': float(distance), 'workout': workout, 'day': self.today.isoformat()})
+        return dec
+
+    def ask_check_in(self) -> Decision:
+        dec = self._dispatch(MR.AskCheckIn, MR.Merlin)
+        if dec.accepted:
+            self._commit(dec, MR.AwaitingCheckIn)
+        return dec
+
+    def answer_check_in_as_runner(self, *, has_pain: bool, effort: int = 5,
+                                  sleep: int = 4, human_confirmed: bool = False) -> Decision:
+        if not human_confirmed:
+            return self._rejected('AnswerCheckIn', 'AUTH: runner confirmation required')
+        if type(has_pain) is not bool or type(effort) is not int or not 1 <= effort <= 10 or \
+                type(sleep) is not int or not 1 <= sleep <= 5:
+            return self._rejected('AnswerCheckIn', 'INPUT: invalid synthetic check-in')
+        dec = self._dispatch(MR.AnswerCheckIn, MR.Runner)
+        if dec.accepted:
+            self._commit(dec, MR.WeekInProgress)
+            record = {'pain': has_pain, 'effort': effort, 'sleep': sleep,
+                      'runner_confirmed': True}
+            self.latest_checkin = record
+            self.checkins.append(record)
+            self.pain_reported = self.pain_reported or has_pain
+            self.evidence.add(MR.CheckIn)
+        return dec
+
+    def review_week(self) -> Decision:
+        dec = self._dispatch(MR.ReviewWeek, MR.Merlin)
+        if dec.accepted:
+            self._commit(dec, MR.WeekReviewed)
+        return dec
+
+    def close_week_as_runner(self, *, human_confirmed: bool = False) -> Decision:
+        if not human_confirmed:
+            return self._rejected('CloseWeek', 'AUTH: runner confirmation required')
+        dec = self._dispatch(MR.CloseWeek, MR.Runner)
+        if dec.accepted:
+            self._commit(dec, MR.WeekClosed)
+        return dec
 
     def _rejected(self, action: str, message: str) -> Decision:
         dec = Decision(action, False, False, self.state_name, self.state_name,
                        [message], [], 'input/authorization boundary', '')
         self.trace.append(dec); self._record_trace(dec)
         return dec
+
+    def save_memory(self, path):
+        """Export the synthetic RDF world, policy and audit to a local TriG file.
+
+        A facilitator-only operation, never a model tool or remote write.
+        """
+        from .memory import save_memory
+        return save_memory(self, path)
+
+    def load_memory(self, path, *, facilitator_confirmed=False):
+        """Restore the semantic world and prior RDF episodes, NOT runtime authority.
+
+        A new session starts at Start; an old approval is NEVER restored.
+        """
+        if not facilitator_confirmed:
+            raise PermissionError('Facilitator approval required for local memory import')
+        from .memory import load_memory
+        return load_memory(self, path)
+
+    def recall_memory(self, limit=5):
+        """Read governed past decisions from the loaded RDF provenance graph."""
+        from .memory import recall_memory
+        return recall_memory(self.memory_trace, limit=limit)
 
     def trace_json(self) -> str:
         return json.dumps([d.as_dict() for d in self.trace], indent=2)

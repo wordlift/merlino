@@ -3,7 +3,7 @@
 ## Licensing and provenance
 
 - [ ] Bea explicitly approves public redistribution, licensing and exact credits for her Map, Railroad and derived teaching artifacts.
-- [ ] Confirm that the repository's existing MIT license is compatible with all source contributions; obtain explicit Bea-derived redistribution permission and agree how documentation and teaching assets are licensed.
+- [ ] WordLift approves the code and notebook license (proposal: Apache-2.0 for new code, subject to provenance/compatibility) and documentation license (proposal: CC BY 4.0).
 - [ ] Review confirms no private WoCell, private AOOE methodology tooling, credentials, client data or enterprise policies are in the tree or notebook's embedded archive.
 - [ ] Confirm Gemma model usage terms and WoGraph OSS distribution status.
 
@@ -18,7 +18,7 @@
 ## Branding and release
 
 - [ ] Add **approved, unmodified WordLift logo** and current design-system colors.
-- [ ] Use the existing `wordlift/merlino` repository (currently private). Before release, configure Issues, Discussions, topic tags: `aooe`, `shacl`, `rdf`, `knowledge-graph`, `agentic-ai`, `gemma`, `semantic-sovereignty`.
+- [ ] Open `wordlift/merlino` with `main`, Issues, Discussions, topic tags: `aooe`, `shacl`, `rdf`, `knowledge-graph`, `agentic-ai`, `gemma`, `semantic-sovereignty`.
 - [ ] Validate the `Open in Colab` button after repository is actually public.
 - [ ] Enable required CI and branch protections; verify checks are green on main.
 - [ ] Publish as `v0.1-workshop` only when the above release gates pass.

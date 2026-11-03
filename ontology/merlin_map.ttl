@@ -1,4 +1,5 @@
 @prefix mr:     <https://example.org/merlin-railroad#> .
+
 @prefix schema: <https://schema.org/> .
 @prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -8,6 +9,9 @@
 
 # ---------------------------------------------------------------------------
 # MERLIN DOMAIN MAP: The running training domain (what exists)
+# ALL PEOPLE, RACES AND RUNS IN THIS FILE ARE FICTIONAL DEMO DATA.
+# schema:distance holds text with a unit, as schema.org expects a Distance
+# (https://schema.org/ExerciseAction); mr:distanceKm is the number Merlin computes with.
 # Grounded in schema.org (Person, ExerciseAction, ExercisePlan, SportsEvent)
 # and SKOS for workout classification with hard/easy session governance.
 # ---------------------------------------------------------------------------
@@ -20,73 +24,76 @@ mr:WorkoutTypeScheme a skos:ConceptScheme ;
 mr:EasyRun a skos:Concept ;
     skos:inScheme mr:WorkoutTypeScheme ;
     skos:prefLabel "Easy Run" ;
-    skos:definition "Aerobic conversational pace run for recovery and base building." ;
+    skos:definition "A run at conversational effort." ;
     mr:isHard false .
 
 mr:LongRun a skos:Concept ;
     skos:inScheme mr:WorkoutTypeScheme ;
     skos:prefLabel "Long Run" ;
-    skos:definition "Extended aerobic endurance run to build glycogen depletion tolerance." ;
-    mr:isHard false .
+    skos:definition "The longest run of the week, at an easy, steady effort." ;
+    mr:isHard true .   # counted as a demanding session for recovery spacing (B5); a coaching choice, change it if you disagree
 
 mr:Intervals a skos:Concept ;
     skos:inScheme mr:WorkoutTypeScheme ;
     skos:prefLabel "Intervals" ;
-    skos:definition "High-intensity repeated speed bouts with recovery intervals (VO2 max stimulus)." ;
+    skos:definition "Repeated fast efforts with recoveries in between." ;
     mr:isHard true .
 
 mr:TempoRun a skos:Concept ;
     skos:inScheme mr:WorkoutTypeScheme ;
     skos:prefLabel "Tempo Run" ;
-    skos:definition "Lactate threshold sustained effort run (hard, comfortably hard pace)." ;
+    skos:definition "A sustained, comfortably hard effort." ;
     mr:isHard true .
 
 mr:RestDay a skos:Concept ;
     skos:inScheme mr:WorkoutTypeScheme ;
     skos:prefLabel "Rest Day" ;
-    skos:definition "Complete rest or active recovery with no running volume." ;
+    skos:definition "No running." ;
     mr:isHard false .
 
 # ---------- Runner (schema:Person) ----------
 ex:runner-001 a schema:Person ;
-    schema:name "Alex Runner" ;
+    schema:name "Alex Runner (fictional)" ;
     schema:identifier "runner-001" ;
-    schema:description "Amateur marathon runner training for personal best." .
+    schema:description "Fictional demo runner. Replace with your own data (see merlino/history.py (synthetic CSV importer))." .
 
 # ---------- Goal Race (schema:SportsEvent) ----------
 ex:race-001 a schema:SportsEvent ;
-    schema:name "London Marathon 2027" ;
-    schema:startDate "2027-04-25"^^xsd:date ;
-    schema:location "London, UK" ;
-    schema:description "Target goal race: sub-3h45 attempt." .
+    schema:name "Demo City Marathon (fictional)" ;
+    schema:startDate "2027-04-18"^^xsd:date ;
+    schema:description "Fictional goal race for the demo. Replace with your real race." .
 
 # ---------- Demo Run History (8 runs, 33.0 km last week) ----------
 # Previous week (Week -2): 4 runs, 31.0 km
 ex:run-01 a schema:ExerciseAction ;
     schema:agent ex:runner-001 ;
     schema:startTime "2026-10-13T07:00:00Z"^^xsd:dateTime ;
-    schema:distance 7.0 ;
+    mr:distanceKm 7.0 ;
+    schema:distance "7 km" ;
     mr:workoutType mr:EasyRun ;
     schema:name "Tuesday Morning Easy" .
 
 ex:run-02 a schema:ExerciseAction ;
     schema:agent ex:runner-001 ;
     schema:startTime "2026-10-15T18:00:00Z"^^xsd:dateTime ;
-    schema:distance 6.0 ;
+    mr:distanceKm 6.0 ;
+    schema:distance "6 km" ;
     mr:workoutType mr:Intervals ;
     schema:name "Thursday 6x800m Intervals" .
 
 ex:run-03 a schema:ExerciseAction ;
     schema:agent ex:runner-001 ;
     schema:startTime "2026-10-17T08:30:00Z"^^xsd:dateTime ;
-    schema:distance 5.0 ;
+    mr:distanceKm 5.0 ;
+    schema:distance "5 km" ;
     mr:workoutType mr:EasyRun ;
     schema:name "Saturday Parkrun Warmup + Easy" .
 
 ex:run-04 a schema:ExerciseAction ;
     schema:agent ex:runner-001 ;
     schema:startTime "2026-10-18T09:00:00Z"^^xsd:dateTime ;
-    schema:distance 13.0 ;
+    mr:distanceKm 13.0 ;
+    schema:distance "13 km" ;
     mr:workoutType mr:LongRun ;
     schema:name "Sunday Long Run" .
 
@@ -94,27 +101,34 @@ ex:run-04 a schema:ExerciseAction ;
 ex:run-05 a schema:ExerciseAction ;
     schema:agent ex:runner-001 ;
     schema:startTime "2026-10-20T07:15:00Z"^^xsd:dateTime ;
-    schema:distance 7.0 ;
+    mr:distanceKm 7.0 ;
+    schema:distance "7 km" ;
     mr:workoutType mr:EasyRun ;
     schema:name "Tuesday Easy Aerobic" .
 
 ex:run-06 a schema:ExerciseAction ;
     schema:agent ex:runner-001 ;
     schema:startTime "2026-10-22T18:30:00Z"^^xsd:dateTime ;
-    schema:distance 7.0 ;
+    mr:distanceKm 7.0 ;
+    schema:distance "7 km" ;
     mr:workoutType mr:TempoRun ;
     schema:name "Thursday Threshold Tempo" .
 
 ex:run-07 a schema:ExerciseAction ;
     schema:agent ex:runner-001 ;
     schema:startTime "2026-10-24T08:00:00Z"^^xsd:dateTime ;
-    schema:distance 5.0 ;
+    mr:distanceKm 5.0 ;
+    schema:distance "5 km" ;
     mr:workoutType mr:EasyRun ;
     schema:name "Saturday Recovery Shakeout" .
 
 ex:run-08 a schema:ExerciseAction ;
     schema:agent ex:runner-001 ;
     schema:startTime "2026-10-25T09:00:00Z"^^xsd:dateTime ;
-    schema:distance 14.0 ;
+    mr:distanceKm 14.0 ;
+    schema:distance "14 km" ;
     mr:workoutType mr:LongRun ;
     schema:name "Sunday Steady Long Run" .
+
+mr:distanceKm a rdf:Property ; rdfs:label "distance (km)" ;
+    skos:definition "Distance as a decimal number of kilometres, used for computation." .

@@ -28,6 +28,18 @@ An organization may own a powerful LLM and still lose control of its **meanings*
 
 This demonstrates **Semantic Sovereignty**: organizations control semantics, evidence, decisions, and data access even when language models change.
 
+## The knowledge graph is the agent's world and persistent semantic memory
+
+Merlino does not merely *look up* RDF. Its ontology and graph define the world
+it inhabits, including the runner's observations, coaching meanings, the
+Railroad, policies, and past decision traces. **The SHACL gate validates; the
+agent, not the gate, decides how to respond to validation results.**
+
+The workshop now includes a local RDF TriG persistence exercise: trigger a
+rejected plan, save the graph and trace, create a fresh Merlino, and retrieve
+that decision without restoring old approval. See
+[semantic memory and research extensions](docs/SEMANTIC_MEMORY.md).
+
 ## One architecture, four responsibilities
 
 ```mermaid
@@ -110,4 +122,26 @@ An educational WordLift Lab prototype based on **Bea's Merlin Running Pal** onto
 
 The [AOOE vocabulary](https://github.com/wordlift/aooe) is a separate CC BY 4.0 project. [WoGraph OSS](https://github.com/wordlift/wograph-oss) is a separately deployed runtime. Gemma model weights are not included and use Google's applicable terms.
 
-**Licensing:** This repository already contains a WordLift MIT license. Bea-derived ontology and teaching content must not be made public until redistribution, attribution, and license compatibility are explicitly confirmed. This branch is private review material. See [release checklist](docs/RELEASE_APPROVALS.md).
+**This staging package has no public open-source license yet.** Publication and licensing require explicit contributor/WordLift approval. See [release checklist](docs/RELEASE_APPROVALS.md).
+
+## CDL 2026: all seven of Bea's scenarios
+
+The merged workshop source now includes a **full nine-state, ten-action** synthetic
+lifecycle and two reproducible conditions for each of Bea's cases:
+
+- **Governed:** a real independent PySHACL gate validates every RDF candidate before
+  actions are committed; invalid proposals cannot alter the runner state.
+- **No-rules shadow:** a disposable in-memory teaching simulation enforces nothing,
+  but still runs the validator as a *shadow* to reveal each failure. No data or
+  action leaves the synthetic sandbox. This is not a real-model failure-rate test.
+
+See [the scenario matrix and slide-by-slide alignment](docs/BEA_CASE_COVERAGE.md)
+for S1 normal week, S2 overload, S3 stale data, S4 pain escalation, S5 changed
+plan, S6 consecutive hard sessions and S7 skipped approval. The new notebook
+includes all paired runs, a detailed S5 PROV-O replay, S4 pain context, and
+an executable regression suite.
+
+**Model distinction:** Gemma 4 is optional *live* agent inference, with tools
+filtered by the RDF Railroad. The seven scenario metrics come from deterministic
+scripted replay, **not** from Gemma sampling. Running Gemma in Colab uses a
+Google-hosted VM; that is not sovereign local deployment for private user data.

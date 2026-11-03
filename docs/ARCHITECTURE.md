@@ -13,6 +13,24 @@ Bea's `Merlin Running Pal` contributed `merlin_map.ttl` and `merlin_railroad.ttl
 - The gate is fail-closed. Same-UID subprocess is useful to explain separation, not by itself an access-control boundary for regulated workloads.
 - SHACL gives explicit constraints; the additional Python checks are defense in depth and can report errors when SHACL is unavailable, but never override a failed gate.
 
+## Agent environment, memory and verification
+
+**Semantic world:** `merlino.map` (RDF observations + meanings), `merlino.policy`
+(versioned governance), and the Railroad (authorized state transitions).
+**Episodic memory:** RDF `prov` decision traces, optionally exported alongside
+the world to a local `.trig` file. New sessions can recall previous outcomes,
+but have no old approvals or execution authority.
+
+**Separation of responsibilities:** the gate runs SHACL and returns valid/invalid
+results and codes. The `ScriptedMerlin` deterministic policy or a Gemma tool
+client decides whether to propose a corrected candidate, request a human or
+stop. SHACL does not calculate a repair.
+
+**Research context, NOT workshop implementation:** WordLift's [RLM-on-KG]
+(https://github.com/wordlift/rlm-on-kg) explores adaptive graph navigation;
+Hippocampus investigates learning from verified navigation/traces. Neither
+full research system is wired into this demo. See `docs/SEMANTIC_MEMORY.md`.
+
 ## Enterprise mapping
 | Demonstration | Production boundary |
 | --- | --- |
@@ -30,3 +48,25 @@ The model integration is **not yet GPU-tested**. Try E2B first (T4 + 4-bit), rec
 
 ## Licenses and publication
 Bea's workshop code is user-supplied for synthesis; obtain contributor consent/license before publicly distributing a derivative. AOOE public vocabulary is CC BY 4.0 but the private methodology is not. WoGraph OSS's pom declares AGPL-3.0 and its repo was private when inspected. No third-party model weights are bundled; users must comply with Gemma model license.
+
+## CDL 2026 full life cycle and reproducibility
+
+The engine now implements all ten actions in Bea's nine-state Railroad. Merlin
+(agent) can read, propose, start (after approval), ask a check-in, review and
+escalate. Runner-only actions log runs, answer check-ins, approve exact plans
+and close weeks. The `merlino.scenarios` module replays seven paired cases.
+The `NoRulesMerlino` class is **only** an isolated synthetic shadow and must
+never be exposed as an LLM tool, deployment option or network service.
+
+The `merlino.history` module derives training baseline and data age from the
+Map's RDF observations. `merlino.engine` binds the latest runner check-in and
+active pain hold into the authoritative candidate context; the LLM has no
+path to supply a replacement. The independent SHACL gate evaluates four
+generic rules G1–G4 and seven coaching/integrity rules B1–B7. B2 computes
+actual volume from sessions, not a declared total. Versioned approvals bind
+to the plan digest, policy and ontology meaning revision.
+
+PROV-O-aligned Observation/Decision/Validation/Execution nodes record the
+outcome for each attempted step, and the dedicated notebook runs SPARQL
+queries to explain the S5 failure. This is an editable local teaching trace,
+not a production tamper-evident log.

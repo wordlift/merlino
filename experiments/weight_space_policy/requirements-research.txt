@@ -1,0 +1,10 @@
+# Optional research stack. Main Merlino runtime and tests do not require this.
+# Use the current documented Gemma 4 compatible Transformers release.
+torch
+transformers
+accelerate
+safetensors
+rdflib>=7.1,<9
+pyshacl>=0.30,<1
+pytest>=8,<10
+requests>=2.31,<3

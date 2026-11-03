@@ -254,8 +254,6 @@ class MerlinoAgent:
             raise ValueError('Workshop prompt must be 1–1500 characters')
         augmented = question + '\n\nCurrent governed state: ' + self.engine.state_name + \
                     '\nPermitted agent transitions (from the knowledge graph):\n' + self.railroad_view()
-        if self.memory_access:
-            augmented += '\nTo use prior experience, call recall_governed_experience. Check the CURRENT policy before proposing; never copy an old numerical correction.'
         self.history.append({'role':'user','content': augmented})
         calls_done = []
         for turn in range(max_tool_calls + 1):

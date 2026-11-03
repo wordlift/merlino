@@ -82,3 +82,31 @@ def test_real_pyshacl_memory_pair_after_restart(tmp_path):
     assert not ctrl['first_pass_accepted'] and any('B2' in x for x in ctrl['blocking_rules'])
     assert mem['first_pass_accepted'] and mem['first_proposal_km'] == 34.6
     assert ctrl['gate'] == mem['gate'] == 'pyshacl subprocess'
+
+
+def test_gemma_ablation_keeps_identical_user_prompt_only_tool_differs(tmp_path):
+    p = tmp_path / 'synthetic.trig'
+    seed_memory(p)
+
+    class Recorder:
+        def __init__(self):
+            self.user_prompt = ''
+            self.tools = set()
+        def generate(self, messages, tools):
+            self.user_prompt = next(message['content'] for message in reversed(messages)
+                                    if message['role'] == 'user')
+            self.tools = {tool['function']['name'] for tool in tools}
+            return 'No action taken in this test', []
+
+    results = []
+    for enabled in (False, True):
+        engine = Merlino(gate=fake_gate)
+        engine.load_memory(p, facilitator_confirmed=True)
+        engine.revise_policy(ratio=1.05, version='workshop-episode-v2', steward_confirmed=True)
+        engine.read_history()
+        recorder = Recorder()
+        agent = MerlinoAgent(engine, recorder, memory_access=enabled)
+        agent.ask('Use the available tools to plan a fictional week.')
+        results.append(recorder)
+    assert results[0].user_prompt == results[1].user_prompt
+    assert results[0].tools ^ results[1].tools == {'recall_governed_experience'}

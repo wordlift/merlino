@@ -13,6 +13,24 @@ Bea's `Merlin Running Pal` contributed `merlin_map.ttl` and `merlin_railroad.ttl
 - The gate is fail-closed. Same-UID subprocess is useful to explain separation, not by itself an access-control boundary for regulated workloads.
 - SHACL gives explicit constraints; the additional Python checks are defense in depth and can report errors when SHACL is unavailable, but never override a failed gate.
 
+## Agent environment, memory and verification
+
+**Semantic world:** `merlino.map` (RDF observations + meanings), `merlino.policy`
+(versioned governance), and the Railroad (authorized state transitions).
+**Episodic memory:** RDF `prov` decision traces, optionally exported alongside
+the world to a local `.trig` file. New sessions can recall previous outcomes,
+but have no old approvals or execution authority.
+
+**Separation of responsibilities:** the gate runs SHACL and returns valid/invalid
+results and codes. The `ScriptedMerlin` deterministic policy or a Gemma tool
+client decides whether to propose a corrected candidate, request a human or
+stop. SHACL does not calculate a repair.
+
+**Research context, NOT workshop implementation:** WordLift's [RLM-on-KG]
+(https://github.com/wordlift/rlm-on-kg) explores adaptive graph navigation;
+Hippocampus investigates learning from verified navigation/traces. Neither
+full research system is wired into this demo. See `docs/SEMANTIC_MEMORY.md`.
+
 ## Enterprise mapping
 | Demonstration | Production boundary |
 | --- | --- |

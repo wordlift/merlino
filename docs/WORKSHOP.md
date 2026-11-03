@@ -16,6 +16,15 @@
 
 **Main message:** Gemma proposes; RDF defines; SHACL validates; humans authorize.
 
+**New optional 10-minute exercise — the KG is the environment and memory.**
+After S2, save the RDF graph and PROV-O trace locally; reset the Python agent
+and recall the B2 rejection from TriG. Observe that old authorization is not
+restored. The memory file is an instructional snapshot, not enterprise secure
+storage. For the full explanation see `SEMANTIC_MEMORY.md`.
+
+The gate validates but **does not repair**. Repair suggestions originate from
+`ScriptedMerlin` or Gemma, and human approval comes from the runner.
+
 ## Discussion prompts
 
 - What do companies own when they own the model, but not its meanings?

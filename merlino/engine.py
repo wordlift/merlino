@@ -153,6 +153,7 @@ class Merlino:
         self.started = False
         self.trace: list[Decision] = []
         self.provenance = Graph()
+        self.memory_trace = Graph()  # prior RDF episodes imported by the facilitator only
         self.provenance.bind('prov', PROV)
         self.provenance.bind('mg', MG)
 
@@ -193,7 +194,8 @@ class Merlino:
                 'pain_reported': self.pain_reported,
                 'tempo_hard': bool(self.map.value(MR.TempoRun, MR.isHard)),
                 'current_plan_km': float(self.plan.planned_km) if self.plan else None,
-                'approved': self.approval is not None}
+                'approved': self.approval is not None,
+                'remembered_decisions': self.recall_memory(limit=3)}
 
     def _transition(self, action: URIRef, actor: URIRef) -> URIRef | None:
         if (action, OPS.allowedRole, actor) not in self.railroad:
@@ -258,8 +260,9 @@ class Merlino:
         for required in self.railroad.objects(action, OPS.requiresEvidence):
             if required not in self.evidence:
                 errors.append('G4: missing required evidence ' + str(required).split('#')[-1])
-        if self.pain_reported and action != MR.HandToHuman:
-            errors.append('B3: pain already reported; human handover required')
+        if self.pain_reported and action != MR.HandToHuman and (
+                actor == MR.Merlin or action in (MR.ApprovePlan, MR.StartWeek)):
+            errors.append('B3: pain reported; agent actions and training authorization are blocked')
         if action in (MR.ProposePlan, MR.StartWeek):
             if not self.history_present or self.history_age_days > self.max_age_days:
                 errors.append('B1: history must be present and fresh')
@@ -492,6 +495,29 @@ class Merlino:
                        [message], [], 'input/authorization boundary', '')
         self.trace.append(dec); self._record_trace(dec)
         return dec
+
+    def save_memory(self, path):
+        """Export the synthetic RDF world, policy and audit to a local TriG file.
+
+        A facilitator-only operation, never a model tool or remote write.
+        """
+        from .memory import save_memory
+        return save_memory(self, path)
+
+    def load_memory(self, path, *, facilitator_confirmed=False):
+        """Restore the semantic world and prior RDF episodes, NOT runtime authority.
+
+        A new session starts at Start; an old approval is NEVER restored.
+        """
+        if not facilitator_confirmed:
+            raise PermissionError('Facilitator approval required for local memory import')
+        from .memory import load_memory
+        return load_memory(self, path)
+
+    def recall_memory(self, limit=5):
+        """Read governed past decisions from the loaded RDF provenance graph."""
+        from .memory import recall_memory
+        return recall_memory(self.memory_trace, limit=limit)
 
     def trace_json(self) -> str:
         return json.dumps([d.as_dict() for d in self.trace], indent=2)

@@ -16,6 +16,10 @@ certify the Gemma adapter or this port.
 | S6 Consecutive hard days | Warning ignored | B5 warning recorded while plan runs | `mr:isHard` is graph-controlled and steward-editable |
 | S7 Skipped approval | 34.0 km started with no human approval | G2 + G4 block; runner approves then starts | G2 state, G4 required evidence, B4 exact approval |
 
+**B6 refinement approved by Bea:** In this port, B6 checks that the plan is present, has seven distinct days and that declared and session-summed distances agree. Approval of a plan is indirectly protected by B7, which requires a previously validated proposal.
+
+**Responsibility boundary:** SHACL validates and reports constraint codes; it NEVER proposes corrections. A deterministic scripted agent or Gemma observes those codes and proposes a new candidate. Only the runner can approve.
+
 ## Design invariants preserved
 
 - Map = schema.org `ExerciseAction`, numeric `mr:distanceKm`, SKOS workout types, fictional runner and race. The 33.0 km baseline and 2-day freshness are **calculated from graph records** with a pinned, synthetic reference clock, not hardcoded. CSV path accepts synthetic records only; users must not upload real athlete data to Colab.
@@ -39,6 +43,12 @@ certify the Gemma adapter or this port.
 | Decision activity with limited links | Four-phase PROV-O trace with per-step validation and execution events |
 | No controlled no-rules contrast | Seven paired synthetic episodes, same scripted intentions, shadow validation |
 | Static Gemma model tools | Tool schemas filtered by the Railroad's currently allowed actions |
+
+## Scripted policy and persisted semantic memory
+
+The **same ScriptedMerlin policy** runs in the gated and shadow arms. It receives each action result; only a gate rejection triggers a response. B2 calculates the next proposal from the current graph policy (baseline × progression ratio, rounded down). B1/B3 request handover; B4/B7 resubmit the edited plan for validation; any unknown code requests handover. It cannot approve its own plan. The gate does not repair. S7 requires a separate runner approval.
+
+A separate workshop-only **TriG memory exercise** persists the synthetic ontology/map, versioned policy and PROV-O trace; a fresh agent process imports and recalls the previous rejected decision. The new session starts at Start with no restored approval or authority. This is not yet the RLM-on-KG recursive navigator or Hippocampus learned-memory system.
 
 ## What the workshop must not claim
 

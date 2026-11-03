@@ -233,7 +233,7 @@ class MerlinoAgent:
                 selected.add(tool)
         return [schema for schema in TOOL_SCHEMAS if schema['function']['name'] in selected]
 
-    def ask(self, question: str, *, max_tool_calls: int = 2) -> Turn:
+    def ask(self, question: str, *, max_tool_calls: int = 3) -> Turn:
         if not isinstance(question, str) or not 1 <= len(question) <= 1500:
             raise ValueError('Workshop prompt must be 1–1500 characters')
         augmented = question + '\n\nCurrent governed state: ' + self.engine.state_name + \

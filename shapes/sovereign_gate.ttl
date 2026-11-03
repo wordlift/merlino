@@ -140,8 +140,8 @@ mg:PainEscalation a sh:NodeShape ; sh:targetClass mg:Candidate ;
     sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes mg:declares ;
     sh:message "B3: athlete reported pain; hand off to human before planning/starting" ; sh:select """
     SELECT $this WHERE {
-      $this mg:action ?act .
-      FILTER (?act != mr:HandToHuman)
+      $this mg:action ?act ; mg:actor ?actor .
+      FILTER (?act != mr:HandToHuman && (?actor = mr:Merlin || ?act IN (mr:ApprovePlan, mr:StartWeek)))
       FILTER (
         EXISTS { mg:runnerContext mg:latestCheckIn ?latest . ?latest mg:hasPain true }
         || EXISTS { mg:runnerContext mg:activePainHold true }

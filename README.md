@@ -28,6 +28,18 @@ An organization may own a powerful LLM and still lose control of its **meanings*
 
 This demonstrates **Semantic Sovereignty**: organizations control semantics, evidence, decisions, and data access even when language models change.
 
+## The knowledge graph is the agent's world and persistent semantic memory
+
+Merlino does not merely *look up* RDF. Its ontology and graph define the world
+it inhabits, including the runner's observations, coaching meanings, the
+Railroad, policies, and past decision traces. **The SHACL gate validates; the
+agent, not the gate, decides how to respond to validation results.**
+
+The workshop now includes a local RDF TriG persistence exercise: trigger a
+rejected plan, save the graph and trace, create a fresh Merlino, and retrieve
+that decision without restoring old approval. See
+[semantic memory and research extensions](docs/SEMANTIC_MEMORY.md).
+
 ## One architecture, four responsibilities
 
 ```mermaid

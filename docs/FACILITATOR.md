@@ -41,6 +41,10 @@
 
 ## CDL 2026 teaching parity (updated)
 
+**Bea's correction:** Gate = independent validator, **never** repair engine. The scripted agent consumes B2/B1/B3/B4/B7 outcomes and chooses a response; Gemma does so via a bounded tool interface. Demonstrate that changing `maxWeeklyIncrease` changes the agent's next proposal without changing the gate.
+
+**Memory exercise:** persist a synthetic rejected plan and provenance to TriG, restart Merlino and retrieve it; do not restore human approval. Refer to `docs/SEMANTIC_MEMORY.md`.
+
 **Keep Bea's narrative intact:** Map → Railroad → five competency queries →
 G1–G4 / B1–B7 → seven paired scenarios → S5 PROV-O trace → regression tests →
 optional real Gemma → semantic sovereignty and enterprise boundaries.

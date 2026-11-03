@@ -55,7 +55,7 @@ mr:RestDay a skos:Concept ;
 ex:runner-001 a schema:Person ;
     schema:name "Alex Runner (fictional)" ;
     schema:identifier "runner-001" ;
-    schema:description "Fictional demo runner. Replace with your own data (see merlin/importer.py)." .
+    schema:description "Fictional demo runner. Replace with your own data (see merlino/history.py (synthetic CSV importer))." .
 
 # ---------- Goal Race (schema:SportsEvent) ----------
 ex:race-001 a schema:SportsEvent ;

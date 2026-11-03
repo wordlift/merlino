@@ -18,6 +18,8 @@ align its claims with the new `wordlift/merlino` Colab:
 | 20 | limitations and CSV | Emphasize Colab is cloud-hosted; use **synthetic** data only. Personal training histories belong in locally controlled infrastructure. |
 | 21–22 | take-home | Add 'Own the meanings. Govern the decisions. Choose the AI.' without replacing the Map → Railroad → Gate storyline. |
 
+**Bea's reviewed wording:** Use “SHACL validates and reports violations; Merlin responds by proposing a different action.” Do not say that the gate repairs or chooses 36 km. The deterministic policy computes the new candidate using the *current* graph-owned limit. After pain, runner logging and closure remain possible where authorized by the Railroad; new training authorization remains blocked.
+
 ## Before delivery
 
 - Perform a clean Colab run: install, all 14 scenario episodes, all tests, S5 SPARQL, S4 pain, then Gemma GPU flow.

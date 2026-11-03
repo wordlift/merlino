@@ -26,7 +26,7 @@ def test_all_seven_cases_governed(episodes, sid):
     e = episodes[sid, 'railroad_rules']
     summary = e.summary()
     assert summary['broken_rules_executed'] == [], summary
-    assert set(summary['blocked_by']) >= EXPECTED_BLOCKS[sid], summary
+    assert set(summary['blocked_by']) == EXPECTED_BLOCKS[sid], summary
     assert not any(x['gate'] == 'unavailable' for x in e.steps)
     if sid == 'S1':
         assert summary['end_state'] == 'WeekClosed'

@@ -118,8 +118,10 @@ def generate(model, processor, prompt: str, *, max_new_tokens: int = 160) -> str
     import torch
     messages = [{'role': 'system', 'content': 'Respond precisely and only with the requested JSON.'},
                 {'role': 'user', 'content': prompt}]
-    text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-    inputs = processor(text=text, return_tensors='pt').to(model.device)
+    inputs = processor.apply_chat_template(
+        messages, tokenize=True, add_generation_prompt=True,
+        return_dict=True, return_tensors='pt'
+    ).to(model.device)
     prefix_len = inputs['input_ids'].shape[-1]
     with torch.inference_mode():
         generated = model.generate(**inputs, max_new_tokens=max_new_tokens, do_sample=False,

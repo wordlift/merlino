@@ -10,6 +10,7 @@ jobs:
   ontology-gate:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
     steps:
@@ -27,7 +28,7 @@ jobs:
           python - <<'PY'
           import json, pathlib, sys, subprocess
           notebook = json.loads(pathlib.Path('notebooks/Merlino_Gemma4_AOOE_Workshop.ipynb').read_text())
-          namespace = {'__name__': '__main__'}
+          namespace = {'__name__': '__main__', 'sys': sys}
           exec(''.join(notebook['cells'][3]['source']), namespace)
           project = namespace['PROJECT']
           tests = ['tests/test_engine.py', 'tests/test_workshop_cases.py',

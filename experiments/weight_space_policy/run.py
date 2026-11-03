@@ -102,11 +102,11 @@ def shacl_check(proposed: float | None) -> dict:
 
 def load_gemma(model_id: str = MODEL_ID, *, revision: str = 'main'):
     import torch
-    from transformers import AutoProcessor, AutoModelForCausalLM
+    from transformers import AutoProcessor, AutoModelForMultimodalLM
     if not torch.cuda.is_available():
         raise RuntimeError('This weight-edit trial requires a CUDA GPU. CPU tests are separate.')
     processor = AutoProcessor.from_pretrained(model_id, revision=revision)
-    model = AutoModelForCausalLM.from_pretrained(
+    model = AutoModelForMultimodalLM.from_pretrained(
         model_id, revision=revision, device_map='auto', dtype=torch.bfloat16,
         attn_implementation='sdpa'
     )

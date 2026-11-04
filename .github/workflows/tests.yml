@@ -36,6 +36,12 @@ jobs:
           subprocess.run([sys.executable, '-m', 'pytest', '-q', '-ra', *tests],
                          cwd=str(project), check=True)
           PY
+      - name: Install notebook smoke-run dependencies
+        if: matrix.python-version == '3.13'
+        run: python -m pip install nbclient nbformat ipykernel ipywidgets
+      - name: Run entire Colab notebook in clean CPU kernel
+        if: matrix.python-version == '3.13'
+        run: python scripts/verify_workshop_notebook.py
       - name: Notebook contains no saved outputs
         run: |
           python -c "import json,pathlib; n=json.loads(pathlib.Path('notebooks/Merlino_Gemma4_AOOE_Workshop.ipynb').read_text()); assert n['nbformat']==4; assert not [c for c in n['cells'] if c['cell_type']=='code' and c.get('outputs')]; print('Notebook verified')"

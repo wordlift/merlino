@@ -182,8 +182,13 @@ class Merlino:
     def state_name(self) -> str:
         return str(self.state).split('#')[-1]
 
-    def context(self) -> dict:
-        """Only synthetic relevant facts; no raw notebook, user conversation or keys."""
+    def context(self, *, include_memory: bool = False) -> dict:
+        """Synthetic current facts only; episodic evidence is opt-in.
+
+        Withholding memory must not leak past decisions through a general
+        context tool. Call recall_memory() through the explicitly enabled
+        read-only tool instead.
+        """
         return {'runner': 'Alex (fictional)', 'baseline_week_km': float(self.baseline_km),
                 'history_age_days': self.history_age_days if self.history_present else None,
                 'history_read': self.history_present, 'state': self.state_name,
@@ -195,7 +200,7 @@ class Merlino:
                 'tempo_hard': bool(self.map.value(MR.TempoRun, MR.isHard)),
                 'current_plan_km': float(self.plan.planned_km) if self.plan else None,
                 'approved': self.approval is not None,
-                'remembered_decisions': self.recall_memory(limit=3)}
+                **({'remembered_decisions': self.recall_memory(limit=3)} if include_memory else {})}
 
     def _transition(self, action: URIRef, actor: URIRef) -> URIRef | None:
         if (action, OPS.allowedRole, actor) not in self.railroad:

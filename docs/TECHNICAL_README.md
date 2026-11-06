@@ -12,8 +12,10 @@ Merlino is a real tool-using running-coach *agent demo*: Gemma 4 makes proposals
 2. Run the setup cells (they unpack a self-contained reviewed workshop package and install RDFLib / PySHACL).
 3. Run the **ontology and SHACL** exercises first; they require no GPU, WordLift credentials or model weights.
 4. Choose **Runtime → Change runtime type → T4 GPU** and set `USE_GEMMA = True` in the Gemma cell. Install optional model dependencies, then load `google/gemma-4-E2B-it` (smaller) or E4B (larger, higher memory). A Hugging Face download/access agreement may be needed. No generated answer is substituted if model download or inference fails.
-5. Ask: `Propose a 42.5 km week for Alex. What happens when SHACL reviews it?` Try `34.5 km`, then a `consecutive_hard` week. The model can call only four whitelisted tools: read context, propose plan, inspect decision, and hand over to human.
+5. Ask: `Propose a 42.5 km week for Alex. What happens when SHACL reviews it?` Try `34.5 km`, then a `consecutive_hard` week. The model sees only the allowlisted tools whose Railroad action is open from the current state: read context, propose plan, request a start, ask for a check-in, review the week, explain the last decision, hand over to a human, and (only with `memory_access=True`, Experiment 8) recall prior decisions. See `BCS.md`.
 6. Explore the separate human-approval and semantic-edit cells. The model does **not** have these capabilities.
+
+The two-hour agenda, with the notebook section for each slot, is in `docs/WORKSHOP.md`.
 
 **Colab is NOT on-device or private infrastructure.** The model computes within a Colab VM (not a hosted LLM API), but the VM is Google-managed and downloading model weights needs a network connection. Use a participant-owned machine and trusted RDF services for truly local/sovereign deployment.
 
@@ -34,11 +36,11 @@ The PySHACL process must be installed and reachable. If it fails, **all actions 
 
 ## From ontology engineering to agentic engineering
 
-| Stage | Artifact | Workshop effect |
+| Level · right | Artifact | Workshop effect |
 | --- | --- | --- |
-| **Legend** | Schema.org, SKOS, identifiers and versioned vocabulary | The athlete and workout types are unambiguous |
-| **Map** | Bea's `merlin_map.ttl` and competence questions | The model can read relevant training history and the actual meaning of TempoRun |
-| **Rulebook** | Bea's Railroad + this project's gate, BCS and audit | A model proposal is not an authorized action; SHACL and explicit approval determine execution |
+| **Legend** · addressability | schema.org, SKOS, identifiers and versioned vocabulary (workout terms and identifiers) | The athlete and workout types are unambiguous |
+| **Map** · readability | Bea's `merlin_map.ttl` and competency questions (athlete, sessions, plan, evidence) | The model can read relevant training history and the actual meaning of TempoRun |
+| **Rulebook** · agency | Bea's Railroad, this project's SHACL gate, BCS, human sign-off and trace | A model proposal is not an authorized action; SHACL and explicit approval determine execution |
 
 Bea's source **Map**, **Railroad** and teaching-vocabulary RDF are retained in `ontology/` and `reference/bea/`. The vulnerable original scenario helper is **not** used as an execution engine; see `docs/ARCHITECTURE.md` for changes. The namespace `https://example.org/aooe#` in Bea's original railroad is a **teaching-only runtime namespace**; it is not the official public [AOOE vocabulary](https://w3id.org/aooe#). The public vocabulary covers adoption levels and governance metadata. This package does not claim to pass the full private AOOE methodology's conformance gates.
 
@@ -60,6 +62,11 @@ merlino/gate_worker.py                       Separate PySHACL process (fail clos
 merlino/gemma_agent.py                       Native Gemma 4 tool use / strict allowlist
 merlino/wordlift.py                          Opt-in synthetic-only WordLift Resolve call
 merlino/wograph.py                           Opt-in WoGraph OSS read-first adapter
+merlino/history.py                           Baseline and data age computed from the run graph
+merlino/competency.py                        The five design-time checks (CQ1–CQ5)
+merlino/scenarios.py                         Bea's seven cases, governed and no-rules shadow
+merlino/memory.py                            TriG save/load of world, policy and audit graphs
+merlino/episodic_experiment.py               Experiment 8: recalled vs withheld evidence
 ontology/merlin_map.ttl                     Bea's domain Map (unchanged)
 ontology/merlin_railroad.ttl                Bea's Railroad (unchanged)
 ontology/policy.ttl                         Versioned fictitious coaching policy
@@ -67,16 +74,19 @@ reference/bea/                              Original teaching-only runtime vocab
 shapes/sovereign_gate.ttl                   Strengthened SHACL shapes
 BCS.md                                      Governed behavior contract
 models/                                     None: model weights not redistributed
-tests/                                     Negative tests + optional PySHACL integration tests
+tests/                                      Negative tests and real PySHACL integration tests
+scripts/verify_workshop_notebook.py          Runs the whole notebook on CPU (used in CI)
+scripts/rebuild_notebook_bundle.py          Refreshes the source bundle embedded in the notebook
+docs/merlino-kg-atlas.html                   Offline 3D atlas of Legend, Map and Rulebook
+docs/SLIDE_REVIEW.md                         Final CDL 2026 deck mapped to this repository
 ```
 
 **No model weights, API keys, real training records, production WordLift data, private WoCell code, private methodology tooling or enterprise policy configurations are included.** Review Bea's contribution/licensing and policy release before public distribution.
 
 ## Status and test limitations
 
-- Executed local unit tests and SPARQL constraint queries using RDFLib.
-- The local authoring container has no PySHACL installed and no network package access. The integration tests explicitly skip if PySHACL is absent; the actual engine refuses to proceed without the validator.
-- The authoring container has no Gemma model weights/GPU. **No claim is made that Gemma inference or the full notebook was run end to end.** A T4 Colab rehearsal is required.
+- CI (`.github/workflows/tests.yml`) runs the full suite with real PySHACL on Python 3.11, 3.12 and 3.13 (54 tests, no skips), runs the same tests against the source bundle embedded in the notebook, checks that the bundle matches the repository, executes the whole notebook in a clean CPU kernel, and checks that it has no saved outputs.
+- Gemma 4 has been exercised in Colab during development (see the negative result in `docs/SEMANTIC_MEMORY.md`), but a full fresh-GPU rehearsal is still a release blocker in `docs/RELEASE_APPROVALS.md`. No Gemma result is claimed beyond what that section reports.
 - The current WoGraph OSS hosted sandbox is staged for publication; do not assume the repository and launch button are publicly available.
 
 See `docs/FACILITATOR.md` and `docs/RELEASE_CHECKLIST.md` before teaching.

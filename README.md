@@ -16,6 +16,8 @@
 
 *A hands-on reference implementation for **Agent-Oriented Ontology Engineering (AOOE)**.*
 
+*Workshop for **From Map to Railroad**, the Connected Data London 2026 masterclass by Beatrice Gamba and Andrea Volpini, 11 November 2026. [Agenda](docs/WORKSHOP.md) · [deck alignment](docs/SLIDE_REVIEW.md)*
+
 </div>
 
 > **Pre-publication draft.** Bea's redistribution permission, WordLift licensing approval, and full Gemma/Colab/PySHACL integration checks are pending. Do not publish before [release approvals](docs/RELEASE_APPROVALS.md) are completed.
@@ -49,7 +51,7 @@ flowchart TD
     M[(RDF + SKOS: owned meanings)] --> C
     C --> S{Independent SHACL gate}
     P[(Versioned policy + Railroad)] --> S
-    S -->|Reject| R[Explain violation; repair]
+    S -->|Reject| R[Agent explains the violation and proposes again]
     R --> G
     S -->|Eligible| H{Human confirmation}
     H -->|No| N[No action]
@@ -58,7 +60,7 @@ flowchart TD
     A --> T
 ```
 
-**Gemma proposes · RDF defines · SHACL validates · humans authorize.**
+**Gemma proposes · RDF defines · SHACL validates · humans authorize.** The model proposes; the graph disposes.
 
 **Experiment 8 (Hippocampus-inspired, not model training):** compare two new
 Merlino sessions with the same graph and current policy, but only one can
@@ -100,13 +102,15 @@ A missing validator makes the real engine fail closed. Tests explicitly identify
 
 ## From traditional ontology engineering to AOOE
 
-| Level | Main deliverable | Merlino example | Enables |
-| --- | --- | --- | --- |
-| **Legend** | Controlled vocabulary, identity and pinned meanings | Workout terminology and identifiers | Addressability |
-| **Map** | Domain model and competency questions | Athlete, sessions, plan, training evidence | Understanding and analysis |
-| **Rulebook** | Validation, behavior, approval and trace | Railroad, BCS, SHACL, authorization | Governed agency |
+Each level adds a right; only the Rulebook grants agency. **Legend ⊂ Map ⊂ Rulebook**: each level contains the one before.
 
-Read the [public AOOE vocabulary](https://github.com/wordlift/aooe) for these levels. This educational prototype does **not** claim conformance to WordLift's private AOOE methodology gates.
+| Level | Right | Main deliverable | Merlino example |
+| --- | --- | --- | --- |
+| **Legend** | Addressability | Vocabulary, identity and pinned meanings | Workout terms and identifiers |
+| **Map** | Readability | Classes, properties and competency questions | Athlete, sessions, plan, evidence |
+| **Rulebook** | Agency | Shapes, behaviour specs, approval and trace | The Railroad, the SHACL gate, human sign-off |
+
+The levels are defined in the public AOOE vocabulary, [`w3id.org/aooe#`](https://w3id.org/aooe#) ([source](https://github.com/wordlift/aooe)). This educational prototype does **not** claim conformance to WordLift's private AOOE methodology gates.
 
 ## Semantic sovereignty and disclosure
 

@@ -32,7 +32,8 @@ jobs:
           exec(''.join(notebook['cells'][3]['source']), namespace)
           project = namespace['PROJECT']
           tests = ['tests/test_engine.py', 'tests/test_workshop_cases.py',
-                   'tests/test_memory_and_bea_feedback.py', 'tests/test_episodic_experiment.py']
+                   'tests/test_memory_and_bea_feedback.py', 'tests/test_episodic_experiment.py',
+                   'tests/test_gemma_runtime_contract.py']
           subprocess.run([sys.executable, '-m', 'pytest', '-q', '-ra', *tests],
                          cwd=str(project), check=True)
           PY

@@ -91,3 +91,20 @@ memory or infer policy from current context; the outcome is not guaranteed.
 AOOE owns and validates the environment. RLM-on-KG-style navigation and
 Hippocampus-style learning *from verified traces* remain **separate research
 projects** until integrated and evaluated here. No gates generate repairs.
+
+## The real Gemma experiment: a useful negative result
+
+The scripted A/B illustrates a mechanism, not trained model behavior. In the
+initial *actual Gemma* trial reported by the workshop participant, the
+memory-enabled agent successfully retrieved a prior B2 rejection, but **both**
+arms still proposed 42.5 km and the independent SHACL gate rejected both.
+Successful recall is not evidence of better decisions or model learning.
+
+Both arms can read the current policy; the only controlled difference is
+access to past episodes. The updated notebook asks Gemma to try a revised,
+policy-compliant proposal if a candidate fails; that prompt change encourages
+a better test of the feedback loop but **does not guarantee success**.
+
+Inspect the *actual tool calls and gate verdicts*, not just the model's
+explanation. The gate validates; the agent proposes repairs; a person
+authorizes. Never restore approval from episodic memory.

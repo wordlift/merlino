@@ -114,7 +114,9 @@ WordLift Resolve sends only fixed synthetic labels when enabled and a temporary 
 
 ## Explore
 
-[Workshop agenda](docs/WORKSHOP.md) · [Facilitator's guide](docs/FACILITATOR.md) · [Architecture](docs/ARCHITECTURE.md) · [Behavioral specification](BCS.md) · [Privacy and security](docs/PRIVACY_AND_SECURITY.md)
+**KG Atlas:** download [`docs/merlino-kg-atlas.html`](docs/merlino-kg-atlas.html) and open it in a browser. It is a 3D map of the Legend, Map and Rulebook with walk-throughs of Bea's seven scenarios, semantic memory (Experiment 8) and the Gemma loop. It works offline (three.js is inlined) and describes the workshop Colab's code.
+
+[Workshop agenda](docs/WORKSHOP.md) · [KG Atlas (interactive, offline HTML)](docs/merlino-kg-atlas.html) · [Facilitator's guide](docs/FACILITATOR.md) · [Architecture](docs/ARCHITECTURE.md) · [Behavioral specification](BCS.md) · [Privacy and security](docs/PRIVACY_AND_SECURITY.md)
 
 ## Credits and licensing
 

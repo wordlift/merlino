@@ -157,7 +157,10 @@ class Gemma4Transformers:
         generation = self.processor.decode(output_ids[0][inputs['input_ids'].shape[-1]:],
                                            skip_special_tokens=False)
         if hasattr(self.processor, 'parse_response'):
-            parsed = self.processor.parse_response(generation)
+            # Transformers requires the exact prompt prefix; Gemma chat templates
+            # may already open an assistant/thinking region before generation.
+            # Tool schemas also cast validated argument types during parsing.
+            parsed = self.processor.parse_response(generation, prefix=template, tools=tools)
             result = normalize_calls(parsed.get('tool_calls', []))
             content = parsed.get('content') or ''
         else:

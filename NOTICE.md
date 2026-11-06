@@ -5,3 +5,4 @@
 - **AOOE public vocabulary:** https://github.com/wordlift/aooe — separate WordLift project licensed CC BY 4.0, linked rather than vendored here.
 - **WoGraph OSS:** a separately maintained deployment. No WoGraph or private WoCell runtime source has been copied.
 - **Gemma:** model weights are not distributed; obtain separately under Google's applicable terms.
+- **three.js r128:** inlined in `docs/merlino-kg-atlas.html` so the atlas works offline; MIT License, © 2010–2021 three.js authors (https://threejs.org). Google Fonts are loaded from fonts.googleapis.com when online.

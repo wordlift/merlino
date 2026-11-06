@@ -1,0 +1,22 @@
+name: Research - Gemma weight-space CPU contracts
+on:
+  pull_request:
+    paths:
+      - 'experiments/weight_space_policy/**'
+      - '.github/workflows/weight-space-research.yml'
+  workflow_dispatch:
+jobs:
+  cpu-patcher:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Merlino gate and CPU Torch
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Validate experimental edit isolation and genuine SHACL oracle
+        run: python -m pytest -q -ra experiments/weight_space_policy/tests

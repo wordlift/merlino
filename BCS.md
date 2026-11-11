@@ -1,6 +1,6 @@
 # Merlino — Behavioral Concept Specification (workshop subset)
 
-**Purpose:** demonstrate how an RDF domain model becomes an agentic system when the ability to act is bound to a governed ontology, an explicit state machine, independently validated actions, a human authority and reproducible decision evidence. This is a teaching subset, **not a certified private AOOE Rulebook package**.
+**Purpose:** demonstrate how an RDF domain model becomes an agentic system when the ability to act is bound to a governed ontology, an explicit state machine, independently validated actions, a human authority and reproducible decision evidence. This is a teaching subset, **not a certified private AOOE Rulebook package**. A full BCS packages one concept in eleven sections, from definition to reward; this workshop subset keeps the parts the exercises use: scope, ontological contract, competency questions, authority, constraints, pre/post conditions, privacy and negative cases. It has no reward section: the ontology-guided training on the deck's GRPO slides is not part of this notebook.
 
 ## Agent and scope
 - Identity: Merlino, a helpful running coach for a *fictional* athlete Alex.
@@ -13,6 +13,24 @@
 - Legend: schema.org and SKOS terms in Bea's map, `mr:` workout concepts and typed runs. Official public `aooe:` vocabulary at `https://w3id.org/aooe#` is distinct from Bea's teaching-only legacy `https://example.org/aooe#` runtime terms.
 - Map: `schema:Person` (runner), `schema:SportsEvent` (goal race), `schema:ExerciseAction` (runs, with numeric `mr:distanceKm`), stable SKOS workout type IRIs with controlled `mr:isHard` classifications. A proposed week is not yet stored as a `schema:ExercisePlan`: it exists as a candidate with seven `mg:session` nodes.
 - Rulebook: `mr:` actions/states from Bea's railroad, `mg:` candidate envelope, `mg:coachingPolicy` in a versioned policy graph, SHACL 1.0/SPARQL shapes, fail-closed external subprocess, explicit simulated human approval.
+
+## Competency questions (Know · Remember · Do)
+The testable form of this spec, in the three kinds AOOE asks for.
+
+**Know (K-CQ): what Merlino must answer from the graph.**
+- K1–K5, Bea's five competency questions (design time, `merlino/competency.py`, §2): no trap states; every irreversible action needs evidence only a human can produce; required evidence is obtainable in time; no orphan tools; every state and action has a readable definition. All five return no counterexamples.
+- K6: what was the last full week and how old is the data? Computed from the runs (`merlino/history.py`): 33.0 km, 2 days old at the pinned reference date.
+- K7: which workout types count as hard? Read `mr:isHard` on the SKOS concepts: Long Run, Intervals and Tempo Run.
+
+**Remember (M-CQ): what persists, with what provenance.**
+- M1: for any step, can we trace Observation → Decision → Validation → Execution, and tell a rejected step from an executed one? (PROV-O trace)
+- M2: after a restart, which earlier decision does Merlino recall, under which policy version and meaning revision? (TriG memory, §7)
+- M3: does memory restore approval, a checked proposal or state? No: a fresh session starts at `Start` with no approval.
+
+**Do (B-CQ): what Merlino must do, refuse or hand to a person.** Bea's seven cases, run in §4:
+- Do: a 34.0 km week after a 33.0 km baseline with fresh data and the runner's approval (S1); a week with consecutive hard days, recording the B5 warning (S6).
+- Refuse: 42.5 km after 33.0 km (S2, B2); a plan edited after approval (S5, B2/B4/B7); a start with no approval (S7, G2/G4/B4).
+- Escalate: 21-day-old history (S3, B1, then handover); pain at check-in (S4, B3, then handover).
 
 ## Actions and authority
 Gemma sees only the tools below, and only those whose Railroad action has a transition from the current state (`tool_schemas_for_state`). A tool call is a *request*: every action is revalidated by the independent gate before anything commits.

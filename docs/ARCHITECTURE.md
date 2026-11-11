@@ -42,9 +42,9 @@ full research system is wired into this demo. See `docs/SEMANTIC_MEMORY.md`.
 | RDFLib | WoGraph OSS (independent Java stack) or managed WordLift, explicit data export |
 
 ## Tool-call implementation
-Uses Google's Gemma 4 native function declaration schema via `AutoProcessor.apply_chat_template(tools=...)`, generation with `AutoModelForMultimodalLM`, and `processor.parse_response` if present. Only tool names in an explicitly declared registry are executed; the tool selection is untrusted even if it arrives in a structured model frame. The model never sees API credentials or graph infrastructure management endpoints.
+Uses Google's Gemma 4 native function declaration schema via `AutoProcessor.apply_chat_template(tools=...)`, generation with `AutoModelForMultimodalLM`, and `processor.parse_response(generation, prefix=template, tools=tools)` when available (the prefix and tool schemas are required for Gemma 4's chat template; `tests/test_gemma_runtime_contract.py` covers it). Only tool names in an explicitly declared registry are executed; the tool selection is untrusted even if it arrives in a structured model frame. The model never sees API credentials or graph infrastructure management endpoints.
 
-The model integration is **not yet GPU-tested**. Try E2B first (T4 + 4-bit), record compatibility, then benchmark E4B on available GPU memory. If quantization has compatibility issues in an installed Transformers version, consult the official Gemma function-calling notebook and use its documented loader with a sufficiently large GPU rather than silently using a remote model API.
+The model integration has been exercised in Colab during development, but a full fresh-GPU rehearsal is still a release blocker (`docs/RELEASE_APPROVALS.md`). Try E2B first (T4 + 4-bit), record compatibility, then benchmark E4B on available GPU memory. If quantization has compatibility issues in an installed Transformers version, consult the official Gemma function-calling notebook and use its documented loader with a sufficiently large GPU rather than silently using a remote model API.
 
 ## Licenses and publication
 Bea's workshop code is user-supplied for synthesis; obtain contributor consent/license before publicly distributing a derivative. AOOE public vocabulary is CC BY 4.0 but the private methodology is not. WoGraph OSS's pom declares AGPL-3.0 and its repo was private when inspected. No third-party model weights are bundled; users must comply with Gemma model license.
@@ -52,8 +52,9 @@ Bea's workshop code is user-supplied for synthesis; obtain contributor consent/l
 ## CDL 2026 full life cycle and reproducibility
 
 The engine now implements all ten actions in Bea's nine-state Railroad. Merlin
-(agent) can read, propose, start (after approval), ask a check-in, review and
-escalate. Runner-only actions log runs, answer check-ins, approve exact plans
+(agent role) can read history, propose, start (after approval), ask a check-in, review and
+escalate; reading history is a host step, and the rest reach Gemma as tools only when the
+Railroad allows them (see `BCS.md`). Runner-only actions log runs, answer check-ins, approve exact plans
 and close weeks. The `merlino.scenarios` module replays seven paired cases.
 The `NoRulesMerlino` class is **only** an isolated synthetic shadow and must
 never be exposed as an LLM tool, deployment option or network service.

@@ -1,7 +1,8 @@
 # Bea's *From Map to Railroad* — scenario coverage in Merlino
 
 Source-of-truth teaching materials: `From_Map_to_Railroad_CDL2026.pptx` and
-`Merlin_running_agent.ipynb` (Beatrice Gamba, 2 Nov 2026). This table describes
+`Merlin_running_agent.ipynb` (Beatrice Gamba, 2 Nov 2026). The final CDL 2026 deck
+(Gamba and Volpini) is mapped to this repository in [`SLIDE_REVIEW.md`](SLIDE_REVIEW.md). This table describes
 **the new implementation**. The original kit states 23/23 regression checks
 passed in its deterministic scenario runner; that result does not automatically
 certify the Gemma adapter or this port.
@@ -61,12 +62,12 @@ A separate workshop-only **TriG memory exercise** persists the synthetic ontolog
 - That Gemma's tool-calling pass rate or WoGraph/Resolve integrations have been
   measured until those separate live acceptance tests pass.
 
-## Workshop sequence (120 min)
+## Where the cases appear in the workshop
 
-1. **0–20 min — Map:** inspect the synthetic run graph; compute 33 km and freshness; edit a workout classification.
-2. **20–35 min — Railroad:** inspect 9 states/10 actions and run 5 competency questions.
-3. **35–55 min — SHACL:** inspect G1–G4 and B1–B7; submit a 42.5 km candidate.
-4. **55–80 min — Seven paired cases:** replay all S1–S7 with no-rules shadow vs governed enforcement.
-5. **80–95 min — S5 audit + S4 pain:** SPARQL over PROV-O trace; challenge old approval and check-in context.
-6. **95–110 min — Gemma:** optionally enable a real local-in-Colab model; inspect tool choices and gate repairs.
-7. **110–120 min — Semantic Sovereignty:** compare Colab (hosted, synthetic), sovereign local WoGraph OSS, and optional explicitly scoped WordLift/Resolve requests.
+The agenda is in [`WORKSHOP.md`](WORKSHOP.md) and follows the final deck. The seven
+paired cases run in notebook §4 during the 35–55 minute slot, right after the 42.5 km
+rejection in §3. The S5 PROV-O replay and the S4 pain replay are the last two cells of §4.
+The deck's "Without rules, every mistake went through" slide shows the no-rules column
+of this table (S2, S3, S4, S7). Its "When the model cheats, the gate holds" slide shows
+`tests/test_engine.py` (17 tests).
+

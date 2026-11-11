@@ -37,6 +37,18 @@ jobs:
           subprocess.run([sys.executable, '-m', 'pytest', '-q', '-ra', *tests],
                          cwd=str(project), check=True)
           PY
+      - name: Notebook embedded bundle matches the repository
+        run: |
+          python - <<'PY'
+          import base64, io, json, pathlib, re, zipfile
+          cells = json.loads(pathlib.Path('notebooks/Merlino_Gemma4_AOOE_Workshop.ipynb').read_text())['cells']
+          source = next(''.join(c['source']) for c in cells if 'EMBEDDED = (' in ''.join(c['source']))
+          block = source[source.index('EMBEDDED = ('):source.index('\n)\n')]
+          bundle = zipfile.ZipFile(io.BytesIO(base64.b64decode(''.join(re.findall(r"'([^']*)'", block)))))
+          stale = [n for n in bundle.namelist() if not pathlib.Path(n).is_file() or pathlib.Path(n).read_bytes() != bundle.read(n)]
+          assert not stale, f'Run python scripts/rebuild_notebook_bundle.py; out of date: {stale}'
+          print(f'Bundle matches the repository: {len(bundle.namelist())} files')
+          PY
       - name: Install notebook smoke-run dependencies
         if: matrix.python-version == '3.13'
         run: python -m pip install nbclient nbformat ipykernel ipywidgets

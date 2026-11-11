@@ -74,9 +74,7 @@ only in the explicit memory-enabled condition. [Full method](docs/SEMANTIC_MEMOR
 
 Open [`notebooks/Merlino_Gemma4_AOOE_Workshop.ipynb`](notebooks/Merlino_Gemma4_AOOE_Workshop.ipynb) in [Google Colab](https://colab.research.google.com/) via its notebook upload or GitHub-import flow. The notebook includes its own educational source bundle.
 
-<!-- Activate only once repo is public and the link is verified:
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/wordlift/merlino/blob/main/notebooks/Merlino_Gemma4_AOOE_Workshop.ipynb)
--->
 
 **Colab is a Google-managed VM, not an on-device or private deployment. Use only synthetic data.** No hosted LLM API is required for the CPU exercises. The optional Gemma model runs in the notebook runtime and requires a suitable GPU and model access agreement.
 

@@ -1,58 +1,38 @@
-# Final CDL 2026 deck ↔ repository alignment
+# Connected Data London 2026 — live deck ↔ Merlino notebook alignment
 
-**Deck:** *From Map to Railroad — Agent-Oriented Ontology Engineering for Governed AI Systems*,
-Beatrice Gamba and Andrea Volpini, Connected Data London, 11 November 2026, 15:30–17:30
-(37 slides). This file maps every slide that makes a claim about Merlino to the notebook
-section, file or test that backs it. Checked against `main` on 6 November 2026: 54 tests
-pass and CI runs the whole notebook on CPU.
+**Deck:** [From Map to Railroad — Gamba & Volpini](https://docs.google.com/presentation/d/1QRu-PWEhXNTFcV1Iw0b9E1lMlKV4Xa5oxwKLD-VKXp0/edit), Connected Data London, 11 November 2026. **40 slides** as inspected on 11 November 2026. Earlier review of a 37-slide version is superseded by this mapping.
 
-Notebook sections (`notebooks/Merlino_Gemma4_AOOE_Workshop.ipynb`): §0 setup ·
-§1 Legend + Map · §2 Railroad and five competency questions · §3 SHACL gate ·
-§4 seven paired scenarios · §5 edit a meaning (TempoRun) · §6 human approval ·
-§7 semantic memory · §8 Experiment 8 · §9 Gemma 4 on GPU · §10 talk to Merlino ·
-§11 PROV-O trace, Resolve, WoGraph.
+**Notebook:** [Merlino Gemma 4 AOOE Workshop](../notebooks/Merlino_Gemma4_AOOE_Workshop.ipynb), cells 0–42, §0–§11. The default CPU route is scripted and uses real independent PySHACL, **not Gemma inference**. The optional Gemma 4 path requires a Colab GPU, model access and `USE_GEMMA=True`.
 
-## Slide by slide
+**Reproducibility boundary:** Alex's records are fictional and are bundled in the Colab notebook. Bea's private run results in the deck come from a **separate local execution** and cannot be reproduced from the public Colab alone. Do not upload real running or health histories to hosted Colab.
 
-| # | Slide | Claim | Backed by | Status |
-| --- | --- | --- | --- | --- |
-| 6 | One concept. One contract. | A full BCS has eleven sections, definition to reward, with K-, M- and B-CQs and shapes with counterexamples | `BCS.md` is a workshop subset; its Know / Remember / Do questions are listed in its "Competency questions" section | ✓ subset, stated in `BCS.md` |
-| 9 | Ontology engineering for a reader that acts | Know / Remember / Do; vocabulary `w3id.org/aooe#` | `BCS.md` competency questions; README links the persistent namespace | ✓ |
-| 11 | Each level adds a right | Legend: addressability, workout terms and identifiers · Map: readability, athlete, sessions, plan, evidence · Rulebook: agency, the Railroad, the SHACL gate, human sign-off | README and `docs/TECHNICAL_README.md` level tables use the same wording | ✓ |
-| 26 | Agenda | Seven time slots, with notebook § references | `docs/WORKSHOP.md` uses the same slots | **Deck fix:** the § numbers predate the current notebook (see below) |
-| 27 | Bea's coach. Bea's data. Any model. | Re-engineered from Beatrice Gamba's Merlin Running Pal; open-weights Gemma | README credits; `NOTICE.md` | ✓ |
-| 28 | Without rules, every mistake went through | S2 42.5 km started · S3 21-day-old data · S4 two weeks, the second after pain · S7 zero approvals | Bea's original notebook, step 4; reproduced in Merlino §4 no-rules shadow (`merlino/scenarios.py`, `tests/test_workshop_cases.py::test_all_seven_cases_shadow_observes_violation`) | ✓ |
-| 29 | What exists is not what may happen next | 9 states, 10 actions, 2 roles, 3 evidence types; notebook §1–2 | `ontology/merlin_railroad.ttl`; §1–2 | ✓ |
-| 30 | The model proposes. The graph disposes. | Propose / define / validate / authorize; 42.5 km on 33 km rejected, nothing scheduled | §3; `tests/test_engine.py::test_proposal_rejection_does_not_write_plan` | ✓ |
-| 31 | When the model cheats, the gate holds | 3 blocked, 1 handed to a human, 2 fail closed; 17/17 tests in `tests/test_engine.py`; a meaning or policy change revokes approval | `tests/test_engine.py` has exactly 17 tests (the full suite has 54) | ✓ |
-| 32 | It remembers the why, not just the what | Map → Railroad → Gate → Memory → Adaptation; notebook §3–§8; next proposal 36 km | §3–§8; 36 km is the S2 repair under the 1.10 policy (§4). Experiment 8 (§8) tightens the policy to 1.05 and proposes 34.6 km | ✓ (the "training data" line: see below) |
-| 33 | Merlino's week, on the rails | 42.5 km ✕ B2, 36 km ✓, pain ✕ B3, exit rail from every stop after Start, start week needs approval; notebook §1–§5 | `ontology/merlin_railroad.ttl` t14–t19; `shapes/sovereign_gate.ttl` | ✓ |
-| 34 | Four things to try on Monday | Rails, key facts in context, validate before acting, turn every hole into a test | Five design checks (`merlino/competency.py`), host-controlled check-in (B3), SHACL gate, paired regression tests | ✓ |
-| 36 | Sources | "Merlino: WordLift GitHub repository" | `wordlift/merlino` is **private** | **Blocker:** see below |
+## Slide-by-slide review: workshop slides 26–36
 
-## Fixes needed in the deck itself
+| Slide | Live deck claim | Notebook correspondence | Review |
+| --- | --- | --- | --- |
+| 26 · Agenda | §0–§11, cells 0–42, seven timed slots | §0 setup 0–3 · §1–2 Map/Railroad 4–11 · §3–4 Gate/cases 12–21 · §5–6 Meaning/approval 22–25 · §7–8 Memory 26–29 · §9–10 Gemma 30–37 · §11 Trace/opt-ins 38–42 | **Aligned:** section and cell ranges. The timing is a presentation plan, not an execution requirement. |
+| 27 · Two runners | Alex (fictional, Colab) vs Bea (local/private) | Alex's synthetic baseline and eight runs in §1; Bea's 339-run, 31.36 km comparison is from separate local work | **Clarify:** no real Bea data is bundled or used in Colab. |
+| 28 · Map | RDF facts, hard-session meaning, computed baseline | §1, cells 5 and 7 (Alex: 33 km and two-day synthetic freshness) | **Aligned for Alex.** Bea's 1,736 triples and private run totals are external results, not cell 5 or 7 output in Colab. |
+| 29 · Railroad | Five design checks, nine states, ten actions, two roles | §2, cells 9 and 11; `merlino/competency.py` | **Aligned** for shared ontology/Railroad. |
+| 30 · Governed lifecycle | Propose, SHACL validate, human approve, PROV-O record | §2–4, cells 8–21; `ontology/merlin_railroad.ttl` | **Wording caution:** the scripted agent, not Gemma, is used by the default CPU exercises. |
+| 31 · Gate | Fictional B2 +10% limit blocks 42.5 km; 34.5 km is eligible for Alex only | §3, cells 12–13 | **Aligned** for Alex. Bea's 34.496 km limit is from separate local execution. |
+| 32 · Seven scenarios | S1–S7 no-rules shadow vs governed replay; B1/B2/B3/B4/B5/B7/G2/G4 | §4, cells 14–21; `merlino/scenarios.py` | **Aligned:** scripted, not Gemma. Full 54-test CPU CI confirmed on main on 11 Nov 2026. Bea values separately sourced. |
+| 33 · Change a meaning and approve | `TempoRun` hard classification changes B5; human authorization stays separate | §5–6, cells 22–25 | **Aligned for Alex.** Simulated consent is not authenticated production authority. |
+| 34 · Governed memory | TriG persists an earlier rejection; recall does not restore approval; 1.05 policy compare | §7–8, cells 26–29 | **Aligned for Alex:** scripted experiment is an example of evidence-guided proposals, not training or guaranteed Gemma improvement. Bea results external. |
+| 35 · Gemma and decision diary | Gemma 4 E2B optional on T4; provenance/remote services opt-in | §9–11, cells 30–41 | **Aligned:** `USE_GEMMA=False` by default; Resolve/WoGraph off by default. |
+| 36 · Atlas | 3D KG atlas; 66 nodes, 19 rules, S1–S7/memory/Gemma tours | `docs/merlino-kg-atlas.html` (model stats: 66 nodes, 19 rules) | **Fix live slide:** use the [Pages Atlas](https://wordlift.github.io/merlino/) link instead of a relative HTML path or `wor.ai` redirect. |
 
-1. **Slide 26, agenda § numbers.** The deck's slots and topics are kept as they are in
-   `docs/WORKSHOP.md`; only the section references change: (§0) stays ·
-   (§1–2) stays · "SHACL gate rejects 42.5 km" → (§3–4) · "TempoRun" → (§5) ·
-   "Human approval" → (§6–8) · "Gemma 4 on GPU" → (§9–10) · "PROV-O trace, Resolve,
-   WoGraph" → (§11).
-2. **Slide 32, "traces become training data".** Nothing in the notebook trains a model:
-   Experiment 8 changes a *proposal* from recalled evidence. Say "traces can become
-   training data" and point to Hippocampus and the GRPO slides, or drop the clause.
-3. **Slide 36, repository link.** The repo is private and `docs/RELEASE_APPROVALS.md`
-   still has open blockers (Bea's redistribution approval, WordLift licence approval,
-   a full GPU rehearsal). Either clear them and make the repo public before
-   11 November, or replace the link with "available on request" for the session.
+## Recommended deck edits (not in this PR)
 
-## Wording to keep (Bea's review)
+1. **Slide 30:** replace “Merlino proposes (Gemma 4)” with “Agent proposes (scripted by default; Gemma optional).” The gate independently validates and never repairs.
+2. **Slides 27–34:** add a compact provenance note distinguishing Alex's public Colab data from Bea's private local execution.
+3. **Slide 26:** link “COLAB NOTEBOOK” to [the runnable notebook](https://colab.research.google.com/github/wordlift/merlino/blob/main/notebooks/Merlino_Gemma4_AOOE_Workshop.ipynb).
+4. **Slide 36:** update “OPEN THE ATLAS” to [GitHub Pages](https://wordlift.github.io/merlino/) and remove the old relative-path instruction. The Pages deploy workflow completed successfully on 11 Nov 2026.
 
-- "SHACL validates and reports violations; Merlin responds by proposing a different
-  action." The gate never repairs or chooses 36 km; the agent computes the new candidate
-  from the *current* graph-owned limit.
-- After pain, runner logging and closure remain possible where the Railroad allows them;
-  new training authorization stays blocked until a person takes over.
-- Bea's original notebook reported 23/23 tests. Merlino's suite is a different one
-  (54 tests, 17 of them in `tests/test_engine.py`): compare coverage, not raw counts.
-- The no-rules results come from a disposable synthetic shadow and a scripted agent,
-  not from measuring a real model's failure rate.
+## Scientific and release safeguards
+
+- The gate validates and reports violations; the scripted agent or Gemma interprets codes and **proposes** any repair. SHACL does not itself choose 36 km.
+- Memory can change a *new proposal*, not rewrite model weights or reinstate human approval.
+- The no-rules shadow is an isolated teaching simulation, **not** measured real-model failure rates.
+- Bea's original 23 tests and Merlino's separate 54 tests must not be represented as directly comparable model benchmarks.
+- CI on the default CPU path is green; full clean-GPU inference tests, contributor consent and licensing approvals remain distinct release gates. See [Release approvals](RELEASE_APPROVALS.md).

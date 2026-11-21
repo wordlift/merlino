@@ -7,7 +7,6 @@ are used. No plans, approvals, check-ins, or graph writes are committed external
 from __future__ import annotations
 
 import argparse
-from collections import defaultdict
 from contextlib import nullcontext
 from datetime import datetime, timezone
 import json
@@ -100,14 +99,14 @@ def shacl_check(proposed: float | None) -> dict:
             'max_km': float(engine.baseline_km * engine.max_ratio)}
 
 
-def load_gemma(model_id: str = MODEL_ID, *, revision: str = 'main'):
+def load_gemma(model_id: str = MODEL_ID, *, revision: str = 'main', device_map='auto'):
     import torch
     from transformers import AutoProcessor, AutoModelForMultimodalLM
     if not torch.cuda.is_available():
         raise RuntimeError('This weight-edit trial requires a CUDA GPU. CPU tests are separate.')
     processor = AutoProcessor.from_pretrained(model_id, revision=revision)
     model = AutoModelForMultimodalLM.from_pretrained(
-        model_id, revision=revision, device_map='auto', dtype=torch.bfloat16,
+        model_id, revision=revision, device_map=device_map, dtype=torch.bfloat16,
         attn_implementation='sdpa'
     )
     model.eval()
@@ -120,13 +119,44 @@ def generate(model, processor, prompt: str, *, max_new_tokens: int = 160) -> str
                 {'role': 'user', 'content': prompt}]
     inputs = processor.apply_chat_template(
         messages, tokenize=True, add_generation_prompt=True,
-        return_dict=True, return_tensors='pt'
+        return_dict=True, return_tensors='pt', enable_thinking=False,
     ).to(model.device)
     prefix_len = inputs['input_ids'].shape[-1]
     with torch.inference_mode():
         generated = model.generate(**inputs, max_new_tokens=max_new_tokens, do_sample=False,
                                    pad_token_id=processor.tokenizer.eos_token_id)
     return processor.decode(generated[0][prefix_len:], skip_special_tokens=True).strip()
+
+
+def evaluate_condition(model, processor, condition, policy, edit_stats):
+    rows = []
+    for probe in PROBES:
+        prompt = prompt_for(probe, policy)
+        start = time.perf_counter()
+        response = generate(model, processor, prompt)
+        elapsed = round(time.perf_counter() - start, 2)
+        km, status = extract_proposal(response)
+        gate = shacl_check(km)
+        rows.append({'condition': condition, 'probe': probe['id'],
+                     'policy_context': policy, 'request_km': probe['request'],
+                     'raw_output': response, 'parsed_km': km, 'parse_status': status,
+                     'gate_result': gate, 'latency_seconds': elapsed,
+                     'weight_changed_elements': edit_stats['changed_elements'],
+                     'weight_effective_nonzero': edit_stats.get('effective_nonzero', 0),
+                     'weight_delta_l2': edit_stats.get('delta_l2', 0.0)})
+    return rows
+
+
+def summarize(rows):
+    summary = {}
+    for arm in dict.fromkeys(r['condition'] for r in rows):
+        selected = [r for r in rows if r['condition'] == arm]
+        summary[arm] = {
+            'n': len(selected), 'valid_proposal_rate': sum(r['parsed_km'] is not None for r in selected)/len(selected),
+            'gate_pass_rate': sum(r['gate_result']['accepted'] for r in selected)/len(selected),
+            'blocked_proposals': sum(r['gate_result']['gate_checked'] and not r['gate_result']['accepted'] for r in selected),
+        }
+    return summary
 
 
 def run_eval(*, patch_manifest: dict | None, model_id: str, revision: str,
@@ -150,29 +180,7 @@ def run_eval(*, patch_manifest: dict | None, model_id: str, revision: str,
         chosen = patch_manifest if variant == 'edited' else random_control if variant == 'random' else None
         ctx = temporary_patch(model, chosen) if chosen is not None else nullcontext({'changed_elements': 0, 'fraction': 0})
         with ctx as edit_stats:
-            for probe in PROBES:
-                prompt = prompt_for(probe, policy)
-                start = time.perf_counter()
-                response = generate(model, processor, prompt)
-                elapsed = round(time.perf_counter() - start, 2)
-                km, status = extract_proposal(response)
-                gate = shacl_check(km)
-                rows.append({'condition': condition, 'probe': probe['id'],
-                             'policy_context': policy, 'request_km': probe['request'],
-                             'raw_output': response, 'parsed_km': km, 'parse_status': status,
-                             'gate_result': gate, 'latency_seconds': elapsed,
-                             'weight_changed_elements': edit_stats['changed_elements'],
-                             'weight_effective_nonzero': edit_stats.get('effective_nonzero', 0),
-                             'weight_delta_l2': edit_stats.get('delta_l2', 0.0)})
-        # IMPORTANT: context manager restored original weights before next arm.
-    summary = {}
-    for arm in {r['condition'] for r in rows}:
-        selected = [r for r in rows if r['condition'] == arm]
-        summary[arm] = {
-            'n': len(selected), 'valid_proposal_rate': sum(r['parsed_km'] is not None for r in selected)/len(selected),
-            'gate_pass_rate': sum(r['gate_result']['accepted'] for r in selected)/len(selected),
-            'blocked_proposals': sum(r['gate_result']['gate_checked'] and not r['gate_result']['accepted'] for r in selected),
-        }
+            rows.extend(evaluate_condition(model, processor, condition, policy, edit_stats))
     import torch, transformers
     output = {'experiment': 'gemma-wsp-policy-v0', 'timestamp_utc': datetime.now(timezone.utc).isoformat(),
               'model': model_id, 'revision': revision, 'patch_digest': canonical_digest(patch_manifest),
@@ -181,7 +189,7 @@ def run_eval(*, patch_manifest: dict | None, model_id: str, revision: str,
               'policy_v1': POLICY_V1, 'policy_v2': POLICY_V2,
               'note': 'Fictional inputs only. A weight edit is never an authorization. No gradient descent.',
               'random_control_note': 'Random indices match tensor, axis, index count and scale; NOT exactly matched edit norms.',
-              'summary': summary, 'records': rows}
+              'summary': summarize(rows), 'records': rows}
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(output, indent=2), encoding='utf-8')
     return output

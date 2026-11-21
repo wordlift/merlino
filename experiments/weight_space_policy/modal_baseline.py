@@ -72,14 +72,18 @@ def collect_baseline(code_sha: str) -> dict:
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--qwen', action='store_true', help='Use the text-only Qwen3-1.7B trial')
     parser.add_argument('--trial', action='store_true', help='Run the frozen direct-edit trial instead of the baseline')
     parser.add_argument('--launch', action='store_true', help='Explicitly launch one billable GPU job')
     parser.add_argument('--remaining-usd', type=float, help='Remaining authorized budget, at most $10')
     parser.add_argument('--output', type=Path)
     args = parser.parse_args(argv)
+    if args.qwen and not args.trial:
+        parser.error('--qwen requires --trial')
+    family = 'qwen' if args.qwen else 'gemma'
     if args.output is None:
         suffix = 'trial' if args.trial else 'baseline'
-        args.output = Path(f'artifacts/gemma_modal_{suffix}.json')
+        args.output = Path(f'artifacts/{family}_modal_{suffix}.json')
 
     estimate = CostEstimate(
         gpu_usd_per_second=GPU_USD_PER_SECOND,
@@ -132,7 +136,7 @@ def main(argv=None):
         from experiments.weight_space_policy.trial import collect_trial
 
         entrypoint = collect_trial
-        app_name = 'merlino-gemma-weight-space-trial'
+        app_name = f'merlino-{family}-weight-space-trial'
 
     app = modal.App(app_name)
     gpu_run = app.function(
@@ -143,7 +147,7 @@ def main(argv=None):
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with modal.enable_output(), app.run():
-        report = gpu_run.remote(code_sha)
+        report = gpu_run.remote(code_sha, qwen=args.qwen) if args.trial else gpu_run.remote(code_sha)
     report['estimated_compute_usd'] = estimate.total()
     args.output.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(report['summary'], indent=2))

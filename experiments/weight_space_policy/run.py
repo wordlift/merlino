@@ -131,7 +131,7 @@ def generate(model, processor, prompt: str, *, max_new_tokens: int = 160, system
     prefix_len = inputs['input_ids'].shape[-1]
     with torch.inference_mode():
         generated = model.generate(**inputs, max_new_tokens=max_new_tokens, do_sample=False,
-                                   pad_token_id=processor.tokenizer.eos_token_id)
+                                   pad_token_id=getattr(processor, 'tokenizer', processor).eos_token_id)
     return processor.decode(generated[0][prefix_len:], skip_special_tokens=True).strip()
 
 

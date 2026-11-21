@@ -1,4 +1,4 @@
-"""One activation-informed, gradient-free Gemma weight-edit experiment."""
+"""One activation-informed, gradient-free weight-edit experiment."""
 from __future__ import annotations
 
 from contextlib import nullcontext
@@ -37,7 +37,7 @@ def limit(baseline: Decimal, ratio: Decimal) -> Decimal:
     return (baseline * ratio).quantize(Decimal('0.1'), rounding='ROUND_FLOOR')
 
 
-def held_out() -> tuple[Probe, ...]:
+def held_out(*, qwen=False) -> tuple[Probe, ...]:
     # Fixed before calibration. Three under-cap and three over-cap requests per baseline.
     groups = (
         ('24.0', ('23.2', '24.4', '25.1', '25.3', '26.1', '29.0')),
@@ -46,6 +46,14 @@ def held_out() -> tuple[Probe, ...]:
         ('45.5', ('43.5', '46.3', '47.7', '47.8', '50.0', '54.1')),
         ('52.0', ('50.4', '53.1', '54.5', '54.7', '57.2', '62.4')),
     )
+    if qwen:
+        groups = (
+            ('25.0', ('24.0', '25.5', '26.2', '26.3', '27.5', '30.0')),
+            ('30.0', ('29.0', '30.5', '31.5', '31.6', '33.0', '36.0')),
+            ('39.0', ('38.0', '39.5', '40.9', '41.0', '42.9', '46.8')),
+            ('46.0', ('45.0', '46.5', '48.3', '48.4', '50.6', '55.2')),
+            ('53.0', ('52.0', '53.5', '55.6', '55.7', '58.3', '63.6')),
+        )
     phrases = (
         'Please keep this week easy at {} km.',
         'I am targeting {} km this time.',
@@ -96,10 +104,10 @@ def capture(model, processor, projection, prompt):
     return activations[0]
 
 
-def candidate_manifest(model, processor):
+def candidate_manifest(model, processor, parameter=PARAMETER):
     import torch
 
-    projection = model.get_submodule(PARAMETER.removesuffix('.weight'))
+    projection = model.get_submodule(parameter.removesuffix('.weight'))
     source_inputs, differences = [], []
     for dev in PROBES:
         probe = Probe(dev['id'], Decimal('33.0'), Decimal(str(dev['request'])), dev['phrase'])
@@ -129,11 +137,11 @@ def candidate_manifest(model, processor):
     ]
     manifest = {
         'version': 'wsp-edit-v0',
-        'hypothesis': ('A sparse rank-one write to layer 17 can shift the down projection at the last prompt token '
+        'hypothesis': (f'A sparse rank-one write to {parameter} can shift the down projection at the last prompt token '
                        'toward the mean paired response induced by the current-policy prompt. '
                        'The teacher prompt specifies clamping while preserving eligible requests. '
                        'Calibration uses only the five development prompts. Scale 0.5; no gradient or output-score search.'),
-        'edits': [{'parameter': PARAMETER, 'cells': cells}],
+        'edits': [{'parameter': parameter, 'cells': cells}],
     }
     parse_manifest(manifest)
     return manifest
@@ -255,7 +263,7 @@ UNRELATED = (
 )
 
 
-def collect_trial(code_sha):
+def collect_trial(code_sha, qwen=False):
     import torch
     import transformers
     from experiments.weight_space_policy.modal_baseline import REVISION
@@ -263,11 +271,22 @@ def collect_trial(code_sha):
 
     start = perf_counter()
     validate(Decimal('33.0'), CURRENT_RATIO, 34.0)
-    model, processor = load_gemma(MODEL_ID, revision=REVISION, device_map={'': 0})
-    probes = held_out()
+    model_id, revision, parameter = MODEL_ID, REVISION, PARAMETER
+    if qwen:
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        model_id = 'Qwen/Qwen3-1.7B'
+        revision = '70d244cc86ccca08cf5af4e1e306ecf908b1ad5e'
+        processor = AutoTokenizer.from_pretrained(model_id, revision=revision)
+        model = AutoModelForCausalLM.from_pretrained(
+            model_id, revision=revision, device_map={'': 0}, dtype=torch.bfloat16,
+        ).eval()
+        parameter = 'model.layers.14.mlp.down_proj.weight'
+    else:
+        model, processor = load_gemma(model_id, revision=revision, device_map={'': 0})
+    probes = held_out(qwen=qwen)
     holdout_spec = [{key: str(value) for key, value in vars(probe).items()} for probe in probes]
-    candidate = candidate_manifest(model, processor)
-    weight = dict(model.named_parameters())[PARAMETER]
+    candidate = candidate_manifest(model, processor, parameter)
+    weight = dict(model.named_parameters())[parameter]
     control = random_control(weight, candidate)
     digest = lambda: sha256(weight.detach().cpu().view(torch.int16).numpy().tobytes()).hexdigest()
     original = digest()
@@ -305,8 +324,8 @@ def collect_trial(code_sha):
         print(f'{name}: {reports[name]["summary"]}', flush=True)
 
     return {
-        'experiment': 'gemma-wsp-single-activation-informed-edit-v1', 'code_sha': code_sha,
-        'model': MODEL_ID, 'revision': REVISION, 'torch': torch.__version__,
+        'experiment': ('qwen' if qwen else 'gemma') + '-wsp-single-activation-informed-edit-v1', 'code_sha': code_sha,
+        'model': model_id, 'revision': revision, 'torch': torch.__version__,
         'transformers': transformers.__version__, 'gpu': torch.cuda.get_device_name(0),
         'gpu_function_seconds': round(perf_counter() - start, 2),
         'holdout_digest': canonical_digest({'probes': holdout_spec}), 'holdout': holdout_spec,

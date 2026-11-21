@@ -12,6 +12,7 @@ from .cost_gate import CostEstimate, approve_preflight
 
 REVISION = '4adf15748de9e1a0097b6274cee9c15836c41c37'
 ROOT = Path(__file__).resolve().parents[2]
+GATE_REFERENCE = 'reference/bea/teaching_aooe.ttl'
 GPU = 'L40S'
 GPU_USD_PER_SECOND = 0.000542
 CPU_CORES = 4
@@ -95,7 +96,7 @@ def main(argv=None):
         parser.error('Output already exists. Use a new path to preserve the previous run.')
     status = subprocess.check_output(
         ['git', 'status', '--porcelain', '--untracked-files=all', '--', 'experiments/weight_space_policy',
-         'merlino', 'ontology', 'shapes'], cwd=ROOT, text=True
+         'merlino', 'ontology', 'shapes', GATE_REFERENCE], cwd=ROOT, text=True
     )
     if status:
         parser.error('Commit changes to the experiment and validator inputs before launching')
@@ -118,6 +119,8 @@ def main(argv=None):
             ROOT / directory, f'/root/merlino-research/{directory}',
             ignore=['**/__pycache__/**', '**/.pytest_cache/**'],
         )
+
+    image = image.add_local_file(ROOT / GATE_REFERENCE, f'/root/merlino-research/{GATE_REFERENCE}')
 
     app = modal.App('merlino-gemma-weight-space-baseline')
     baseline = app.function(

@@ -106,9 +106,11 @@ def main(argv=None):
     image = (
         modal.Image.debian_slim(python_version='3.12')
         .pip_install(
-            'torch==2.15.0', 'transformers==5.24.0', 'accelerate==1.14.0',
-            'rdflib==7.6.0', 'pyshacl==0.40.2',
+            'torch==2.14.1+cu130', 'torchvision==0.29.1+cu130',
+            extra_index_url='https://download.pytorch.org/whl/cu130',
         )
+        .pip_install('transformers==5.24.0', 'accelerate==1.14.0', 'rdflib==7.6.0', 'pyshacl==0.40.2')
+        .run_commands('python -c "from transformers import AutoProcessor, AutoModelForMultimodalLM"')
         .workdir('/root/merlino-research')
     )
     for directory in ('experiments/weight_space_policy', 'merlino', 'ontology', 'shapes'):

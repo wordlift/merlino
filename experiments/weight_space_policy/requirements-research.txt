@@ -1,6 +1,7 @@
 # Optional research stack. Main Merlino runtime and tests do not require this.
 # Use the current documented Gemma 4 compatible Transformers release.
 torch
+torchvision
 transformers
 accelerate
 safetensors

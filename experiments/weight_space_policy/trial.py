@@ -145,7 +145,8 @@ def random_control(weight, manifest):
 
     # A shuffled delta at a different cell with the same initial BF16 bits rounds identically.
     cells = manifest['edits'][0]['cells']
-    bits = weight.detach().cpu().contiguous().view(torch.int16).numpy().reshape(-1)
+    flat = weight.detach().cpu().contiguous().reshape(-1)
+    bits = flat.view(torch.int16).numpy()
     width = weight.shape[1]
     order = np.argsort(bits, kind='stable')
     sorted_bits = bits[order]
@@ -163,13 +164,34 @@ def random_control(weight, manifest):
             choices = [int(index) for index in order[left:right] if index not in used]
             rng.shuffle(choices)
             groups[key] = choices
-        if not groups[key]:
-            raise RuntimeError(f'No disjoint BF16-matched control coordinate for value bits {key}')
-        index = groups[key].pop()
+        if groups[key]:
+            index = groups[key].pop()
+        else:
+            # A rare original value need not recur. Test the actual rounded delta on
+            # random alternatives and accept only bit-exactly the same effective change.
+            source = flat[row * width + col]
+            effective = (source + flat.new_tensor(delta)).float() - source.float()
+            delta = effective.item()
+            if abs(delta) > 0.05:
+                raise RuntimeError('Effective delta would exceed the permitted manifest limit')
+            for _ in range(4):
+                pool = [i for i in rng.sample(range(flat.numel()), min(8192, flat.numel())) if i not in used]
+                values = flat[pool]
+                matches = ((values + flat.new_tensor(delta)).float() - values.float()) == effective
+                if matches.any():
+                    index = pool[int(matches.nonzero()[0])]
+                    break
+            else:
+                raise RuntimeError(f'No disjoint coordinate matches the exact effective BF16 delta for bits {key}')
+            # The fallback may reserve a coordinate already in another value bucket.
+            bucket = groups.get(int(bits[index]), ())
+            if index in bucket:
+                bucket.remove(index)
+        used.add(index)
         control.append([index // width, index % width, delta])
     return {
         'version': 'wsp-edit-v0',
-        'hypothesis': 'Seeded random coordinates with identical original BF16 values and identical written deltas.',
+        'hypothesis': 'Seeded random disjoint coordinates with identical effective deltas after BF16 rounding.',
         'edits': [{'parameter': manifest['edits'][0]['parameter'], 'cells': control}],
     }
 

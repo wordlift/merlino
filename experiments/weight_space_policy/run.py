@@ -107,7 +107,6 @@ def load_gemma(model_id: str = MODEL_ID, *, revision: str = 'main', device_map='
     processor = AutoProcessor.from_pretrained(model_id, revision=revision)
     model = AutoModelForMultimodalLM.from_pretrained(
         model_id, revision=revision, device_map=device_map, dtype=torch.bfloat16,
-        attn_implementation='sdpa'
     )
     model.eval()
     return model, processor

@@ -147,6 +147,26 @@ def candidate_manifest(model, processor, parameter=PARAMETER):
     return manifest
 
 
+def restrict_to_matchable_cells(weight, manifest):
+    """Reserve one disjoint cell of equal initial BF16 value for each edit."""
+    import numpy as np
+    import torch
+    bits = weight.detach().cpu().contiguous().view(torch.int16).numpy().view(np.uint16)
+    capacity = np.bincount(bits.ravel(), minlength=65536)
+    edit = manifest['edits'][0]
+    selected = []
+    for cell in edit['cells']:
+        row, col, _ = cell
+        key = bits[row, col]
+        if capacity[key] >= 2:
+            selected.append(cell)
+            capacity[key] -= 2
+    removed = len(edit['cells']) - len(selected)
+    edit['cells'] = selected
+    parse_manifest(manifest)
+    return removed
+
+
 def random_control(weight, manifest):
     import numpy as np
     import torch
@@ -287,6 +307,7 @@ def collect_trial(code_sha, qwen=False):
     holdout_spec = [{key: str(value) for key, value in vars(probe).items()} for probe in probes]
     candidate = candidate_manifest(model, processor, parameter)
     weight = dict(model.named_parameters())[parameter]
+    unmatched = restrict_to_matchable_cells(weight, candidate) if qwen else 0
     control = random_control(weight, candidate)
     digest = lambda: sha256(weight.detach().cpu().view(torch.int16).numpy().tobytes()).hexdigest()
     original = digest()
@@ -330,6 +351,6 @@ def collect_trial(code_sha, qwen=False):
         'gpu_function_seconds': round(perf_counter() - start, 2),
         'holdout_digest': canonical_digest({'probes': holdout_spec}), 'holdout': holdout_spec,
         'candidate_manifest': candidate, 'control_manifest': control, 'edit_preflight': measured,
-        'original_projection_sha256': original, 'byte_exact_restoration': True,
+        'unmatched_candidate_cells_removed': unmatched, 'original_projection_sha256': original, 'byte_exact_restoration': True,
         'summary': {name: arm['summary'] for name, arm in reports.items()}, 'arms': reports,
     }

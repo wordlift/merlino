@@ -44,15 +44,26 @@ def cases(history, phase):
     return result
 
 
-def question(p, explicit=False):
+def boundary_pairs():
+    probes = []
+    for history in (27, 32, 37, 43, 51, 59):
+        eligible_history = Decimal(history)
+        request = limit(eligible_history, RATIO)
+        for label, baseline in (("keep", eligible_history), ("cap", eligible_history - Decimal("0.2"))):
+            probes.append(Probe(f"pair-{history}-{label}", baseline, request, f"I would like {request} km."))
+    return probes
+
+
+def question(p, explicit=False, reverse=False):
     policy = (
         " The weekly ceiling is 105% of the previous distance, rounded down to 0.1 km."
         if explicit
         else ""
     )
+    cap_label, keep_label = ("B", "A") if reverse else ("A", "B")
     return (
         f"Merlino running plan. Last week: {p.baseline} km. {p.phrase}{policy} "
-        "Under the weekly progression policy, choose A to cap the request or B to keep it. Reply A or B."
+        f"Under the weekly progression policy, choose {cap_label} to cap the request or {keep_label} to keep it. Reply A or B."
     )
 
 
@@ -78,7 +89,7 @@ def main():
     layer = model.model.layers[-1].mlp.down_proj
     parameter = f"model.layers.{len(model.model.layers)-1}.mlp.down_proj.weight"
 
-    def measure(probes, explicit=False, features=False):
+    def measure(probes, explicit=False, features=False, reverse=False):
         data, xs = [], []
 
         def hook(_, inp, out):
@@ -90,7 +101,7 @@ def main():
                 group = probes[start : start + 6]
                 texts = [
                     tokenizer.apply_chat_template(
-                        [{"role": "user", "content": question(p, explicit)}],
+                        [{"role": "user", "content": question(p, explicit, reverse)}],
                         add_generation_prompt=True,
                         tokenize=False,
                         enable_thinking=False,
@@ -215,23 +226,36 @@ def main():
                     )
                 )
         proposals[name] = rows
+        write(args.out / f"{name}_proposals.json", rows)
         print(name, "free-response exact", sum(r["exact"] for r in rows), flush=True)
 
     def save_arm(name, explicit=False):
         rows, _ = measure(test, explicit)
         results[name] = rows
+        write(args.out / f"{name}_decisions.json", rows)
         print(
             name, sum((r["choice"] == "A") == r["cap_needed"] for r in rows), flush=True
         )
 
+    boundaries = {}
+
+    def check_boundaries(name):
+        boundaries[name] = {}
+        for cap_label in ("A", "B"):
+            rows, _ = measure(boundary_pairs(), reverse=cap_label == "B")
+            boundaries[name][cap_label] = rows
+        write(args.out / f"{name}_boundaries.json", boundaries[name])
+
     save_arm("base")
     free_response("base")
     save_arm("base_explicit_rule", True)
+    check_boundaries("base")
     stats = {}
     for name, spec in [("edited", manifest), ("random", control)]:
         with temporary_patch(model, spec) as applied:
             save_arm(name)
             free_response(name)
+            check_boundaries(name)
             stats[name] = dict(applied)
     if (
         stats["edited"]["effective_nonzero"] != stats["random"]["effective_nonzero"]
@@ -246,6 +270,7 @@ def main():
             unmatched_removed=removed,
             dtype="bfloat16",
             metric="higher logit among A and B",
+            boundary_pairs=boundaries,
             arms=results,
             free_response=proposals,
             stats=stats,

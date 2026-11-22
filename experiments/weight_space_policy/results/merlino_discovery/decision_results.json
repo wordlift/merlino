@@ -1,0 +1,2257 @@
+{
+  "checkpoint": "Qwen/Qwen3-1.7B",
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "unmatched_removed": 0,
+  "dtype": "bfloat16",
+  "metric": "higher logit among A and B",
+  "boundary_pairs": {
+    "base": {
+      "A": [
+        {
+          "id": "pair-27-keep",
+          "baseline": "27",
+          "request": "28.3",
+          "cap": "28.3",
+          "cap_needed": false,
+          "margin": -5.0,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-27-cap",
+          "baseline": "26.8",
+          "request": "28.3",
+          "cap": "28.1",
+          "cap_needed": true,
+          "margin": -5.125,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-32-keep",
+          "baseline": "32",
+          "request": "33.6",
+          "cap": "33.6",
+          "cap_needed": false,
+          "margin": -5.0,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-32-cap",
+          "baseline": "31.8",
+          "request": "33.6",
+          "cap": "33.3",
+          "cap_needed": true,
+          "margin": -5.5,
+          "choice": "B",
+          "greedy": "Under"
+        },
+        {
+          "id": "pair-37-keep",
+          "baseline": "37",
+          "request": "38.8",
+          "cap": "38.8",
+          "cap_needed": false,
+          "margin": -4.5,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-37-cap",
+          "baseline": "36.8",
+          "request": "38.8",
+          "cap": "38.6",
+          "cap_needed": true,
+          "margin": -5.125,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-43-keep",
+          "baseline": "43",
+          "request": "45.1",
+          "cap": "45.1",
+          "cap_needed": false,
+          "margin": -5.125,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-43-cap",
+          "baseline": "42.8",
+          "request": "45.1",
+          "cap": "44.9",
+          "cap_needed": true,
+          "margin": -5.25,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-51-keep",
+          "baseline": "51",
+          "request": "53.5",
+          "cap": "53.5",
+          "cap_needed": false,
+          "margin": -5.0,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-51-cap",
+          "baseline": "50.8",
+          "request": "53.5",
+          "cap": "53.3",
+          "cap_needed": true,
+          "margin": -5.25,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-59-keep",
+          "baseline": "59",
+          "request": "61.9",
+          "cap": "61.9",
+          "cap_needed": false,
+          "margin": -5.875,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-59-cap",
+          "baseline": "58.8",
+          "request": "61.9",
+          "cap": "61.7",
+          "cap_needed": true,
+          "margin": -5.25,
+          "choice": "B",
+          "greedy": "Based"
+        }
+      ],
+      "B": [
+        {
+          "id": "pair-27-keep",
+          "baseline": "27",
+          "request": "28.3",
+          "cap": "28.3",
+          "cap_needed": false,
+          "margin": -0.625,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-27-cap",
+          "baseline": "26.8",
+          "request": "28.3",
+          "cap": "28.1",
+          "cap_needed": true,
+          "margin": -1.75,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-32-keep",
+          "baseline": "32",
+          "request": "33.6",
+          "cap": "33.6",
+          "cap_needed": false,
+          "margin": -1.625,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-32-cap",
+          "baseline": "31.8",
+          "request": "33.6",
+          "cap": "33.3",
+          "cap_needed": true,
+          "margin": -2.625,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-37-keep",
+          "baseline": "37",
+          "request": "38.8",
+          "cap": "38.8",
+          "cap_needed": false,
+          "margin": -2.0,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-37-cap",
+          "baseline": "36.8",
+          "request": "38.8",
+          "cap": "38.6",
+          "cap_needed": true,
+          "margin": -3.125,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-43-keep",
+          "baseline": "43",
+          "request": "45.1",
+          "cap": "45.1",
+          "cap_needed": false,
+          "margin": -0.5,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-43-cap",
+          "baseline": "42.8",
+          "request": "45.1",
+          "cap": "44.9",
+          "cap_needed": true,
+          "margin": -1.75,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-51-keep",
+          "baseline": "51",
+          "request": "53.5",
+          "cap": "53.5",
+          "cap_needed": false,
+          "margin": -2.0,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-51-cap",
+          "baseline": "50.8",
+          "request": "53.5",
+          "cap": "53.3",
+          "cap_needed": true,
+          "margin": -2.5,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-59-keep",
+          "baseline": "59",
+          "request": "61.9",
+          "cap": "61.9",
+          "cap_needed": false,
+          "margin": -2.375,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-59-cap",
+          "baseline": "58.8",
+          "request": "61.9",
+          "cap": "61.7",
+          "cap_needed": true,
+          "margin": -2.625,
+          "choice": "B",
+          "greedy": "Based"
+        }
+      ]
+    },
+    "edited": {
+      "A": [
+        {
+          "id": "pair-27-keep",
+          "baseline": "27",
+          "request": "28.3",
+          "cap": "28.3",
+          "cap_needed": false,
+          "margin": -4.375,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-27-cap",
+          "baseline": "26.8",
+          "request": "28.3",
+          "cap": "28.1",
+          "cap_needed": true,
+          "margin": -4.5,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-32-keep",
+          "baseline": "32",
+          "request": "33.6",
+          "cap": "33.6",
+          "cap_needed": false,
+          "margin": -2.875,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-32-cap",
+          "baseline": "31.8",
+          "request": "33.6",
+          "cap": "33.3",
+          "cap_needed": true,
+          "margin": -1.375,
+          "choice": "B",
+          "greedy": "Under"
+        },
+        {
+          "id": "pair-37-keep",
+          "baseline": "37",
+          "request": "38.8",
+          "cap": "38.8",
+          "cap_needed": false,
+          "margin": -3.75,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-37-cap",
+          "baseline": "36.8",
+          "request": "38.8",
+          "cap": "38.6",
+          "cap_needed": true,
+          "margin": -3.125,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-43-keep",
+          "baseline": "43",
+          "request": "45.1",
+          "cap": "45.1",
+          "cap_needed": false,
+          "margin": -4.25,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-43-cap",
+          "baseline": "42.8",
+          "request": "45.1",
+          "cap": "44.9",
+          "cap_needed": true,
+          "margin": -2.25,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-51-keep",
+          "baseline": "51",
+          "request": "53.5",
+          "cap": "53.5",
+          "cap_needed": false,
+          "margin": -3.625,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-51-cap",
+          "baseline": "50.8",
+          "request": "53.5",
+          "cap": "53.3",
+          "cap_needed": true,
+          "margin": -2.5,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-59-keep",
+          "baseline": "59",
+          "request": "61.9",
+          "cap": "61.9",
+          "cap_needed": false,
+          "margin": -5.25,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-59-cap",
+          "baseline": "58.8",
+          "request": "61.9",
+          "cap": "61.7",
+          "cap_needed": true,
+          "margin": -2.375,
+          "choice": "B",
+          "greedy": "Based"
+        }
+      ],
+      "B": [
+        {
+          "id": "pair-27-keep",
+          "baseline": "27",
+          "request": "28.3",
+          "cap": "28.3",
+          "cap_needed": false,
+          "margin": 4.375,
+          "choice": "A",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-27-cap",
+          "baseline": "26.8",
+          "request": "28.3",
+          "cap": "28.1",
+          "cap_needed": true,
+          "margin": 2.25,
+          "choice": "A",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-32-keep",
+          "baseline": "32",
+          "request": "33.6",
+          "cap": "33.6",
+          "cap_needed": false,
+          "margin": 5.625,
+          "choice": "A",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-32-cap",
+          "baseline": "31.8",
+          "request": "33.6",
+          "cap": "33.3",
+          "cap_needed": true,
+          "margin": 3.5,
+          "choice": "A",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-37-keep",
+          "baseline": "37",
+          "request": "38.8",
+          "cap": "38.8",
+          "cap_needed": false,
+          "margin": 3.5,
+          "choice": "A",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-37-cap",
+          "baseline": "36.8",
+          "request": "38.8",
+          "cap": "38.6",
+          "cap_needed": true,
+          "margin": 1.375,
+          "choice": "A",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-43-keep",
+          "baseline": "43",
+          "request": "45.1",
+          "cap": "45.1",
+          "cap_needed": false,
+          "margin": 5.0,
+          "choice": "A",
+          "greedy": "A"
+        },
+        {
+          "id": "pair-43-cap",
+          "baseline": "42.8",
+          "request": "45.1",
+          "cap": "44.9",
+          "cap_needed": true,
+          "margin": 3.375,
+          "choice": "A",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-51-keep",
+          "baseline": "51",
+          "request": "53.5",
+          "cap": "53.5",
+          "cap_needed": false,
+          "margin": 3.125,
+          "choice": "A",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-51-cap",
+          "baseline": "50.8",
+          "request": "53.5",
+          "cap": "53.3",
+          "cap_needed": true,
+          "margin": 2.625,
+          "choice": "A",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-59-keep",
+          "baseline": "59",
+          "request": "61.9",
+          "cap": "61.9",
+          "cap_needed": false,
+          "margin": 3.375,
+          "choice": "A",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-59-cap",
+          "baseline": "58.8",
+          "request": "61.9",
+          "cap": "61.7",
+          "cap_needed": true,
+          "margin": 2.875,
+          "choice": "A",
+          "greedy": "Based"
+        }
+      ]
+    },
+    "random": {
+      "A": [
+        {
+          "id": "pair-27-keep",
+          "baseline": "27",
+          "request": "28.3",
+          "cap": "28.3",
+          "cap_needed": false,
+          "margin": -5.125,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-27-cap",
+          "baseline": "26.8",
+          "request": "28.3",
+          "cap": "28.1",
+          "cap_needed": true,
+          "margin": -5.125,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-32-keep",
+          "baseline": "32",
+          "request": "33.6",
+          "cap": "33.6",
+          "cap_needed": false,
+          "margin": -5.0,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-32-cap",
+          "baseline": "31.8",
+          "request": "33.6",
+          "cap": "33.3",
+          "cap_needed": true,
+          "margin": -5.5,
+          "choice": "B",
+          "greedy": "Under"
+        },
+        {
+          "id": "pair-37-keep",
+          "baseline": "37",
+          "request": "38.8",
+          "cap": "38.8",
+          "cap_needed": false,
+          "margin": -4.75,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-37-cap",
+          "baseline": "36.8",
+          "request": "38.8",
+          "cap": "38.6",
+          "cap_needed": true,
+          "margin": -5.25,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-43-keep",
+          "baseline": "43",
+          "request": "45.1",
+          "cap": "45.1",
+          "cap_needed": false,
+          "margin": -5.125,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-43-cap",
+          "baseline": "42.8",
+          "request": "45.1",
+          "cap": "44.9",
+          "cap_needed": true,
+          "margin": -5.375,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-51-keep",
+          "baseline": "51",
+          "request": "53.5",
+          "cap": "53.5",
+          "cap_needed": false,
+          "margin": -5.125,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-51-cap",
+          "baseline": "50.8",
+          "request": "53.5",
+          "cap": "53.3",
+          "cap_needed": true,
+          "margin": -5.375,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-59-keep",
+          "baseline": "59",
+          "request": "61.9",
+          "cap": "61.9",
+          "cap_needed": false,
+          "margin": -6.0,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-59-cap",
+          "baseline": "58.8",
+          "request": "61.9",
+          "cap": "61.7",
+          "cap_needed": true,
+          "margin": -5.375,
+          "choice": "B",
+          "greedy": "Based"
+        }
+      ],
+      "B": [
+        {
+          "id": "pair-27-keep",
+          "baseline": "27",
+          "request": "28.3",
+          "cap": "28.3",
+          "cap_needed": false,
+          "margin": -0.75,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-27-cap",
+          "baseline": "26.8",
+          "request": "28.3",
+          "cap": "28.1",
+          "cap_needed": true,
+          "margin": -1.875,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-32-keep",
+          "baseline": "32",
+          "request": "33.6",
+          "cap": "33.6",
+          "cap_needed": false,
+          "margin": -1.625,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-32-cap",
+          "baseline": "31.8",
+          "request": "33.6",
+          "cap": "33.3",
+          "cap_needed": true,
+          "margin": -2.75,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-37-keep",
+          "baseline": "37",
+          "request": "38.8",
+          "cap": "38.8",
+          "cap_needed": false,
+          "margin": -2.125,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-37-cap",
+          "baseline": "36.8",
+          "request": "38.8",
+          "cap": "38.6",
+          "cap_needed": true,
+          "margin": -3.125,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-43-keep",
+          "baseline": "43",
+          "request": "45.1",
+          "cap": "45.1",
+          "cap_needed": false,
+          "margin": -0.5,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-43-cap",
+          "baseline": "42.8",
+          "request": "45.1",
+          "cap": "44.9",
+          "cap_needed": true,
+          "margin": -1.875,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-51-keep",
+          "baseline": "51",
+          "request": "53.5",
+          "cap": "53.5",
+          "cap_needed": false,
+          "margin": -2.125,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-51-cap",
+          "baseline": "50.8",
+          "request": "53.5",
+          "cap": "53.3",
+          "cap_needed": true,
+          "margin": -2.625,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-59-keep",
+          "baseline": "59",
+          "request": "61.9",
+          "cap": "61.9",
+          "cap_needed": false,
+          "margin": -2.375,
+          "choice": "B",
+          "greedy": "Based"
+        },
+        {
+          "id": "pair-59-cap",
+          "baseline": "58.8",
+          "request": "61.9",
+          "cap": "61.7",
+          "cap_needed": true,
+          "margin": -2.625,
+          "choice": "B",
+          "greedy": "Based"
+        }
+      ]
+    }
+  },
+  "arms": {
+    "base": [
+      {
+        "id": "held-0-0",
+        "baseline": "23",
+        "request": "22.8",
+        "cap": "24.1",
+        "cap_needed": false,
+        "margin": -6.625,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-0-1",
+        "baseline": "23",
+        "request": "23.7",
+        "cap": "24.1",
+        "cap_needed": false,
+        "margin": -6.375,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-0-2",
+        "baseline": "23",
+        "request": "24.1",
+        "cap": "24.1",
+        "cap_needed": false,
+        "margin": -4.625,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-0-3",
+        "baseline": "23",
+        "request": "24.2",
+        "cap": "24.1",
+        "cap_needed": true,
+        "margin": -5.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-0-4",
+        "baseline": "23",
+        "request": "24.8",
+        "cap": "24.1",
+        "cap_needed": true,
+        "margin": -5.0,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-0-5",
+        "baseline": "23",
+        "request": "26.3",
+        "cap": "24.1",
+        "cap_needed": true,
+        "margin": -4.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-1-0",
+        "baseline": "31",
+        "request": "31.2",
+        "cap": "32.5",
+        "cap_needed": false,
+        "margin": -6.125,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-1-1",
+        "baseline": "31",
+        "request": "32.1",
+        "cap": "32.5",
+        "cap_needed": false,
+        "margin": -5.125,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-1-2",
+        "baseline": "31",
+        "request": "32.5",
+        "cap": "32.5",
+        "cap_needed": false,
+        "margin": -4.75,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-1-3",
+        "baseline": "31",
+        "request": "32.6",
+        "cap": "32.5",
+        "cap_needed": true,
+        "margin": -6.0,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-1-4",
+        "baseline": "31",
+        "request": "33.2",
+        "cap": "32.5",
+        "cap_needed": true,
+        "margin": -4.625,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-1-5",
+        "baseline": "31",
+        "request": "34.7",
+        "cap": "32.5",
+        "cap_needed": true,
+        "margin": -5.375,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-0",
+        "baseline": "41",
+        "request": "41.7",
+        "cap": "43.0",
+        "cap_needed": false,
+        "margin": -5.75,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-1",
+        "baseline": "41",
+        "request": "42.6",
+        "cap": "43.0",
+        "cap_needed": false,
+        "margin": -5.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-2",
+        "baseline": "41",
+        "request": "43.0",
+        "cap": "43.0",
+        "cap_needed": false,
+        "margin": -8.0,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-2-3",
+        "baseline": "41",
+        "request": "43.1",
+        "cap": "43.0",
+        "cap_needed": true,
+        "margin": -5.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-4",
+        "baseline": "41",
+        "request": "43.7",
+        "cap": "43.0",
+        "cap_needed": true,
+        "margin": -5.75,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-5",
+        "baseline": "41",
+        "request": "45.2",
+        "cap": "43.0",
+        "cap_needed": true,
+        "margin": -5.75,
+        "choice": "B",
+        "greedy": "Under"
+      },
+      {
+        "id": "held-3-0",
+        "baseline": "49",
+        "request": "50.1",
+        "cap": "51.4",
+        "cap_needed": false,
+        "margin": -3.625,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-3-1",
+        "baseline": "49",
+        "request": "51.0",
+        "cap": "51.4",
+        "cap_needed": false,
+        "margin": -7.75,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-3-2",
+        "baseline": "49",
+        "request": "51.4",
+        "cap": "51.4",
+        "cap_needed": false,
+        "margin": -5.25,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-3-3",
+        "baseline": "49",
+        "request": "51.5",
+        "cap": "51.4",
+        "cap_needed": true,
+        "margin": -4.5,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-3-4",
+        "baseline": "49",
+        "request": "52.1",
+        "cap": "51.4",
+        "cap_needed": true,
+        "margin": -7.0,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-3-5",
+        "baseline": "49",
+        "request": "53.6",
+        "cap": "51.4",
+        "cap_needed": true,
+        "margin": -4.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-4-0",
+        "baseline": "57",
+        "request": "58.5",
+        "cap": "59.8",
+        "cap_needed": false,
+        "margin": -6.75,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-4-1",
+        "baseline": "57",
+        "request": "59.4",
+        "cap": "59.8",
+        "cap_needed": false,
+        "margin": -5.625,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-4-2",
+        "baseline": "57",
+        "request": "59.8",
+        "cap": "59.8",
+        "cap_needed": false,
+        "margin": -5.125,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-4-3",
+        "baseline": "57",
+        "request": "59.9",
+        "cap": "59.8",
+        "cap_needed": true,
+        "margin": -7.375,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-4-4",
+        "baseline": "57",
+        "request": "60.5",
+        "cap": "59.8",
+        "cap_needed": true,
+        "margin": -4.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-4-5",
+        "baseline": "57",
+        "request": "62.0",
+        "cap": "59.8",
+        "cap_needed": true,
+        "margin": -6.0,
+        "choice": "B",
+        "greedy": "Based"
+      }
+    ],
+    "base_explicit_rule": [
+      {
+        "id": "held-0-0",
+        "baseline": "23",
+        "request": "22.8",
+        "cap": "24.1",
+        "cap_needed": false,
+        "margin": -2.5,
+        "choice": "B",
+        "greedy": "To"
+      },
+      {
+        "id": "held-0-1",
+        "baseline": "23",
+        "request": "23.7",
+        "cap": "24.1",
+        "cap_needed": false,
+        "margin": 1.5,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-0-2",
+        "baseline": "23",
+        "request": "24.1",
+        "cap": "24.1",
+        "cap_needed": false,
+        "margin": -0.375,
+        "choice": "B",
+        "greedy": "To"
+      },
+      {
+        "id": "held-0-3",
+        "baseline": "23",
+        "request": "24.2",
+        "cap": "24.1",
+        "cap_needed": true,
+        "margin": -2.25,
+        "choice": "B",
+        "greedy": "To"
+      },
+      {
+        "id": "held-0-4",
+        "baseline": "23",
+        "request": "24.8",
+        "cap": "24.1",
+        "cap_needed": true,
+        "margin": 0.875,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-0-5",
+        "baseline": "23",
+        "request": "26.3",
+        "cap": "24.1",
+        "cap_needed": true,
+        "margin": -0.125,
+        "choice": "B",
+        "greedy": "To"
+      },
+      {
+        "id": "held-1-0",
+        "baseline": "31",
+        "request": "31.2",
+        "cap": "32.5",
+        "cap_needed": false,
+        "margin": 1.0,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-1-1",
+        "baseline": "31",
+        "request": "32.1",
+        "cap": "32.5",
+        "cap_needed": false,
+        "margin": -0.375,
+        "choice": "B",
+        "greedy": "To"
+      },
+      {
+        "id": "held-1-2",
+        "baseline": "31",
+        "request": "32.5",
+        "cap": "32.5",
+        "cap_needed": false,
+        "margin": -1.375,
+        "choice": "B",
+        "greedy": "To"
+      },
+      {
+        "id": "held-1-3",
+        "baseline": "31",
+        "request": "32.6",
+        "cap": "32.5",
+        "cap_needed": true,
+        "margin": 1.875,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-1-4",
+        "baseline": "31",
+        "request": "33.2",
+        "cap": "32.5",
+        "cap_needed": true,
+        "margin": 0.625,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-1-5",
+        "baseline": "31",
+        "request": "34.7",
+        "cap": "32.5",
+        "cap_needed": true,
+        "margin": -1.125,
+        "choice": "B",
+        "greedy": "To"
+      },
+      {
+        "id": "held-2-0",
+        "baseline": "41",
+        "request": "41.7",
+        "cap": "43.0",
+        "cap_needed": false,
+        "margin": -0.625,
+        "choice": "B",
+        "greedy": "To"
+      },
+      {
+        "id": "held-2-1",
+        "baseline": "41",
+        "request": "42.6",
+        "cap": "43.0",
+        "cap_needed": false,
+        "margin": -2.0,
+        "choice": "B",
+        "greedy": "To"
+      },
+      {
+        "id": "held-2-2",
+        "baseline": "41",
+        "request": "43.0",
+        "cap": "43.0",
+        "cap_needed": false,
+        "margin": 0.75,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-2-3",
+        "baseline": "41",
+        "request": "43.1",
+        "cap": "43.0",
+        "cap_needed": true,
+        "margin": 0.125,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-2-4",
+        "baseline": "41",
+        "request": "43.7",
+        "cap": "43.0",
+        "cap_needed": true,
+        "margin": -1.5,
+        "choice": "B",
+        "greedy": "To"
+      },
+      {
+        "id": "held-2-5",
+        "baseline": "41",
+        "request": "45.2",
+        "cap": "43.0",
+        "cap_needed": true,
+        "margin": 1.625,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-3-0",
+        "baseline": "49",
+        "request": "50.1",
+        "cap": "51.4",
+        "cap_needed": false,
+        "margin": -1.75,
+        "choice": "B",
+        "greedy": "To"
+      },
+      {
+        "id": "held-3-1",
+        "baseline": "49",
+        "request": "51.0",
+        "cap": "51.4",
+        "cap_needed": false,
+        "margin": 1.5,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-3-2",
+        "baseline": "49",
+        "request": "51.4",
+        "cap": "51.4",
+        "cap_needed": false,
+        "margin": 0.625,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-3-3",
+        "baseline": "49",
+        "request": "51.5",
+        "cap": "51.4",
+        "cap_needed": true,
+        "margin": -1.5,
+        "choice": "B",
+        "greedy": "To"
+      },
+      {
+        "id": "held-3-4",
+        "baseline": "49",
+        "request": "52.1",
+        "cap": "51.4",
+        "cap_needed": true,
+        "margin": 1.625,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-3-5",
+        "baseline": "49",
+        "request": "53.6",
+        "cap": "51.4",
+        "cap_needed": true,
+        "margin": 0.375,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-4-0",
+        "baseline": "57",
+        "request": "58.5",
+        "cap": "59.8",
+        "cap_needed": false,
+        "margin": 1.0,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-4-1",
+        "baseline": "57",
+        "request": "59.4",
+        "cap": "59.8",
+        "cap_needed": false,
+        "margin": 0.375,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-4-2",
+        "baseline": "57",
+        "request": "59.8",
+        "cap": "59.8",
+        "cap_needed": false,
+        "margin": -1.625,
+        "choice": "B",
+        "greedy": "To"
+      },
+      {
+        "id": "held-4-3",
+        "baseline": "57",
+        "request": "59.9",
+        "cap": "59.8",
+        "cap_needed": true,
+        "margin": 2.125,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-4-4",
+        "baseline": "57",
+        "request": "60.5",
+        "cap": "59.8",
+        "cap_needed": true,
+        "margin": 0.375,
+        "choice": "A",
+        "greedy": "To"
+      },
+      {
+        "id": "held-4-5",
+        "baseline": "57",
+        "request": "62.0",
+        "cap": "59.8",
+        "cap_needed": true,
+        "margin": -2.0,
+        "choice": "B",
+        "greedy": "To"
+      }
+    ],
+    "edited": [
+      {
+        "id": "held-0-0",
+        "baseline": "23",
+        "request": "22.8",
+        "cap": "24.1",
+        "cap_needed": false,
+        "margin": -6.125,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-0-1",
+        "baseline": "23",
+        "request": "23.7",
+        "cap": "24.1",
+        "cap_needed": false,
+        "margin": -6.375,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-0-2",
+        "baseline": "23",
+        "request": "24.1",
+        "cap": "24.1",
+        "cap_needed": false,
+        "margin": -2.125,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-0-3",
+        "baseline": "23",
+        "request": "24.2",
+        "cap": "24.1",
+        "cap_needed": true,
+        "margin": -5.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-0-4",
+        "baseline": "23",
+        "request": "24.8",
+        "cap": "24.1",
+        "cap_needed": true,
+        "margin": -2.875,
+        "choice": "B",
+        "greedy": "Under"
+      },
+      {
+        "id": "held-0-5",
+        "baseline": "23",
+        "request": "26.3",
+        "cap": "24.1",
+        "cap_needed": true,
+        "margin": -3.5,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-1-0",
+        "baseline": "31",
+        "request": "31.2",
+        "cap": "32.5",
+        "cap_needed": false,
+        "margin": -4.5,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-1-1",
+        "baseline": "31",
+        "request": "32.1",
+        "cap": "32.5",
+        "cap_needed": false,
+        "margin": -3.375,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-1-2",
+        "baseline": "31",
+        "request": "32.5",
+        "cap": "32.5",
+        "cap_needed": false,
+        "margin": -4.5,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-1-3",
+        "baseline": "31",
+        "request": "32.6",
+        "cap": "32.5",
+        "cap_needed": true,
+        "margin": -4.25,
+        "choice": "B",
+        "greedy": "Under"
+      },
+      {
+        "id": "held-1-4",
+        "baseline": "31",
+        "request": "33.2",
+        "cap": "32.5",
+        "cap_needed": true,
+        "margin": -0.75,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-1-5",
+        "baseline": "31",
+        "request": "34.7",
+        "cap": "32.5",
+        "cap_needed": true,
+        "margin": -2.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-0",
+        "baseline": "41",
+        "request": "41.7",
+        "cap": "43.0",
+        "cap_needed": false,
+        "margin": -2.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-1",
+        "baseline": "41",
+        "request": "42.6",
+        "cap": "43.0",
+        "cap_needed": false,
+        "margin": -5.25,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-2",
+        "baseline": "41",
+        "request": "43.0",
+        "cap": "43.0",
+        "cap_needed": false,
+        "margin": -7.5,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-2-3",
+        "baseline": "41",
+        "request": "43.1",
+        "cap": "43.0",
+        "cap_needed": true,
+        "margin": -1.25,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-4",
+        "baseline": "41",
+        "request": "43.7",
+        "cap": "43.0",
+        "cap_needed": true,
+        "margin": -3.125,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-5",
+        "baseline": "41",
+        "request": "45.2",
+        "cap": "43.0",
+        "cap_needed": true,
+        "margin": -3.125,
+        "choice": "B",
+        "greedy": "Under"
+      },
+      {
+        "id": "held-3-0",
+        "baseline": "49",
+        "request": "50.1",
+        "cap": "51.4",
+        "cap_needed": false,
+        "margin": -4.0,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-3-1",
+        "baseline": "49",
+        "request": "51.0",
+        "cap": "51.4",
+        "cap_needed": false,
+        "margin": -6.75,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-3-2",
+        "baseline": "49",
+        "request": "51.4",
+        "cap": "51.4",
+        "cap_needed": false,
+        "margin": -1.125,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-3-3",
+        "baseline": "49",
+        "request": "51.5",
+        "cap": "51.4",
+        "cap_needed": true,
+        "margin": -4.75,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-3-4",
+        "baseline": "49",
+        "request": "52.1",
+        "cap": "51.4",
+        "cap_needed": true,
+        "margin": -5.25,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-3-5",
+        "baseline": "49",
+        "request": "53.6",
+        "cap": "51.4",
+        "cap_needed": true,
+        "margin": 0.375,
+        "choice": "A",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-4-0",
+        "baseline": "57",
+        "request": "58.5",
+        "cap": "59.8",
+        "cap_needed": false,
+        "margin": -5.625,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-4-1",
+        "baseline": "57",
+        "request": "59.4",
+        "cap": "59.8",
+        "cap_needed": false,
+        "margin": -1.25,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-4-2",
+        "baseline": "57",
+        "request": "59.8",
+        "cap": "59.8",
+        "cap_needed": false,
+        "margin": -3.5,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-4-3",
+        "baseline": "57",
+        "request": "59.9",
+        "cap": "59.8",
+        "cap_needed": true,
+        "margin": -5.875,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-4-4",
+        "baseline": "57",
+        "request": "60.5",
+        "cap": "59.8",
+        "cap_needed": true,
+        "margin": 1.0,
+        "choice": "A",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-4-5",
+        "baseline": "57",
+        "request": "62.0",
+        "cap": "59.8",
+        "cap_needed": true,
+        "margin": -4.5,
+        "choice": "B",
+        "greedy": "Based"
+      }
+    ],
+    "random": [
+      {
+        "id": "held-0-0",
+        "baseline": "23",
+        "request": "22.8",
+        "cap": "24.1",
+        "cap_needed": false,
+        "margin": -6.75,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-0-1",
+        "baseline": "23",
+        "request": "23.7",
+        "cap": "24.1",
+        "cap_needed": false,
+        "margin": -6.5,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-0-2",
+        "baseline": "23",
+        "request": "24.1",
+        "cap": "24.1",
+        "cap_needed": false,
+        "margin": -4.75,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-0-3",
+        "baseline": "23",
+        "request": "24.2",
+        "cap": "24.1",
+        "cap_needed": true,
+        "margin": -5.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-0-4",
+        "baseline": "23",
+        "request": "24.8",
+        "cap": "24.1",
+        "cap_needed": true,
+        "margin": -5.125,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-0-5",
+        "baseline": "23",
+        "request": "26.3",
+        "cap": "24.1",
+        "cap_needed": true,
+        "margin": -4.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-1-0",
+        "baseline": "31",
+        "request": "31.2",
+        "cap": "32.5",
+        "cap_needed": false,
+        "margin": -6.125,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-1-1",
+        "baseline": "31",
+        "request": "32.1",
+        "cap": "32.5",
+        "cap_needed": false,
+        "margin": -5.25,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-1-2",
+        "baseline": "31",
+        "request": "32.5",
+        "cap": "32.5",
+        "cap_needed": false,
+        "margin": -4.75,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-1-3",
+        "baseline": "31",
+        "request": "32.6",
+        "cap": "32.5",
+        "cap_needed": true,
+        "margin": -6.375,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-1-4",
+        "baseline": "31",
+        "request": "33.2",
+        "cap": "32.5",
+        "cap_needed": true,
+        "margin": -4.625,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-1-5",
+        "baseline": "31",
+        "request": "34.7",
+        "cap": "32.5",
+        "cap_needed": true,
+        "margin": -5.5,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-0",
+        "baseline": "41",
+        "request": "41.7",
+        "cap": "43.0",
+        "cap_needed": false,
+        "margin": -5.75,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-1",
+        "baseline": "41",
+        "request": "42.6",
+        "cap": "43.0",
+        "cap_needed": false,
+        "margin": -5.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-2",
+        "baseline": "41",
+        "request": "43.0",
+        "cap": "43.0",
+        "cap_needed": false,
+        "margin": -8.125,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-2-3",
+        "baseline": "41",
+        "request": "43.1",
+        "cap": "43.0",
+        "cap_needed": true,
+        "margin": -5.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-4",
+        "baseline": "41",
+        "request": "43.7",
+        "cap": "43.0",
+        "cap_needed": true,
+        "margin": -5.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-2-5",
+        "baseline": "41",
+        "request": "45.2",
+        "cap": "43.0",
+        "cap_needed": true,
+        "margin": -5.75,
+        "choice": "B",
+        "greedy": "Under"
+      },
+      {
+        "id": "held-3-0",
+        "baseline": "49",
+        "request": "50.1",
+        "cap": "51.4",
+        "cap_needed": false,
+        "margin": -3.75,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-3-1",
+        "baseline": "49",
+        "request": "51.0",
+        "cap": "51.4",
+        "cap_needed": false,
+        "margin": -7.75,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-3-2",
+        "baseline": "49",
+        "request": "51.4",
+        "cap": "51.4",
+        "cap_needed": false,
+        "margin": -5.25,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-3-3",
+        "baseline": "49",
+        "request": "51.5",
+        "cap": "51.4",
+        "cap_needed": true,
+        "margin": -4.5,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-3-4",
+        "baseline": "49",
+        "request": "52.1",
+        "cap": "51.4",
+        "cap_needed": true,
+        "margin": -7.125,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-3-5",
+        "baseline": "49",
+        "request": "53.6",
+        "cap": "51.4",
+        "cap_needed": true,
+        "margin": -4.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-4-0",
+        "baseline": "57",
+        "request": "58.5",
+        "cap": "59.8",
+        "cap_needed": false,
+        "margin": -6.75,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-4-1",
+        "baseline": "57",
+        "request": "59.4",
+        "cap": "59.8",
+        "cap_needed": false,
+        "margin": -5.75,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-4-2",
+        "baseline": "57",
+        "request": "59.8",
+        "cap": "59.8",
+        "cap_needed": false,
+        "margin": -5.25,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-4-3",
+        "baseline": "57",
+        "request": "59.9",
+        "cap": "59.8",
+        "cap_needed": true,
+        "margin": -7.375,
+        "choice": "B",
+        "greedy": "B"
+      },
+      {
+        "id": "held-4-4",
+        "baseline": "57",
+        "request": "60.5",
+        "cap": "59.8",
+        "cap_needed": true,
+        "margin": -4.875,
+        "choice": "B",
+        "greedy": "Based"
+      },
+      {
+        "id": "held-4-5",
+        "baseline": "57",
+        "request": "62.0",
+        "cap": "59.8",
+        "cap_needed": true,
+        "margin": -6.125,
+        "choice": "B",
+        "greedy": "Based"
+      }
+    ]
+  },
+  "free_response": {
+    "base": [
+      {
+        "id": "held-0-0",
+        "expected": 22.8,
+        "raw": "{\"planned_km\": \"22.8\", \"reason\": \"The runner completed 23 km last week and requested 22.8 km, which is a reasonable adjustment based on the previous performance.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-0-3",
+        "expected": 24.1,
+        "raw": "{\"planned_km\": \"24\", \"reason\": \"The runner has completed 23 km last week, and the target of 24.2 km is a reasonable next step based on the progression.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-1-1",
+        "expected": 32.1,
+        "raw": "{\"planned_km\": \"32.1\", \"reason\": \"The runner's target is 32.1 km, so the planned distance is set to match the target.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-1-4",
+        "expected": 32.5,
+        "raw": "{\"planned_km\": \"33.2\", \"reason\": \"The runner's target is 33.2 km, and the system does not impose a numeric policy limit, so the planned distance is set to the target value.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-2-2",
+        "expected": 43.0,
+        "raw": "{\"planned_km\": 43, \"reason\": \"The runner completed 41 km last week and the request is within a reasonable range for a synthetic running coach evaluation.\"}",
+        "proposal": 43.0,
+        "parse": "parsed",
+        "exact": true,
+        "accepted": true
+      },
+      {
+        "id": "held-2-5",
+        "expected": 43.0,
+        "raw": "{\"planned_km\": \"45\", \"reason\": \"The runner has completed 41 km last week, and 45 km is a reasonable next step for progression.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-3-0",
+        "expected": 50.1,
+        "raw": "{\"planned_km\": 50, \"reason\": \"The runner has completed 49 km last week, and the goal of 50.1 km is within a reasonable range for a synthetic running coach evaluation.\"}",
+        "proposal": 50.0,
+        "parse": "parsed",
+        "exact": false,
+        "accepted": true
+      },
+      {
+        "id": "held-3-3",
+        "expected": 51.4,
+        "raw": "{\"planned_km\": 51, \"reason\": \"The runner has completed 49 km last week and the requested 51.5 km is within a reasonable range for a synthetic running coach evaluation.\"}",
+        "proposal": 51.0,
+        "parse": "parsed",
+        "exact": false,
+        "accepted": true
+      },
+      {
+        "id": "held-4-1",
+        "expected": 59.4,
+        "raw": "{\"planned_km\": 59.4, \"reason\": \"Target of 59.4 km is achieved with a 57 km baseline, so the planned distance is set to match the target.\"}",
+        "proposal": 59.4,
+        "parse": "parsed",
+        "exact": true,
+        "accepted": true
+      },
+      {
+        "id": "held-4-4",
+        "expected": 59.8,
+        "raw": "{\"planned_km\": 60.5, \"reason\": \"Target of 60.5 km is achieved by increasing the distance from the previous week's 57 km.\"}",
+        "proposal": 60.5,
+        "parse": "parsed",
+        "exact": false,
+        "accepted": false
+      }
+    ],
+    "edited": [
+      {
+        "id": "held-0-0",
+        "expected": 22.8,
+        "raw": "{\"planned_km\": \"22.8\", \"reason\": \"A slight reduction from the previous week's 23 km to maintain training consistency and avoid overtraining.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-0-3",
+        "expected": 24.1,
+        "raw": "{\"planned_km\": \"24.2\", \"reason\": \"The runner has completed 23 km last week and the target of 24.2 km is a reasonable next step for continued progression.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-1-1",
+        "expected": 32.1,
+        "raw": "{\"planned_km\": \"32.1\", \"reason\": \"The runner's target is 32.1 km, so the planned distance is set to match the target.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-1-4",
+        "expected": 32.5,
+        "raw": "{\"planned_km\": \"33.2\", \"reason\": \"The runner's target is 33.2 km, so the planned distance is set to match the target.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-2-2",
+        "expected": 43.0,
+        "raw": "{\"planned_km\": 43, \"reason\": \"The runner completed 41 km last week and the request is for 43 km, which is a reasonable increase in distance.\"}",
+        "proposal": 43.0,
+        "parse": "parsed",
+        "exact": true,
+        "accepted": true
+      },
+      {
+        "id": "held-2-5",
+        "expected": 43.0,
+        "raw": "{\"planned_km\": \"45\", \"reason\": \"A 45 km training distance is reasonable given the previous 41 km completion and the goal of 45.2 km.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-3-0",
+        "expected": 50.1,
+        "raw": "{\"planned_km\": 50, \"reason\": \"The runner completed 49 km last week, and the goal of 50.1 km is a reasonable next step.\"}",
+        "proposal": 50.0,
+        "parse": "parsed",
+        "exact": false,
+        "accepted": true
+      },
+      {
+        "id": "held-3-3",
+        "expected": 51.4,
+        "raw": "{\"planned_km\": 51, \"reason\": \"The runner has completed 49 km last week and the target of 51.5 km is within a reasonable range for a synthetic running coach evaluation.\"}",
+        "proposal": 51.0,
+        "parse": "parsed",
+        "exact": false,
+        "accepted": true
+      },
+      {
+        "id": "held-4-1",
+        "expected": 59.4,
+        "raw": "{\"planned_km\": 59.4, \"reason\": \"Aim to reach the target of 59.4 km based on the previous week's performance.\"}",
+        "proposal": 59.4,
+        "parse": "parsed",
+        "exact": true,
+        "accepted": true
+      },
+      {
+        "id": "held-4-4",
+        "expected": 59.8,
+        "raw": "{\"planned_km\": 60.5, \"reason\": \"Target of 60.5 km is achieved, and the runner has completed 57 km. A slight increase is reasonable for continued progress.\"}",
+        "proposal": 60.5,
+        "parse": "parsed",
+        "exact": false,
+        "accepted": false
+      }
+    ],
+    "random": [
+      {
+        "id": "held-0-0",
+        "expected": 22.8,
+        "raw": "{\"planned_km\": \"22.8\", \"reason\": \"The runner completed 23 km last week and requested 22.8 km, which is a reasonable adjustment based on the previous performance.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-0-3",
+        "expected": 24.1,
+        "raw": "{\"planned_km\": \"24\", \"reason\": \"The runner has completed 23 km last week, and the target of 24.2 km is a reasonable next step based on the progression.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-1-1",
+        "expected": 32.1,
+        "raw": "{\"planned_km\": \"32.1\", \"reason\": \"The runner's target is 32.1 km, so the planned distance is set to match the target.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-1-4",
+        "expected": 32.5,
+        "raw": "{\"planned_km\": \"33.2\", \"reason\": \"The runner's target is 33.2 km, and the system does not impose a numeric policy limit, so the planned distance is set to the target value.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-2-2",
+        "expected": 43.0,
+        "raw": "{\"planned_km\": 43, \"reason\": \"The runner completed 41 km last week and the request is within a reasonable range for a synthetic running coach evaluation.\"}",
+        "proposal": 43.0,
+        "parse": "parsed",
+        "exact": true,
+        "accepted": true
+      },
+      {
+        "id": "held-2-5",
+        "expected": 43.0,
+        "raw": "{\"planned_km\": \"45\", \"reason\": \"The runner has completed 41 km last week, and 45 km is a reasonable next step for progression.\"}",
+        "proposal": null,
+        "parse": "not-number",
+        "exact": false,
+        "accepted": false
+      },
+      {
+        "id": "held-3-0",
+        "expected": 50.1,
+        "raw": "{\"planned_km\": 50, \"reason\": \"The runner has completed 49 km last week, and the goal of 50.1 km is within a reasonable range for a synthetic running coach evaluation.\"}",
+        "proposal": 50.0,
+        "parse": "parsed",
+        "exact": false,
+        "accepted": true
+      },
+      {
+        "id": "held-3-3",
+        "expected": 51.4,
+        "raw": "{\"planned_km\": 51, \"reason\": \"The runner has completed 49 km last week and the requested 51.5 km is within a reasonable range for a synthetic running coach evaluation.\"}",
+        "proposal": 51.0,
+        "parse": "parsed",
+        "exact": false,
+        "accepted": true
+      },
+      {
+        "id": "held-4-1",
+        "expected": 59.4,
+        "raw": "{\"planned_km\": 59.4, \"reason\": \"Target of 59.4 km is achieved with a 57 km base, so this is a reasonable progression.\"}",
+        "proposal": 59.4,
+        "parse": "parsed",
+        "exact": true,
+        "accepted": true
+      },
+      {
+        "id": "held-4-4",
+        "expected": 59.8,
+        "raw": "{\"planned_km\": 60.5, \"reason\": \"Target of 60.5 km is achieved by increasing the distance from the previous week's 57 km.\"}",
+        "proposal": 60.5,
+        "parse": "parsed",
+        "exact": false,
+        "accepted": false
+      }
+    ]
+  },
+  "stats": {
+    "edited": {
+      "effective_nonzero": 4096,
+      "delta_l2": 1.1689838603841471,
+      "digest": "1ffea353b1967694b1a794e16f6e9b7299457db3c364c15645f4241046e96049",
+      "changed_elements": 4096,
+      "total_elements": 1720574976,
+      "fraction": 2.380599542091678e-06,
+      "edits": 1
+    },
+    "random": {
+      "effective_nonzero": 4096,
+      "delta_l2": 1.1689838603841471,
+      "digest": "fa78a2188b591379447ecb752bbdcedb4bd0d30b6db60bca275a0c25cec5e8fc",
+      "changed_elements": 4096,
+      "total_elements": 1720574976,
+      "fraction": 2.380599542091678e-06,
+      "edits": 1
+    }
+  },
+  "candidate": "1ffea353b1967694b1a794e16f6e9b7299457db3c364c15645f4241046e96049",
+  "control": "fa78a2188b591379447ecb752bbdcedb4bd0d30b6db60bca275a0c25cec5e8fc"
+}

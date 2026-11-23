@@ -1,4 +1,4 @@
-"""Patch one residual state immediately before the first incorrect distance digit."""
+"""Patch one residual state before a distance digit."""
 import argparse
 import json
 import re
@@ -14,7 +14,7 @@ FIELD = re.compile(r'"planned_km"\s*:\s*"?(\d+\.\d+)')
 
 
 @torch.inference_mode()
-def run(checkpoint, output):
+def run(checkpoint, output, before_number=False):
     torch.set_num_threads(6)
     tok = AutoTokenizer.from_pretrained(checkpoint)
     model = AutoModelForCausalLM.from_pretrained(checkpoint, dtype=torch.bfloat16).eval()
@@ -29,7 +29,8 @@ def run(checkpoint, output):
         field = FIELD.search(row["raw"])
         actual, target = field[1], row["cap"]
         pos = next(i for i,(a,b) in enumerate(zip(actual,target)) if a != b)
-        prefix = row["raw"][:field.start(1)+pos]
+        start = 0 if before_number else pos
+        prefix = row["raw"][:field.start(1)+start]
         # Change the conflicting digit only, preserving the shared prefix.
         digit = int(target[pos])
         foil = target[:pos] + str(digit-1 if digit else 1) + target[pos+1:]
@@ -42,10 +43,12 @@ def run(checkpoint, output):
         supplied = prompt(p,"rule_and_cap")
         false_prompt = supplied.replace(f"cap is {target} km.", f"cap is {foil} km.")
         assert false_prompt != supplied
-        def continuation(ids):
+        def generate_suffixes(ids):
             tokens = model.generate(ids,attention_mask=torch.ones_like(ids),do_sample=False,
-                                    max_new_tokens=5,pad_token_id=tok.eos_token_id)
-            return tok.decode(tokens[0,ids.shape[1]:])
+                                    max_new_tokens=8 if before_number else 5,pad_token_id=tok.eos_token_id)
+            return tok.batch_decode(tokens[:, ids.shape[1]:])
+        def continuation(ids):
+            return generate_suffixes(ids)[0]
         base = continuation(recipient)
         record = dict(id=p.id,target=target,foil=foil,prefix=prefix,base=base,arms=[])
         for label,policy in (("true",supplied),("foil",false_prompt)):
@@ -63,20 +66,26 @@ def run(checkpoint, output):
             finally:
                 for hook in hooks:
                     hook.remove()
-            for layer in LAYERS:
-                block = model.model.layers[layer]
-                state = states[layer]
-                def patch(module,args,out):
+            # Each row receives exactly one transplant, at its assigned layer.
+            def patch_row(index, layer):
+                def patch(module, args, out):
                     if out.shape[1] == recipient.shape[1]:
-                        out[:,-1] = state
-                hook = block.register_forward_hook(patch)
-                try: suffix = continuation(recipient)
-                finally: hook.remove()
-                number = re.match(r'\d+(?:\.\d+)?',actual[:pos]+suffix)
+                        out[index, -1] = states[layer][0]
+                return patch
+            hooks = [model.model.layers[layer].register_forward_hook(patch_row(i, layer))
+                     for i, layer in enumerate(LAYERS)]
+            try:
+                batch = recipient.repeat(len(LAYERS), 1)
+                suffixes = generate_suffixes(batch)
+            finally:
+                for hook in hooks:
+                    hook.remove()
+            for layer, suffix in zip(LAYERS, suffixes):
+                number = re.match(r'\d+(?:\.\d+)?',actual[:start]+suffix)
                 record["arms"].append(dict(layer=layer,donor=label,suffix=suffix,
                     distance=number[0] if number else None))
         results.append(record)
-        output.write_text(json.dumps(dict(revision=REVISION,rows=results),indent=2)+"\n")
+        output.write_text(json.dumps(dict(revision=REVISION,before_number=before_number,rows=results),indent=2)+"\n")
         print(p.id,flush=True)
 
 
@@ -84,5 +93,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("checkpoint")
     parser.add_argument("output",type=Path)
+    parser.add_argument("--before-number", action="store_true")
     args = parser.parse_args()
-    run(args.checkpoint,args.output)
+    run(args.checkpoint,args.output,args.before_number)

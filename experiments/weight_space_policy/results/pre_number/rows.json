@@ -1,0 +1,714 @@
+{
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "before_number": true,
+  "rows": [
+    {
+      "id": "diagnostic-0-3",
+      "target": "27.3",
+      "foil": "26.3",
+      "prefix": "{\"planned_km\": \"",
+      "base": "26.0\", \"reason\":",
+      "arms": [
+        {
+          "layer": 7,
+          "donor": "true",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 15,
+          "donor": "true",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 23,
+          "donor": "true",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 27,
+          "donor": "true",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 7,
+          "donor": "foil",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 15,
+          "donor": "foil",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 23,
+          "donor": "foil",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 27,
+          "donor": "foil",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        }
+      ],
+      "true_donor": "27.3\", \"reason\":",
+      "foil_donor": "26.3\", \"reason\":"
+    },
+    {
+      "id": "diagnostic-0-5",
+      "target": "27.3",
+      "foil": "26.3",
+      "prefix": "{\"planned_km\": \"",
+      "base": "26.0\", \"reason\":",
+      "arms": [
+        {
+          "layer": 7,
+          "donor": "true",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 15,
+          "donor": "true",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 23,
+          "donor": "true",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 27,
+          "donor": "true",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 7,
+          "donor": "foil",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 15,
+          "donor": "foil",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 23,
+          "donor": "foil",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        },
+        {
+          "layer": 27,
+          "donor": "foil",
+          "suffix": "26.0\", \"reason\":",
+          "distance": "26.0"
+        }
+      ],
+      "true_donor": "27.3\", \"reason\":",
+      "foil_donor": "26.3\", \"reason\":"
+    },
+    {
+      "id": "diagnostic-1-3",
+      "target": "35.7",
+      "foil": "34.7",
+      "prefix": "{\"planned_km\": \"",
+      "base": "34.0\", \"reason\":",
+      "arms": [
+        {
+          "layer": 7,
+          "donor": "true",
+          "suffix": "34.0\", \"reason\":",
+          "distance": "34.0"
+        },
+        {
+          "layer": 15,
+          "donor": "true",
+          "suffix": "34.0\", \"reason\":",
+          "distance": "34.0"
+        },
+        {
+          "layer": 23,
+          "donor": "true",
+          "suffix": "34.0\", \"reason\":",
+          "distance": "34.0"
+        },
+        {
+          "layer": 27,
+          "donor": "true",
+          "suffix": "34.0\", \"reason\":",
+          "distance": "34.0"
+        },
+        {
+          "layer": 7,
+          "donor": "foil",
+          "suffix": "34.0\", \"reason\":",
+          "distance": "34.0"
+        },
+        {
+          "layer": 15,
+          "donor": "foil",
+          "suffix": "34.0\", \"reason\":",
+          "distance": "34.0"
+        },
+        {
+          "layer": 23,
+          "donor": "foil",
+          "suffix": "34.0\", \"reason\":",
+          "distance": "34.0"
+        },
+        {
+          "layer": 27,
+          "donor": "foil",
+          "suffix": "34.0\", \"reason\":",
+          "distance": "34.0"
+        }
+      ],
+      "true_donor": "35.7\", \"reason\":",
+      "foil_donor": "34.7\", \"reason\":"
+    },
+    {
+      "id": "diagnostic-1-5",
+      "target": "35.7",
+      "foil": "34.7",
+      "prefix": "{\"planned_km\": ",
+      "base": "37.9, \"reason\":",
+      "arms": [
+        {
+          "layer": 7,
+          "donor": "true",
+          "suffix": "37.9, \"reason\":",
+          "distance": "37.9"
+        },
+        {
+          "layer": 15,
+          "donor": "true",
+          "suffix": "34.0, \"reason\":",
+          "distance": "34.0"
+        },
+        {
+          "layer": 23,
+          "donor": "true",
+          "suffix": "34.0, \"reason\":",
+          "distance": "34.0"
+        },
+        {
+          "layer": 27,
+          "donor": "true",
+          "suffix": "37.9, \"reason\":",
+          "distance": "37.9"
+        },
+        {
+          "layer": 7,
+          "donor": "foil",
+          "suffix": "37.9, \"reason\":",
+          "distance": "37.9"
+        },
+        {
+          "layer": 15,
+          "donor": "foil",
+          "suffix": "34.0, \"reason\":",
+          "distance": "34.0"
+        },
+        {
+          "layer": 23,
+          "donor": "foil",
+          "suffix": "34.0, \"reason\":",
+          "distance": "34.0"
+        },
+        {
+          "layer": 27,
+          "donor": "foil",
+          "suffix": "37.9, \"reason\":",
+          "distance": "37.9"
+        }
+      ],
+      "true_donor": "35.7, \"reason\":",
+      "foil_donor": "34.7, \"reason\":"
+    },
+    {
+      "id": "diagnostic-2-3",
+      "target": "46.2",
+      "foil": "45.2",
+      "prefix": "{\"planned_km\": ",
+      "base": "44.0, \"reason\":",
+      "arms": [
+        {
+          "layer": 7,
+          "donor": "true",
+          "suffix": "44.0, \"reason\":",
+          "distance": "44.0"
+        },
+        {
+          "layer": 15,
+          "donor": "true",
+          "suffix": "44.0, \"reason\":",
+          "distance": "44.0"
+        },
+        {
+          "layer": 23,
+          "donor": "true",
+          "suffix": "44.0, \"reason\":",
+          "distance": "44.0"
+        },
+        {
+          "layer": 27,
+          "donor": "true",
+          "suffix": "44.0, \"reason\":",
+          "distance": "44.0"
+        },
+        {
+          "layer": 7,
+          "donor": "foil",
+          "suffix": "44.0, \"reason\":",
+          "distance": "44.0"
+        },
+        {
+          "layer": 15,
+          "donor": "foil",
+          "suffix": "44.0, \"reason\":",
+          "distance": "44.0"
+        },
+        {
+          "layer": 23,
+          "donor": "foil",
+          "suffix": "44.0, \"reason\":",
+          "distance": "44.0"
+        },
+        {
+          "layer": 27,
+          "donor": "foil",
+          "suffix": "44.0, \"reason\":",
+          "distance": "44.0"
+        }
+      ],
+      "true_donor": "46.2, \"reason\":",
+      "foil_donor": "45.2, \"reason\":"
+    },
+    {
+      "id": "diagnostic-2-5",
+      "target": "46.2",
+      "foil": "45.2",
+      "prefix": "{\"planned_km\": ",
+      "base": "48.4, \"reason\":",
+      "arms": [
+        {
+          "layer": 7,
+          "donor": "true",
+          "suffix": "48.4, \"reason\":",
+          "distance": "48.4"
+        },
+        {
+          "layer": 15,
+          "donor": "true",
+          "suffix": "44.0, \"reason\":",
+          "distance": "44.0"
+        },
+        {
+          "layer": 23,
+          "donor": "true",
+          "suffix": "44.0, \"reason\":",
+          "distance": "44.0"
+        },
+        {
+          "layer": 27,
+          "donor": "true",
+          "suffix": "48.4, \"reason\":",
+          "distance": "48.4"
+        },
+        {
+          "layer": 7,
+          "donor": "foil",
+          "suffix": "44.0, \"reason\":",
+          "distance": "44.0"
+        },
+        {
+          "layer": 15,
+          "donor": "foil",
+          "suffix": "44.0, \"reason\":",
+          "distance": "44.0"
+        },
+        {
+          "layer": 23,
+          "donor": "foil",
+          "suffix": "44.0, \"reason\":",
+          "distance": "44.0"
+        },
+        {
+          "layer": 27,
+          "donor": "foil",
+          "suffix": "48.4, \"reason\":",
+          "distance": "48.4"
+        }
+      ],
+      "true_donor": "46.2, \"reason\":",
+      "foil_donor": "45.2, \"reason\":"
+    },
+    {
+      "id": "diagnostic-3-3",
+      "target": "60.9",
+      "foil": "61.9",
+      "prefix": "{\"planned_km\": ",
+      "base": "61.0, \"reason\":",
+      "arms": [
+        {
+          "layer": 7,
+          "donor": "true",
+          "suffix": "61.0, \"reason\":",
+          "distance": "61.0"
+        },
+        {
+          "layer": 15,
+          "donor": "true",
+          "suffix": "61.0, \"reason\":",
+          "distance": "61.0"
+        },
+        {
+          "layer": 23,
+          "donor": "true",
+          "suffix": "61.0, \"reason\":",
+          "distance": "61.0"
+        },
+        {
+          "layer": 27,
+          "donor": "true",
+          "suffix": "61.0, \"reason\":",
+          "distance": "61.0"
+        },
+        {
+          "layer": 7,
+          "donor": "foil",
+          "suffix": "61.0, \"reason\":",
+          "distance": "61.0"
+        },
+        {
+          "layer": 15,
+          "donor": "foil",
+          "suffix": "61.0, \"reason\":",
+          "distance": "61.0"
+        },
+        {
+          "layer": 23,
+          "donor": "foil",
+          "suffix": "61.0, \"reason\":",
+          "distance": "61.0"
+        },
+        {
+          "layer": 27,
+          "donor": "foil",
+          "suffix": "61.0, \"reason\":",
+          "distance": "61.0"
+        }
+      ],
+      "true_donor": "60.9, \"reason\":",
+      "foil_donor": "61.0, \"reason\":"
+    },
+    {
+      "id": "diagnostic-3-5",
+      "target": "60.9",
+      "foil": "61.9",
+      "prefix": "{\"planned_km\": ",
+      "base": "63.1, \"reason\":",
+      "arms": [
+        {
+          "layer": 7,
+          "donor": "true",
+          "suffix": "63.1, \"reason\":",
+          "distance": "63.1"
+        },
+        {
+          "layer": 15,
+          "donor": "true",
+          "suffix": "63.1, \"reason\":",
+          "distance": "63.1"
+        },
+        {
+          "layer": 23,
+          "donor": "true",
+          "suffix": "63.1, \"reason\":",
+          "distance": "63.1"
+        },
+        {
+          "layer": 27,
+          "donor": "true",
+          "suffix": "63.1, \"reason\":",
+          "distance": "63.1"
+        },
+        {
+          "layer": 7,
+          "donor": "foil",
+          "suffix": "63.1, \"reason\":",
+          "distance": "63.1"
+        },
+        {
+          "layer": 15,
+          "donor": "foil",
+          "suffix": "63.1, \"reason\":",
+          "distance": "63.1"
+        },
+        {
+          "layer": 23,
+          "donor": "foil",
+          "suffix": "63.1, \"reason\":",
+          "distance": "63.1"
+        },
+        {
+          "layer": 27,
+          "donor": "foil",
+          "suffix": "63.1, \"reason\":",
+          "distance": "63.1"
+        }
+      ],
+      "true_donor": "60.9, \"reason\":",
+      "foil_donor": "61.9, \"reason\":"
+    },
+    {
+      "id": "diagnostic-4-3",
+      "target": "33.1",
+      "foil": "33.0",
+      "prefix": "{\"planned_km\": \"",
+      "base": "33.2\", \"reason\":",
+      "arms": [
+        {
+          "layer": 7,
+          "donor": "true",
+          "suffix": "33.2\", \"reason\":",
+          "distance": "33.2"
+        },
+        {
+          "layer": 15,
+          "donor": "true",
+          "suffix": "33.2\", \"reason\":",
+          "distance": "33.2"
+        },
+        {
+          "layer": 23,
+          "donor": "true",
+          "suffix": "33.2\", \"reason\":",
+          "distance": "33.2"
+        },
+        {
+          "layer": 27,
+          "donor": "true",
+          "suffix": "33.2\", \"reason\":",
+          "distance": "33.2"
+        },
+        {
+          "layer": 7,
+          "donor": "foil",
+          "suffix": "33.2\", \"reason\":",
+          "distance": "33.2"
+        },
+        {
+          "layer": 15,
+          "donor": "foil",
+          "suffix": "33.2\", \"reason\":",
+          "distance": "33.2"
+        },
+        {
+          "layer": 23,
+          "donor": "foil",
+          "suffix": "33.2\", \"reason\":",
+          "distance": "33.2"
+        },
+        {
+          "layer": 27,
+          "donor": "foil",
+          "suffix": "33.2\", \"reason\":",
+          "distance": "33.2"
+        }
+      ],
+      "true_donor": "33.1\", \"reason\":",
+      "foil_donor": "33.0\", \"reason\":"
+    },
+    {
+      "id": "diagnostic-4-5",
+      "target": "33.1",
+      "foil": "32.1",
+      "prefix": "{\"planned_km\": \"",
+      "base": "31.6\", \"reason\":",
+      "arms": [
+        {
+          "layer": 7,
+          "donor": "true",
+          "suffix": "31.6\", \"reason\":",
+          "distance": "31.6"
+        },
+        {
+          "layer": 15,
+          "donor": "true",
+          "suffix": "31.6\", \"reason\":",
+          "distance": "31.6"
+        },
+        {
+          "layer": 23,
+          "donor": "true",
+          "suffix": "31.6\", \"reason\":",
+          "distance": "31.6"
+        },
+        {
+          "layer": 27,
+          "donor": "true",
+          "suffix": "31.6\", \"reason\":",
+          "distance": "31.6"
+        },
+        {
+          "layer": 7,
+          "donor": "foil",
+          "suffix": "31.6\", \"reason\":",
+          "distance": "31.6"
+        },
+        {
+          "layer": 15,
+          "donor": "foil",
+          "suffix": "31.6\", \"reason\":",
+          "distance": "31.6"
+        },
+        {
+          "layer": 23,
+          "donor": "foil",
+          "suffix": "31.6\", \"reason\":",
+          "distance": "31.6"
+        },
+        {
+          "layer": 27,
+          "donor": "foil",
+          "suffix": "31.6\", \"reason\":",
+          "distance": "31.6"
+        }
+      ],
+      "true_donor": "33.1\", \"reason\":",
+      "foil_donor": "32.1\", \"reason\":"
+    },
+    {
+      "id": "diagnostic-5-3",
+      "target": "45.4",
+      "foil": "44.4",
+      "prefix": "{\"planned_km\": ",
+      "base": "43.3, \"reason\":",
+      "arms": [
+        {
+          "layer": 7,
+          "donor": "true",
+          "suffix": "43.3, \"reason\":",
+          "distance": "43.3"
+        },
+        {
+          "layer": 15,
+          "donor": "true",
+          "suffix": "43.3, \"reason\":",
+          "distance": "43.3"
+        },
+        {
+          "layer": 23,
+          "donor": "true",
+          "suffix": "43.3, \"reason\":",
+          "distance": "43.3"
+        },
+        {
+          "layer": 27,
+          "donor": "true",
+          "suffix": "43.3, \"reason\":",
+          "distance": "43.3"
+        },
+        {
+          "layer": 7,
+          "donor": "foil",
+          "suffix": "43.3, \"reason\":",
+          "distance": "43.3"
+        },
+        {
+          "layer": 15,
+          "donor": "foil",
+          "suffix": "43.3, \"reason\":",
+          "distance": "43.3"
+        },
+        {
+          "layer": 23,
+          "donor": "foil",
+          "suffix": "43.3, \"reason\":",
+          "distance": "43.3"
+        },
+        {
+          "layer": 27,
+          "donor": "foil",
+          "suffix": "43.3, \"reason\":",
+          "distance": "43.3"
+        }
+      ],
+      "true_donor": "45.4, \"reason\":",
+      "foil_donor": "44.4, \"reason\":"
+    },
+    {
+      "id": "diagnostic-5-5",
+      "target": "45.4",
+      "foil": "44.4",
+      "prefix": "{\"planned_km\": ",
+      "base": "47.6, \"reason\":",
+      "arms": [
+        {
+          "layer": 7,
+          "donor": "true",
+          "suffix": "47.6, \"reason\":",
+          "distance": "47.6"
+        },
+        {
+          "layer": 15,
+          "donor": "true",
+          "suffix": "43.3, \"reason\":",
+          "distance": "43.3"
+        },
+        {
+          "layer": 23,
+          "donor": "true",
+          "suffix": "43.3, \"reason\":",
+          "distance": "43.3"
+        },
+        {
+          "layer": 27,
+          "donor": "true",
+          "suffix": "47.6, \"reason\":",
+          "distance": "47.6"
+        },
+        {
+          "layer": 7,
+          "donor": "foil",
+          "suffix": "47.6, \"reason\":",
+          "distance": "47.6"
+        },
+        {
+          "layer": 15,
+          "donor": "foil",
+          "suffix": "43.3, \"reason\":",
+          "distance": "43.3"
+        },
+        {
+          "layer": 23,
+          "donor": "foil",
+          "suffix": "43.3, \"reason\":",
+          "distance": "43.3"
+        },
+        {
+          "layer": 27,
+          "donor": "foil",
+          "suffix": "47.6, \"reason\":",
+          "distance": "47.6"
+        }
+      ],
+      "true_donor": "45.4, \"reason\":",
+      "foil_donor": "44.4, \"reason\":"
+    }
+  ]
+}

@@ -1,0 +1,389 @@
+{
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "rows": [
+    {
+      "id": "diagnostic-0-3",
+      "target": "27.3",
+      "prefix": "{\"planned_km\": \"",
+      "cap_positions": [
+        102,
+        103,
+        105
+      ],
+      "control_positions": [
+        95,
+        96,
+        97
+      ],
+      "arms": {
+        "unmasked": {
+          "raw": "27.3\", \"reason\":",
+          "value": "27.3",
+          "exact": true
+        },
+        "cap_digits": {
+          "raw": "27.4\", \"reason\":",
+          "value": "27.4",
+          "exact": false
+        },
+        "control_words": {
+          "raw": "27.3\", \"reason\":",
+          "value": "27.3",
+          "exact": true
+        }
+      }
+    },
+    {
+      "id": "diagnostic-0-5",
+      "target": "27.3",
+      "prefix": "{\"planned_km\": \"",
+      "cap_positions": [
+        102,
+        103,
+        105
+      ],
+      "control_positions": [
+        95,
+        96,
+        97
+      ],
+      "arms": {
+        "unmasked": {
+          "raw": "27.3\", \"reason\":",
+          "value": "27.3",
+          "exact": true
+        },
+        "cap_digits": {
+          "raw": "29.5\", \"reason\":",
+          "value": "29.5",
+          "exact": false
+        },
+        "control_words": {
+          "raw": "27.3\", \"reason\":",
+          "value": "27.3",
+          "exact": true
+        }
+      }
+    },
+    {
+      "id": "diagnostic-1-3",
+      "target": "35.7",
+      "prefix": "{\"planned_km\": \"",
+      "cap_positions": [
+        102,
+        103,
+        105
+      ],
+      "control_positions": [
+        95,
+        96,
+        97
+      ],
+      "arms": {
+        "unmasked": {
+          "raw": "35.7\", \"reason\":",
+          "value": "35.7",
+          "exact": true
+        },
+        "cap_digits": {
+          "raw": "35.0\", \"reason\":",
+          "value": "35.0",
+          "exact": false
+        },
+        "control_words": {
+          "raw": "35.7\", \"reason\":",
+          "value": "35.7",
+          "exact": true
+        }
+      }
+    },
+    {
+      "id": "diagnostic-1-5",
+      "target": "35.7",
+      "prefix": "{\"planned_km\": ",
+      "cap_positions": [
+        102,
+        103,
+        105
+      ],
+      "control_positions": [
+        95,
+        96,
+        97
+      ],
+      "arms": {
+        "unmasked": {
+          "raw": "35.7, \"reason\":",
+          "value": "35.7",
+          "exact": true
+        },
+        "cap_digits": {
+          "raw": "37, \"reason\": \"The",
+          "value": "37",
+          "exact": false
+        },
+        "control_words": {
+          "raw": "35.7, \"reason\":",
+          "value": "35.7",
+          "exact": true
+        }
+      }
+    },
+    {
+      "id": "diagnostic-2-3",
+      "target": "46.2",
+      "prefix": "{\"planned_km\": ",
+      "cap_positions": [
+        102,
+        103,
+        105
+      ],
+      "control_positions": [
+        95,
+        96,
+        97
+      ],
+      "arms": {
+        "unmasked": {
+          "raw": "46.2, \"reason\":",
+          "value": "46.2",
+          "exact": true
+        },
+        "cap_digits": {
+          "raw": "46.0, \"reason\":",
+          "value": "46.0",
+          "exact": false
+        },
+        "control_words": {
+          "raw": "46.2, \"reason\":",
+          "value": "46.2",
+          "exact": true
+        }
+      }
+    },
+    {
+      "id": "diagnostic-2-5",
+      "target": "46.2",
+      "prefix": "{\"planned_km\": ",
+      "cap_positions": [
+        102,
+        103,
+        105
+      ],
+      "control_positions": [
+        95,
+        96,
+        97
+      ],
+      "arms": {
+        "unmasked": {
+          "raw": "46.2, \"reason\":",
+          "value": "46.2",
+          "exact": true
+        },
+        "cap_digits": {
+          "raw": "48.4, \"reason\":",
+          "value": "48.4",
+          "exact": false
+        },
+        "control_words": {
+          "raw": "46.2, \"reason\":",
+          "value": "46.2",
+          "exact": true
+        }
+      }
+    },
+    {
+      "id": "diagnostic-3-3",
+      "target": "60.9",
+      "prefix": "{\"planned_km\": ",
+      "cap_positions": [
+        102,
+        103,
+        105
+      ],
+      "control_positions": [
+        95,
+        96,
+        97
+      ],
+      "arms": {
+        "unmasked": {
+          "raw": "60.9, \"reason\":",
+          "value": "60.9",
+          "exact": true
+        },
+        "cap_digits": {
+          "raw": "61.0, \"reason\":",
+          "value": "61.0",
+          "exact": false
+        },
+        "control_words": {
+          "raw": "60.9, \"reason\":",
+          "value": "60.9",
+          "exact": true
+        }
+      }
+    },
+    {
+      "id": "diagnostic-3-5",
+      "target": "60.9",
+      "prefix": "{\"planned_km\": ",
+      "cap_positions": [
+        102,
+        103,
+        105
+      ],
+      "control_positions": [
+        95,
+        96,
+        97
+      ],
+      "arms": {
+        "unmasked": {
+          "raw": "60.9, \"reason\":",
+          "value": "60.9",
+          "exact": true
+        },
+        "cap_digits": {
+          "raw": "63.1, \"reason\":",
+          "value": "63.1",
+          "exact": false
+        },
+        "control_words": {
+          "raw": "60.9, \"reason\":",
+          "value": "60.9",
+          "exact": true
+        }
+      }
+    },
+    {
+      "id": "diagnostic-4-3",
+      "target": "33.1",
+      "prefix": "{\"planned_km\": \"",
+      "cap_positions": [
+        104,
+        105,
+        107
+      ],
+      "control_positions": [
+        97,
+        98,
+        99
+      ],
+      "arms": {
+        "unmasked": {
+          "raw": "33.1\", \"reason\":",
+          "value": "33.1",
+          "exact": true
+        },
+        "cap_digits": {
+          "raw": "33.2\", \"reason\":",
+          "value": "33.2",
+          "exact": false
+        },
+        "control_words": {
+          "raw": "33.1\", \"reason\":",
+          "value": "33.1",
+          "exact": true
+        }
+      }
+    },
+    {
+      "id": "diagnostic-4-5",
+      "target": "33.1",
+      "prefix": "{\"planned_km\": \"",
+      "cap_positions": [
+        104,
+        105,
+        107
+      ],
+      "control_positions": [
+        97,
+        98,
+        99
+      ],
+      "arms": {
+        "unmasked": {
+          "raw": "33.1\", \"reason\":",
+          "value": "33.1",
+          "exact": true
+        },
+        "cap_digits": {
+          "raw": "33.0\", \"reason\":",
+          "value": "33.0",
+          "exact": false
+        },
+        "control_words": {
+          "raw": "33.1\", \"reason\":",
+          "value": "33.1",
+          "exact": true
+        }
+      }
+    },
+    {
+      "id": "diagnostic-5-3",
+      "target": "45.4",
+      "prefix": "{\"planned_km\": ",
+      "cap_positions": [
+        104,
+        105,
+        107
+      ],
+      "control_positions": [
+        97,
+        98,
+        99
+      ],
+      "arms": {
+        "unmasked": {
+          "raw": "45.4, \"reason\":",
+          "value": "45.4",
+          "exact": true
+        },
+        "cap_digits": {
+          "raw": "45.5, \"reason\":",
+          "value": "45.5",
+          "exact": false
+        },
+        "control_words": {
+          "raw": "45.4, \"reason\":",
+          "value": "45.4",
+          "exact": true
+        }
+      }
+    },
+    {
+      "id": "diagnostic-5-5",
+      "target": "45.4",
+      "prefix": "{\"planned_km\": ",
+      "cap_positions": [
+        104,
+        105,
+        107
+      ],
+      "control_positions": [
+        97,
+        98,
+        99
+      ],
+      "arms": {
+        "unmasked": {
+          "raw": "45.4, \"reason\":",
+          "value": "45.4",
+          "exact": true
+        },
+        "cap_digits": {
+          "raw": "105, \"reason\": \"",
+          "value": "105",
+          "exact": false
+        },
+        "control_words": {
+          "raw": "45.4, \"reason\":",
+          "value": "45.4",
+          "exact": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "held-0-0",
+    "expected": 22.8,
+    "raw": "{\"planned_km\": \"22.8\", \"reason\": \"The runner completed 23 km last week and requested 22.8 km, which is a reasonable adjustment based on the previous performance.\"}",
+    "proposal": null,
+    "parse": "not-number",
+    "exact": false,
+    "accepted": false
+  },
+  {
+    "id": "held-0-3",
+    "expected": 24.1,
+    "raw": "{\"planned_km\": \"24\", \"reason\": \"The runner has completed 23 km last week, and the target of 24.2 km is a reasonable next step based on the progression.\"}",
+    "proposal": null,
+    "parse": "not-number",
+    "exact": false,
+    "accepted": false
+  },
+  {
+    "id": "held-1-1",
+    "expected": 32.1,
+    "raw": "{\"planned_km\": \"32.1\", \"reason\": \"The runner's target is 32.1 km, so the planned distance is set to match the target.\"}",
+    "proposal": null,
+    "parse": "not-number",
+    "exact": false,
+    "accepted": false
+  },
+  {
+    "id": "held-1-4",
+    "expected": 32.5,
+    "raw": "{\"planned_km\": \"33.2\", \"reason\": \"The runner's target is 33.2 km, and the system does not impose a numeric policy limit, so the planned distance is set to the target value.\"}",
+    "proposal": null,
+    "parse": "not-number",
+    "exact": false,
+    "accepted": false
+  },
+  {
+    "id": "held-2-2",
+    "expected": 43.0,
+    "raw": "{\"planned_km\": 43, \"reason\": \"The runner completed 41 km last week and the request is within a reasonable range for a synthetic running coach evaluation.\"}",
+    "proposal": 43.0,
+    "parse": "parsed",
+    "exact": true,
+    "accepted": true
+  },
+  {
+    "id": "held-2-5",
+    "expected": 43.0,
+    "raw": "{\"planned_km\": \"45\", \"reason\": \"The runner has completed 41 km last week, and 45 km is a reasonable next step for progression.\"}",
+    "proposal": null,
+    "parse": "not-number",
+    "exact": false,
+    "accepted": false
+  },
+  {
+    "id": "held-3-0",
+    "expected": 50.1,
+    "raw": "{\"planned_km\": 50, \"reason\": \"The runner has completed 49 km last week, and the goal of 50.1 km is within a reasonable range for a synthetic running coach evaluation.\"}",
+    "proposal": 50.0,
+    "parse": "parsed",
+    "exact": false,
+    "accepted": true
+  },
+  {
+    "id": "held-3-3",
+    "expected": 51.4,
+    "raw": "{\"planned_km\": 51, \"reason\": \"The runner has completed 49 km last week and the requested 51.5 km is within a reasonable range for a synthetic running coach evaluation.\"}",
+    "proposal": 51.0,
+    "parse": "parsed",
+    "exact": false,
+    "accepted": true
+  },
+  {
+    "id": "held-4-1",
+    "expected": 59.4,
+    "raw": "{\"planned_km\": 59.4, \"reason\": \"Target of 59.4 km is achieved with a 57 km base, so this is a reasonable progression.\"}",
+    "proposal": 59.4,
+    "parse": "parsed",
+    "exact": true,
+    "accepted": true
+  },
+  {
+    "id": "held-4-4",
+    "expected": 59.8,
+    "raw": "{\"planned_km\": 60.5, \"reason\": \"Target of 60.5 km is achieved by increasing the distance from the previous week's 57 km.\"}",
+    "proposal": 60.5,
+    "parse": "parsed",
+    "exact": false,
+    "accepted": false
+  }
+]

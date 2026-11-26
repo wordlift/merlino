@@ -1,0 +1,13 @@
+# Merlino policy editing on Qwen3-1.7B
+
+The earlier run is development evidence. In the explicit-cap condition, counting quoted decimal strings only for diagnosis gives 29/30 correct numeric values, including 15/15 oversized requests. The independent validator still requires a numeric field. Without policy text, the same diagnostic gives 14/30 and 0/15 oversized requests. This motivates testing the decision to apply the cap as well as the complete proposal.
+
+The editor is the assistant in this session. It can use labeled development activations, tensor values and development margins to author one gradient-free patch. Development uses four new histories. The held-out set uses five other histories with three eligible and three oversized requests per history. Phrasing rotates across classes. Both splits use the same types of offset and template. This is generalization across new distances within this synthetic task. Fixed answer mapping is a limitation.
+
+The auxiliary probe asks whether to cap (A) or keep (B), withholding the numeric rule. Score the higher of the two logits and also retain the unrestricted top token. The primary transfer check is ordinary generation using the original JSON contract and no policy, scored on ten predetermined cases, one eligible and one oversized per history. Keep strict parsing and the independent Merlino validator. Compare the original, the editor's patch and a disjoint seeded control matched on effective BF16 changes. The explicit-rule decision baseline receives the 5% rule without the computed cap. A change in A/B preference alone is insufficient evidence for writing the numeric policy. One candidate and one small held-out set give exploratory evidence.
+
+The local runner uses CPU inference with the pinned checkpoint. Run the module with checkpoint directory, output directory, and stage (inspect, then evaluate). Between stages, freeze the editor-authored candidate using the development evidence. The experiment does not update a deployed model.
+
+## Follow-up on the same frozen edit
+
+Repeat all original arms without tuning. Save each set of individual decisions and proposals as it completes. For an additional threshold check, compare six pairs of unseen running histories. Both members request the same distance with identical wording. Decreasing the prior distance by 0.2 km makes the correct decision switch from keeping to capping. Present each pair under both A/B label assignments. Score how often both members are correct under each assignment and under both. The paired prompts test a narrow interval around the cutoff. The original ten free proposals remain the test of end-to-end policy transfer.

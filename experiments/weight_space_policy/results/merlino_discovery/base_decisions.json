@@ -1,0 +1,302 @@
+[
+  {
+    "id": "held-0-0",
+    "baseline": "23",
+    "request": "22.8",
+    "cap": "24.1",
+    "cap_needed": false,
+    "margin": -6.625,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-0-1",
+    "baseline": "23",
+    "request": "23.7",
+    "cap": "24.1",
+    "cap_needed": false,
+    "margin": -6.375,
+    "choice": "B",
+    "greedy": "B"
+  },
+  {
+    "id": "held-0-2",
+    "baseline": "23",
+    "request": "24.1",
+    "cap": "24.1",
+    "cap_needed": false,
+    "margin": -4.625,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-0-3",
+    "baseline": "23",
+    "request": "24.2",
+    "cap": "24.1",
+    "cap_needed": true,
+    "margin": -5.875,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-0-4",
+    "baseline": "23",
+    "request": "24.8",
+    "cap": "24.1",
+    "cap_needed": true,
+    "margin": -5.0,
+    "choice": "B",
+    "greedy": "B"
+  },
+  {
+    "id": "held-0-5",
+    "baseline": "23",
+    "request": "26.3",
+    "cap": "24.1",
+    "cap_needed": true,
+    "margin": -4.875,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-1-0",
+    "baseline": "31",
+    "request": "31.2",
+    "cap": "32.5",
+    "cap_needed": false,
+    "margin": -6.125,
+    "choice": "B",
+    "greedy": "B"
+  },
+  {
+    "id": "held-1-1",
+    "baseline": "31",
+    "request": "32.1",
+    "cap": "32.5",
+    "cap_needed": false,
+    "margin": -5.125,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-1-2",
+    "baseline": "31",
+    "request": "32.5",
+    "cap": "32.5",
+    "cap_needed": false,
+    "margin": -4.75,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-1-3",
+    "baseline": "31",
+    "request": "32.6",
+    "cap": "32.5",
+    "cap_needed": true,
+    "margin": -6.0,
+    "choice": "B",
+    "greedy": "B"
+  },
+  {
+    "id": "held-1-4",
+    "baseline": "31",
+    "request": "33.2",
+    "cap": "32.5",
+    "cap_needed": true,
+    "margin": -4.625,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-1-5",
+    "baseline": "31",
+    "request": "34.7",
+    "cap": "32.5",
+    "cap_needed": true,
+    "margin": -5.375,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-2-0",
+    "baseline": "41",
+    "request": "41.7",
+    "cap": "43.0",
+    "cap_needed": false,
+    "margin": -5.75,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-2-1",
+    "baseline": "41",
+    "request": "42.6",
+    "cap": "43.0",
+    "cap_needed": false,
+    "margin": -5.875,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-2-2",
+    "baseline": "41",
+    "request": "43.0",
+    "cap": "43.0",
+    "cap_needed": false,
+    "margin": -8.0,
+    "choice": "B",
+    "greedy": "B"
+  },
+  {
+    "id": "held-2-3",
+    "baseline": "41",
+    "request": "43.1",
+    "cap": "43.0",
+    "cap_needed": true,
+    "margin": -5.875,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-2-4",
+    "baseline": "41",
+    "request": "43.7",
+    "cap": "43.0",
+    "cap_needed": true,
+    "margin": -5.75,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-2-5",
+    "baseline": "41",
+    "request": "45.2",
+    "cap": "43.0",
+    "cap_needed": true,
+    "margin": -5.75,
+    "choice": "B",
+    "greedy": "Under"
+  },
+  {
+    "id": "held-3-0",
+    "baseline": "49",
+    "request": "50.1",
+    "cap": "51.4",
+    "cap_needed": false,
+    "margin": -3.625,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-3-1",
+    "baseline": "49",
+    "request": "51.0",
+    "cap": "51.4",
+    "cap_needed": false,
+    "margin": -7.75,
+    "choice": "B",
+    "greedy": "B"
+  },
+  {
+    "id": "held-3-2",
+    "baseline": "49",
+    "request": "51.4",
+    "cap": "51.4",
+    "cap_needed": false,
+    "margin": -5.25,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-3-3",
+    "baseline": "49",
+    "request": "51.5",
+    "cap": "51.4",
+    "cap_needed": true,
+    "margin": -4.5,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-3-4",
+    "baseline": "49",
+    "request": "52.1",
+    "cap": "51.4",
+    "cap_needed": true,
+    "margin": -7.0,
+    "choice": "B",
+    "greedy": "B"
+  },
+  {
+    "id": "held-3-5",
+    "baseline": "49",
+    "request": "53.6",
+    "cap": "51.4",
+    "cap_needed": true,
+    "margin": -4.875,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-4-0",
+    "baseline": "57",
+    "request": "58.5",
+    "cap": "59.8",
+    "cap_needed": false,
+    "margin": -6.75,
+    "choice": "B",
+    "greedy": "B"
+  },
+  {
+    "id": "held-4-1",
+    "baseline": "57",
+    "request": "59.4",
+    "cap": "59.8",
+    "cap_needed": false,
+    "margin": -5.625,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-4-2",
+    "baseline": "57",
+    "request": "59.8",
+    "cap": "59.8",
+    "cap_needed": false,
+    "margin": -5.125,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-4-3",
+    "baseline": "57",
+    "request": "59.9",
+    "cap": "59.8",
+    "cap_needed": true,
+    "margin": -7.375,
+    "choice": "B",
+    "greedy": "B"
+  },
+  {
+    "id": "held-4-4",
+    "baseline": "57",
+    "request": "60.5",
+    "cap": "59.8",
+    "cap_needed": true,
+    "margin": -4.875,
+    "choice": "B",
+    "greedy": "Based"
+  },
+  {
+    "id": "held-4-5",
+    "baseline": "57",
+    "request": "62.0",
+    "cap": "59.8",
+    "cap_needed": true,
+    "margin": -6.0,
+    "choice": "B",
+    "greedy": "Based"
+  }
+]

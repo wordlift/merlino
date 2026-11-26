@@ -19,14 +19,17 @@ TEMPLATE = ("The weekly cap is 105% of last week's distance, rounded down to one
 
 
 @torch.inference_mode()
-def run(checkpoint, output):
+def run(checkpoint, output, multiplier=False):
+    template = TEMPLATE
+    if multiplier:
+        template = template.replace("105% of last week's distance", "last week's distance multiplied by 1.05")
     torch.set_num_threads(6)
     tok = AutoTokenizer.from_pretrained(checkpoint, padding_side="left")
     model = AutoModelForCausalLM.from_pretrained(checkpoint, dtype=torch.bfloat16).eval()
     rows = []
     for i in range(0, len(HISTORIES), 8):
         histories = HISTORIES[i:i+8]
-        prompts = [tok.apply_chat_template([dict(role="user", content=TEMPLATE.format(km))],
+        prompts = [tok.apply_chat_template([dict(role="user", content=template.format(km))],
                    tokenize=False, add_generation_prompt=True, enable_thinking=False) for km in histories]
         inputs = tok(prompts, padding=True, add_special_tokens=False, return_tensors="pt")
         ids = model.generate(**inputs, do_sample=False, max_new_tokens=160, pad_token_id=tok.eos_token_id)
@@ -38,7 +41,7 @@ def run(checkpoint, output):
             rows.append(dict(history=km, raw=raw, expected=str(expected),
                              final_number=final_number, numeric_exact=Decimal(final_number) == expected,
                              exact=bool(bare and Decimal(bare[1]) == expected)))
-        output.write_text(json.dumps(dict(revision=REVISION, prompt=TEMPLATE, rows=rows), indent=2)+"\n")
+        output.write_text(json.dumps(dict(revision=REVISION, prompt=template, rows=rows), indent=2)+"\n")
         print(len(rows), sum(r["exact"] for r in rows), flush=True)
 
 
@@ -46,5 +49,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("checkpoint")
     parser.add_argument("output", type=Path)
+    parser.add_argument("--multiplier", action="store_true")
     args = parser.parse_args()
-    run(args.checkpoint, args.output)
+    run(args.checkpoint, args.output, args.multiplier)

@@ -1,0 +1,198 @@
+{
+  "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "prompt": "The weekly cap is 105% of last week's distance, rounded down to one decimal place. Last week's distance was {} km. What is the weekly cap in km? Reply with the number alone.",
+  "rows": [
+    {
+      "history": "14",
+      "raw": "Last week's distance was 14 km. The weekly cap is 105% of last week's distance, rounded down to one decimal place.\n\n$$\n105\\% \\times 14 = 14.7 \\text{ km}\n$$\n\nRounded down to one decimal place:\n\n$$\n\\boxed{14.7}\n$$\n\nSo, the weekly cap is **14.7 km**.",
+      "expected": "14.7",
+      "exact": false,
+      "final_number": "14.7",
+      "numeric_exact": true
+    },
+    {
+      "history": "16",
+      "raw": "Last week's distance was 16 km. The weekly cap is 105% of last week's distance, rounded down to one decimal place.\n\n$$\n105\\% \\times 16 = 16.8 \\text{ km}\n$$\n\nRounded down to one decimal place:\n\n$$\n\\boxed{16.8}\n$$\n\nSo, the weekly cap is **16.8 km**.",
+      "expected": "16.8",
+      "exact": false,
+      "final_number": "16.8",
+      "numeric_exact": true
+    },
+    {
+      "history": "18",
+      "raw": "Last week's distance was 18 km. The weekly cap is 105% of that, rounded down to one decimal place.\n\n$$\n105\\% \\times 18 = 18.9 \\text{ km}\n$$\n\nRounded down to one decimal place:\n\n$$\n\\boxed{18.9}\n$$\n\nSo, the weekly cap is **18.9 km**.",
+      "expected": "18.9",
+      "exact": false,
+      "final_number": "18.9",
+      "numeric_exact": true
+    },
+    {
+      "history": "22",
+      "raw": "Last week's distance was 22 km. The weekly cap is 105% of last week's distance, rounded down to one decimal place.\n\nCalculate 105% of 22:\n$$\n0.105 \\times 22 = 2.31\n$$\n\nRound down to one decimal place:\n$$\n2.3\n$$\n\nSo, the weekly cap is **2.3 km**.",
+      "expected": "23.1",
+      "exact": false,
+      "final_number": "2.3",
+      "numeric_exact": false
+    },
+    {
+      "history": "28",
+      "raw": "Last week's distance was 28 km.\n\nThe weekly cap is 105% of last week's distance, rounded down to one decimal place.\n\nCalculate 105% of 28:\n$$\n0.105 \\times 28 = 2.94\n$$\n\nRound down to one decimal place:\n$$\n2.9\n$$\n\nSo, the weekly cap is **2.9 km**.",
+      "expected": "29.4",
+      "exact": false,
+      "final_number": "2.9",
+      "numeric_exact": false
+    },
+    {
+      "history": "36",
+      "raw": "Last week's distance was 36 km. The weekly cap is 105% of last week's distance, rounded down to one decimal place.\n\n$$\n105\\% \\times 36 = 0.105 \\times 36 = 3.78\n$$\n\nRounded down to one decimal place:\n\n$$\n\\boxed{3.7}\n$$\n\nSo, the weekly cap is **3.7 km**.",
+      "expected": "37.8",
+      "exact": false,
+      "final_number": "3.7",
+      "numeric_exact": false
+    },
+    {
+      "history": "15",
+      "raw": "Last week's distance was 15 km. The weekly cap is 105% of last week's distance, rounded down to one decimal place.\n\n$$\n105\\% \\times 15 = 15.75 \\text{ km}\n$$\n\nRounded down to one decimal place:\n\n$$\n\\boxed{15.7} \\text{ km}\n$$",
+      "expected": "15.7",
+      "exact": false,
+      "final_number": "15.7",
+      "numeric_exact": true
+    },
+    {
+      "history": "17",
+      "raw": "Last week's distance was 17 km. The weekly cap is 105% of 17 km, rounded down to one decimal place.\n\nFirst, calculate 105% of 17:\n$$\n105\\% \\times 17 = 1.05 \\times 17 = 17.85\n$$\n\nNow, round down to one decimal place:\n$$\n17.85 \\rightarrow 17.8\n$$\n\nSo, the weekly cap is:\n$$\n\\boxed{17.8}\n$$",
+      "expected": "17.8",
+      "exact": false,
+      "final_number": "17.8",
+      "numeric_exact": true
+    },
+    {
+      "history": "19",
+      "raw": "Last week's distance was 19 km. The weekly cap is 105% of 19 km, rounded down to one decimal place.\n\nFirst, calculate 105% of 19:\n$$\n105\\% \\times 19 = 1.05 \\times 19 = 19.95\n$$\n\nNow, round down to one decimal place:\n$$\n19.95 \\rightarrow 19.9\n$$\n\nSo, the weekly cap is:\n$$\n\\boxed{19.9}\n$$",
+      "expected": "19.9",
+      "exact": false,
+      "final_number": "19.9",
+      "numeric_exact": true
+    },
+    {
+      "history": "21",
+      "raw": "Last week's distance was 21 km. The weekly cap is 105% of last week's distance, rounded down to one decimal place.\n\n$$\n105\\% \\times 21 = 22.05 \\text{ km}\n$$\n\nRounded down to one decimal place:\n\n$$\n\\boxed{22.0} \\text{ km}\n$$",
+      "expected": "22.0",
+      "exact": false,
+      "final_number": "22.0",
+      "numeric_exact": true
+    },
+    {
+      "history": "33",
+      "raw": "Last week's distance was 33 km. The weekly cap is 105% of that, rounded down to one decimal place.\n\n$$\n105\\% \\times 33 = 0.105 \\times 33 = 3.465\n$$\n\nRounded down to one decimal place:\n\n$$\n\\boxed{3.4}\n$$\n\nSo, the weekly cap is **3.4 km**.",
+      "expected": "34.6",
+      "exact": false,
+      "final_number": "3.4",
+      "numeric_exact": false
+    },
+    {
+      "history": "47",
+      "raw": "Last week's distance was 47 km.\n\nThe weekly cap is 105% of last week's distance, rounded down to one decimal place.\n\nCalculate 105% of 47:\n$$\n0.105 \\times 47 = 4.935\n$$\n\nRound down to one decimal place:\n$$\n4.9\n$$\n\n**Answer: 4.9**",
+      "expected": "49.3",
+      "exact": false,
+      "final_number": "4.9",
+      "numeric_exact": false
+    },
+    {
+      "history": "18.3",
+      "raw": "The weekly cap is 105% of last week's distance, which is 18.3 km.\n\nFirst, calculate 105% of 18.3:\n\n$$\n105\\% \\times 18.3 = 1.05 \\times 18.3 = 19.215\n$$\n\nNow, round this down to one decimal place:\n\n$$\n19.215 \\rightarrow 19.2\n$$\n\nSo, the weekly cap is:\n\n$$\n\\boxed{19.2}\n$$",
+      "expected": "19.2",
+      "exact": false,
+      "final_number": "19.2",
+      "numeric_exact": true
+    },
+    {
+      "history": "21.7",
+      "raw": "The weekly cap is 105% of last week's distance, which is:\n\n$$\n105\\% \\times 21.7 = 1.05 \\times 21.7 = 22.635\n$$\n\nRounded down to one decimal place:\n\n$$\n\\text{Weekly cap} = 22.6 \\text{ km}\n$$\n\n**Answer:** 22.6",
+      "expected": "22.7",
+      "exact": false,
+      "final_number": "22.6",
+      "numeric_exact": false
+    },
+    {
+      "history": "24.6",
+      "raw": "The weekly cap is 105% of last week's distance, which is:\n\n$$\n105\\% \\times 24.6 = 0.105 \\times 24.6 = 2.597 \\text{ km}\n$$\n\nRounded down to one decimal place:\n\n$$\n\\boxed{2.5} \\text{ km}\n$$",
+      "expected": "25.8",
+      "exact": false,
+      "final_number": "2.5",
+      "numeric_exact": false
+    },
+    {
+      "history": "28.9",
+      "raw": "The weekly cap is 105% of last week's distance, which is 105% of 28.9 km.\n\nFirst, calculate 105% of 28.9:\n\n$$\n105\\% \\times 28.9 = 1.05 \\times 28.9 = 30.195\n$$\n\nNow, round this down to one decimal place:\n\n$$\n30.195 \\rightarrow 30.2\n$$\n\nSo, the weekly cap is **30.2 km**.",
+      "expected": "30.3",
+      "exact": false,
+      "final_number": "30.2",
+      "numeric_exact": false
+    },
+    {
+      "history": "32.4",
+      "raw": "The weekly cap is 105% of last week's distance, which is:\n\n$$\n105\\% \\times 32.4 = 0.105 \\times 32.4 = 3.402 \\text{ km}\n$$\n\nRounded down to one decimal place:\n\n$$\n\\boxed{3.4} \\text{ km}\n$$",
+      "expected": "34.0",
+      "exact": false,
+      "final_number": "3.4",
+      "numeric_exact": false
+    },
+    {
+      "history": "35.8",
+      "raw": "The weekly cap is 105% of last week's distance, which is 35.8 km.\n\nFirst, calculate 105% of 35.8:\n\n$$\n105\\% \\times 35.8 = 1.05 \\times 35.8 = 37.49 \\text{ km}\n$$\n\nNow, round this down to one decimal place:\n\n$$\n37.49 \\text{ km} \\rightarrow 37.5 \\text{ km}\n$$\n\nSo, the weekly cap is:\n\n$$\n\\boxed{37.5}\n$$",
+      "expected": "37.5",
+      "exact": false,
+      "final_number": "37.5",
+      "numeric_exact": true
+    },
+    {
+      "history": "39.1",
+      "raw": "The weekly cap is 105% of last week's distance, which is:\n\n$$\n105\\% \\times 39.1 = 0.105 \\times 39.1 = 4.1505\n$$\n\nRounded down to one decimal place:\n\n$$\n\\text{Weekly cap} = 4.1 \\text{ km}\n$$\n\n**Answer: 4.1**",
+      "expected": "41.0",
+      "exact": false,
+      "final_number": "4.1",
+      "numeric_exact": false
+    },
+    {
+      "history": "42.7",
+      "raw": "The weekly cap is 105% of last week's distance, which is 42.7 km.\n\nFirst, calculate 105% of 42.7:\n\n$$\n105\\% \\times 42.7 = 1.05 \\times 42.7 = 44.715\n$$\n\nNow, round this down to one decimal place:\n\n$$\n44.715 \\rightarrow 44.7\n$$\n\nSo, the weekly cap is:\n\n$$\n\\boxed{44.7}\n$$",
+      "expected": "44.8",
+      "exact": false,
+      "final_number": "44.7",
+      "numeric_exact": false
+    },
+    {
+      "history": "46.3",
+      "raw": "The weekly cap is 105% of last week's distance, which is:\n\n$$\n105\\% \\times 46.3 = 0.105 \\times 46.3 = 4.8765\n$$\n\nRounded down to one decimal place:\n\n$$\n\\text{Weekly cap} = 4.8 \\text{ km}\n$$\n\n**Answer:** 4.8",
+      "expected": "48.6",
+      "exact": false,
+      "final_number": "4.8",
+      "numeric_exact": false
+    },
+    {
+      "history": "49.8",
+      "raw": "The weekly cap is 105% of last week's distance, which is:\n\n$$\n105\\% \\times 49.8 = 0.105 \\times 49.8 = 5.261\n$$\n\nRounded down to one decimal place:\n\n$$\n\\text{Weekly cap} = 5.2 \\text{ km}\n$$\n\n**Answer: 5.2**",
+      "expected": "52.2",
+      "exact": false,
+      "final_number": "5.2",
+      "numeric_exact": false
+    },
+    {
+      "history": "53.2",
+      "raw": "The weekly cap is 105% of last week's distance, which is:\n\n$$\n105\\% \\times 53.2 = 1.05 \\times 53.2 = 56.26\n$$\n\nRounded down to one decimal place:\n\n$$\n\\text{Weekly cap} = 56.2 \\text{ km}\n$$\n\n**Answer:** 56.2",
+      "expected": "55.8",
+      "exact": false,
+      "final_number": "56.2",
+      "numeric_exact": false
+    },
+    {
+      "history": "56.5",
+      "raw": "The weekly cap is 105% of last week's distance, which is 105% of 56.5 km.\n\nFirst, calculate 105% of 56.5:\n\n$$\n0.105 \\times 56.5 = 5.9475\n$$\n\nNow, round this down to one decimal place:\n\n$$\n5.9475 \\rightarrow 5.9\n$$\n\nSo, the weekly cap is:\n\n$$\n\\boxed{5.9}\n$$",
+      "expected": "59.3",
+      "exact": false,
+      "final_number": "5.9",
+      "numeric_exact": false
+    }
+  ]
+}
